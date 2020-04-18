@@ -24,7 +24,7 @@ before_script:
 
 script:
   # 运行hugo命令
-  - hugo --theme=dream --baseUrl="https://coderleftear.github.io" --buildDrafts ./public
+  - hugo --theme=dream --baseUrl="https://coderleftear.github.io" --buildDrafts
 
 after_script:
   # 部署
