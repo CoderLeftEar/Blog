@@ -1,0 +1,6 @@
+baseURL = "http://example.org/"
+languageCode = "en-us"
+title = "CoderLeftEar's Blog"
+pygmentsUseClasses = true
+theme = "dream"
+defaultContentLanguage = "en"
