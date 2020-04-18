@@ -29,11 +29,7 @@ script:
 
 after_script:
   # 部署
-  - ls -al
-  - pwd
   - cd ./public
-  - ls -al
-  - pwd
   - git init
   - git config user.name "CoderLeftEar"
   - git config user.email "2689385695@qq.com"
@@ -47,7 +43,7 @@ after_script:
 env:
  global:
    # Github Pages
-   - GH_REF: github.com/CoderLeftEar/coderleftear.github.io.git
+   - GH_REF: git@github.com/CoderLeftEar/coderleftear.github.io.git
 
 deploy:
   provider: pages # 重要，指定这是一份github pages的部署配置
