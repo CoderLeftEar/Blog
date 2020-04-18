@@ -26,7 +26,6 @@ script:
   # 运行hugo命令
   - hugo --theme=dream --baseUrl="https://coderleftear.github.io" --buildDrafts public
 
-
 after_script:
   # 部署
   - ls -al
