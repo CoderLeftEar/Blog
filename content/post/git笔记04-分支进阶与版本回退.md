@@ -10,7 +10,6 @@ draft: true
 # Git笔记04-分支进阶与版本回退
 ---
 
-
 图形化显示：  
 git log --graph  
 简写：  
@@ -171,10 +170,56 @@ master:
 
 
 
+## git如何删除远程仓库的某次错误提交
+
+###  reset命令有3种方式：
+
+#### 能ssh访问：
+
+git reset --mixed `<commit code>`：
+
+此为默认方式，不带任何参数的git reset，就是这种方式，它回退到某个版本，只保留源码，回退commit和stage信息。
+
+git reset --soft `<commit code>`：
+
+回退到某个版本， 只回退了commit的信息，不会恢复stage（如果还要提交，直接commit即可)。
+
+git reset --hard `<commit code>`：
+
+彻底回退到某个版本， 本地的源码也会变为上一个版本的内容。
 
 
 
+我们在远程server的仓库目录， 执行第2种soft　reset就可以了
 
+ 
 
+#### 不能ssh访问，比如 code.csdn.net 
+
+- 在本地把远程的master分支删除
+
+- 再把reset后的分支内容给push上去
+
+ 
+
+新建old_master分支 作为备份，以防万一
+
+`git branch old_master`
+
+将本地的old_master分支　推送到远程的old_master
+
+`git push origin old_master:old_master`
+
+本地仓库，彻底回退到某一个版本
+
+`git reset –hard`
+
+删除远程的master分支 (注意master前有个:)
+
+`git push origin :master`
+
+重新创建远程master分支(这跟我们第１次提交本地代码库给远程仓库的命令一样吧)
+
+`git push origin master`
 
 
