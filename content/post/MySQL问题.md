@@ -1,5 +1,5 @@
 ---
-title: "Mysql"
+title: "Mysql问题"
 date: 2020-05-30T17:14:48+08:00
 author: CoderLeftEar
 categories: ["Mysql"]
