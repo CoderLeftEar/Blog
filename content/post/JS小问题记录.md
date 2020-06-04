@@ -7,11 +7,9 @@ tags: ["js"]
 draft: true
 ---
 
-
-
 # JS小问题记录
 
-## 判断是PC还是Phone
+## 1.判断是PC还是Phone
 
 ```javascript
 function isPC() {
@@ -39,7 +37,7 @@ if(isPCOrPhone) {
 }
 ```
 
-## setInterval、setTimeout
+## 2.setInterval、setTimeout
 
 ```js
 // 每隔5秒循环执行
