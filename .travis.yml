@@ -21,6 +21,8 @@ install:
 
 before_script:
   - rm -rf public
+  - mkdir public
+  - git clone "https://${GH_TOKEN}@${GH_REF}" public
 
 script:
   # 运行hugo命令
@@ -33,7 +35,7 @@ after_script:
   - cd ./public
   - ls -al
   - pwd
-  - git init
+  # git init
   - git config user.name "CoderLeftEar"
   - git config user.email "2689385695@qq.com"
   - git add .
