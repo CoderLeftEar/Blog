@@ -63,6 +63,18 @@ function fun2() {
 }
 ```
 
+## 3.禁用console.log()
+
+```js
+var console = {};
+console.log = function(){};
+```
+
+```js
+window['console']['log'] = console.log() //打开默认设置
+window['console']['log'] = function() {}; //关闭默认设置
+```
+
 
 
 
