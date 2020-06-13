@@ -75,6 +75,40 @@ window['console']['log'] = console.log() //打开默认设置
 window['console']['log'] = function() {}; //关闭默认设置
 ```
 
+## 4.大小转换
+
+```js
+getSize(size) {
+    if (!size)
+        return "";
+    var num = 1024.00; //byte
+    if (size < num)
+        return size + "B";
+    if (size < Math.pow(num, 2))
+        return (size / num).toFixed(2) + "K";
+    if (size < Math.pow(num, 3))
+        return (size / Math.pow(num, 2)).toFixed(2) + "M";
+    if (size < Math.pow(num, 4))
+        return (size / Math.pow(num, 3)).toFixed(2);
+    return (size / Math.pow(num, 4)).toFixed(2) + "T";
+}
+```
+
+## 5.时间转换
+
+```js
+// 时间戳(单位秒)的只转为时分秒
+formatDuring(timestamp) {
+    var hours = parseInt(timestamp / (1000 * 60 * 60));
+    var minutes = parseInt((timestamp % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = parseInt((timestamp % (1000 * 60 * 60) % (1000 * 60)) / (1000));
+    // return hours + "时" + minutes + "分" + seconds + "秒";
+    return (hours == 0 ? "00:" : String(hours) + ":") 
+        + (minutes == 0 ? "00:" : (minutes / 10 >= 1 ? String(minutes) : "0" + String(minutes)) + ":") 
+        + (seconds == 0 ? "00" : seconds / 10 >= 1 ? String(seconds) : "0" + String(seconds));
+},
+```
+
 
 
 
