@@ -1,6 +1,6 @@
 ---
 title: "Linux安装tomcat、mysql"
-date: 2019-10-22T17:14:48+08:00
+date: 2020-08-15T17:14:48+08:00
 author: CoderLeftEar
 categories: ["Linux"]
 tags: ["Linux"]
