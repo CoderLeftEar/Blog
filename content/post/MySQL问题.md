@@ -85,12 +85,13 @@ sudo service iptables save
 查询防火墙状态：systemctl status firewalld
 ```
 
-### Centos开放端口
+### Centos7开放端口
 
 ```
 //开启8080端口
 sudo firewall-cmd --zone=public --add-port=8080/tcp --permanent 
- 
+// 查看
+firewall-cmd --list-ports 
 //重新启动防火墙
 sudo firewall-cmd --reload
 ```
