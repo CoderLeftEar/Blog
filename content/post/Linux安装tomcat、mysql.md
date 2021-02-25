@@ -94,7 +94,8 @@ basedir=/usr/local/mysql
 socket=/tmp/mysql.sock
 user=mysql
 port=3306
-character-set-server=utf8# 取消密码验证skip-grant-tables
+character-set-server=utf8
+# 取消密码验证 skip-grant-tables
 # Disabling symbolic-links is recommended to prevent assorted security risks
 symbolic-links=0
 # skip-grant-tables
