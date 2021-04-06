@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mysql on CoderLeftEar&#39;s Blog</title>
+    <link>https://inkbambo0.github.io/categories/mysql/</link>
+    <description>Recent content in Mysql on CoderLeftEar&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 30 May 2020 17:14:48 +0800</lastBuildDate>
+    
+	<atom:link href="https://inkbambo0.github.io/categories/mysql/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Mysql问题</title>
+      <link>https://inkbambo0.github.io/post/mysql%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Sat, 30 May 2020 17:14:48 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/mysql%E9%97%AE%E9%A2%98/</guid>
+      <description>MySQL问题 Tomcat -&amp;gt; shutdown.sh java.net.ConnectException: Connection refused at java.net.PlainSocketImpl.socketConnect(Native Method) at java.net.PlainSocketImpl.doConnect(PlainSocketImpl.java:333) at java.net.PlainSocketImpl.connectToAddress(PlainSocketImpl.java:195) at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:182) at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:366) at java.net.Socket.connect(Socket.java:529) at java.net.Socket.connect(Socket.java:478) at java.net.Socket.&amp;lt;init&amp;gt;(Socket.java:375) at java.net.Socket.&amp;lt;init&amp;gt;(Socket.java:189) at org.apache.catalina.startup.Catalina.stopServer(Catalina.java:498) at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39) at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25) at java.lang.reflect.Method.invoke(Method.java:597) at org.apache.catalina.startup.Bootstrap.stopServer(Bootstrap.java:370) at org.apache.catalina.startup.Bootstrap.main(Bootstrap.java:457)  原因是tomcat内存太小了，需要给tomcat增加虚拟内存。
+在linux系统里修改tomcat内存的方法 修改/opt/tomcat/bin/catalina.sh这个文件；
+# OS specific support. $var _must_ be set to either true or false. cygwin=false  这两行之行插入一行，最终修改为以下这样：
+# OS specific support. $var _must_ be set to either true or false.</description>
+    </item>
+    
+    <item>
+      <title>Mysql事务隔离</title>
+      <link>https://inkbambo0.github.io/post/mysql%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB/</link>
+      <pubDate>Tue, 22 Oct 2019 17:14:48 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/mysql%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB/</guid>
+      <description>MySQL事务隔离： 事务的并发问题 　1、脏读：事务A读取了事务B更新的数据，然后B回滚操作，那么A读取到的数据是脏数据。
+　2、不可重复读：事务 A 多次读取同一数据，事务 B 在事务A多次读取的过程中，对数据作了更新并提交，导致事务A多次读取同一数据时，结果 不一致。
+　3、幻读：系统管理员A将数据库中所有学生的成绩从具体分数改为ABCDE等级，但是系统管理员B就在这个时候插入了一条具体分数的记录，当系统管理员A改结束后发现还有一条记录没有改过来，就好像发生了幻觉一样，这就叫幻读。
+隔离级别：    事务隔离级别 脏读 不可重复读 幻读     读未提交（read-uncommitted） √ √ √   读已提交（read-committed） × √ √   可重复读（repeatable-read） × × √   串行化（serializable） × × ×    MySQL默认第三个：repeatable read
+Oracle默认第二个：read commited
+查看当前事务隔离级别：SELECT @@tx_isolation;
+设置当前MySQL链接的隔离级别：
+set session transaction isolation level read committed;
+设置数据库系统的全局隔离级别：
+set global transaction isolation level read committed;</description>
+    </item>
+    
+    <item>
+      <title>Spring事务、传播行为</title>
+      <link>https://inkbambo0.github.io/post/spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%AD%E8%A1%8C%E4%B8%BA/</link>
+      <pubDate>Tue, 02 Jul 2019 18:11:32 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%AD%E8%A1%8C%E4%B8%BA/</guid>
+      <description> Spring事务、传播行为 Spring事务的几种实现方式  编程式事务管理对基于 POJO 的应用来说是唯一选择。我们需要在代码中调用beginTransaction()、commit()、rollback()等事务管理相关的方法，这就是编程式事务管理。 基于 TransactionProxyFactoryBean的声明式事务管理 基于 @Transactional 的声明式事务管理 基于Aspectj AOP配置事务  https://blog.csdn.net/mufeng633/article/details/88552245
+Spring Boot的事务管理注解 https://blog.csdn.net/u010963948/article/details/79208328
+在主程序类上标注：
+开启事务管理器：
+ @EnableTransactionManagement
+  xml配置方式：
+   开启后在需要使用事务的类或方法上标注@Transactional即可。
+存在多个事务管理器 ：
+ 使用value具体指定使用哪个事务管理器：@Transactional(value=&amp;ldquo;xxxxx&amp;rdquo;)  注解@Transaction 用法 也可标注在类上，该类中的所有公共方法都配置相同的事务属性。
+   属性名 说明     value 当在配置文件中有多个 TransactionManager , 可以用该属性指定选择哪个事务管理器。   propagation 事务的传播行为，默认值为 REQUIRED。   isolation 事务的隔离级别，默认值采用 DEFAULT。   timeout 事务的超时时间，默认值为-1。强制回滚前最多可以等待的时间。   read-only 指定事务是否为只读事务，默认值为 false；为了忽略那些不需要事   rollback-for 用于指定能够触发事务回滚的异常类型，如果有多个异常类型需要指定，各类型之间可以通过逗号分隔。   no-rollback- for 抛出 no-rollback-for 指定的异常类型，不回滚事务。    propagation &amp;mdash; 七种事务传播行为：    事务传播行为类型 说明     REQUIRED 默认。使用调用者的事务。   REQUIRES_NEW 不使用调用者的事务，挂起当前事务，新建事务，在内部使用事务。   MANDATORY 使用当前的事务，如果当前没有事务，就抛出异常。   SUPPORTS 支持当前事务，如果当前没有事务，就以非事务方式执行。   NOT_SUPPORTED 以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。   NEVER 以非事务方式执行，如果当前存在事务，则抛出异常。   NESTED 如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，新建事务并运行。    </description>
+    </item>
+    
+  </channel>
+</rss>

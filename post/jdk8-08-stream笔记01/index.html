@@ -1,0 +1,1758 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>
+Jdk8-08-Stream笔记01
+</title>
+
+  
+  
+  <meta name="author" content="CoderLeftEar" />
+  <meta name="description" content="Stream笔记01  Stream笔记01  例1：过滤name、age (直接采用Stream -&amp;gt; 通过BiFunction调用apply方法 -&amp;gt; 直接传递行为) 例2：将List集合中的字符串转换为大写 例3：Optional reduce(BinaryOperator accumulator)的使用和数组、List与Stream之间的转换 例4：range、rangeClose的使用 例5：T reduce(T identity, BinaryOperator accumulator)的使用 例6：Stream类中toArray、collect（函数式接口）、toSet无序输出、TreeSet自然排序和joining字符串拼接 例7：map和flatMap的使用 例8：generate、iterate-limit、使用具体方法mapToInt、summaryStatistics和顺逆序排列 例9：串行流和并行流 例10：打印第一个长度为5的字符串的长度 例11：flatMap 例12：互相打招呼（flatMap和map的结合使用） 例13：分组(groupingBy)和分区(partitioningBy)   例1：过滤name、age (直接采用Stream -&amp;gt; 通过BiFunction调用apply方法 -&amp;gt; 直接传递行为) 定义Person类，并进行赋值：
+ Person person1 = new Person(&amp;quot;张三&amp;quot;, 20); Person person2 = new Person(&amp;quot;李四&amp;quot;, 30); Person person3 = new Person(&amp;quot;王五&amp;quot;, 40); List&amp;lt;Person&amp;gt; persons = new ArrayList&amp;lt;&amp;gt;(); persons.add(person1); persons.add(person2); persons.add(person3);  创建PersonTest对象：
+ PersonTest personTest = new PersonTest();" />
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6" />
+
+
+<link rel="canonical" href="https://inkbambo0.github.io/post/jdk8-08-stream%E7%AC%94%E8%AE%B001/" />
+<link rel="alternative" href="/index.xml" title="CoderLeftEar&#39;s Blog" type="application/atom+xml" />
+
+<link href="/css/semantic.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="/css/site.css" />
+<link rel="stylesheet" href="/css/github-markdown.css" />
+
+<link rel="stylesheet" href="/css/vs.css">
+<link rel="icon" href="/img/favicon.ico" type="img/x-ico" />
+
+
+
+</head>
+
+<body>
+  <div class="flip-container">
+    <div class="flipper">
+      <section class="front">
+        
+<nav class="ui top secondary menu">
+  <div class="item">
+    <i class="inverted big link bullseye icon dream-flip-toggle" title="Flip it!"></i>
+  </div>
+  <div class="item">
+    <a href="/">
+      <i class="inverted big link home icon" title="Home"></i>
+    </a>
+  </div>
+</nav>
+ 
+<div class="ui centered grid">
+  <div class="fifteen wide mobile fifteen wide tablet eleven wide computer column post-list post-single-main">
+
+    <section class="ui top attached segment">
+      <a class="ui black right corner label" href="javascript:void(0)" onclick="savePostAsImg()">
+        <i class="save icon"></i>
+      </a>
+      <header>
+        <h1 class="ui header">
+          Jdk8-08-Stream笔记01
+          <div class="sub header">
+		  @ CoderLeftEar · 2019-08-10 10:14:41
+
+		  </div>
+        </h1>
+      </header>
+      <article class="markdown-body" style="margin-top: 2rem; font-size: 1.4rem;">
+
+<h1 id="stream笔记01">Stream笔记01</h1>
+
+<hr />
+
+<!-- TOC -->
+
+<ul>
+<li><a href="#stream笔记01">Stream笔记01</a>
+
+<ul>
+<li><a href="#例1过滤nameage-直接采用stream---通过bifunction调用apply方法---直接传递行为">例1：过滤name、age (直接采用Stream -&gt; 通过BiFunction调用apply方法 -&gt; 直接传递行为)</a></li>
+<li><a href="#例2将list集合中的字符串转换为大写">例2：将List集合中的字符串转换为大写</a></li>
+<li><a href="#例3optionalt-reducebinaryoperatort-accumulator的使用和数组list与stream之间的转换">例3：Optional<T> reduce(BinaryOperator<T> accumulator)的使用和数组、List与Stream之间的转换</a></li>
+<li><a href="#例4rangerangeclose的使用">例4：range、rangeClose的使用</a></li>
+<li><a href="#例5t-reducet-identity-binaryoperatort-accumulator的使用">例5：T reduce(T identity, BinaryOperator<T> accumulator)的使用</a></li>
+<li><a href="#例6stream类中toarraycollect函数式接口toset无序输出treeset自然排序和joining字符串拼接">例6：Stream类中toArray、collect（函数式接口）、toSet无序输出、TreeSet自然排序和joining字符串拼接</a></li>
+<li><a href="#例7map和flatmap的使用">例7：map和flatMap的使用</a></li>
+<li><a href="#例8generateiterate-limit使用具体方法maptointsummarystatistics和顺逆序排列">例8：generate、iterate-limit、使用具体方法mapToInt、summaryStatistics和顺逆序排列</a></li>
+<li><a href="#例9串行流和并行流">例9：串行流和并行流</a></li>
+<li><a href="#例10打印第一个长度为5的字符串的长度">例10：打印第一个长度为5的字符串的长度</a></li>
+<li><a href="#例11flatmap">例11：flatMap</a></li>
+<li><a href="#例12互相打招呼flatmap和map的结合使用">例12：互相打招呼（flatMap和map的结合使用）</a></li>
+<li><a href="#例13分组groupingby和分区partitioningby">例13：分组(groupingBy)和分区(partitioningBy)</a></li>
+</ul></li>
+</ul>
+
+<!-- /TOC -->
+
+<h2 id="例1-过滤name-age-直接采用stream-通过bifunction调用apply方法-直接传递行为">例1：过滤name、age (直接采用Stream -&gt; 通过BiFunction调用apply方法 -&gt; 直接传递行为)</h2>
+
+<p>定义Person类，并进行赋值：</p>
+
+<pre><code>    Person person1 = new Person(&quot;张三&quot;, 20);
+    Person person2 = new Person(&quot;李四&quot;, 30);
+    Person person3 = new Person(&quot;王五&quot;, 40);
+
+    List&lt;Person&gt; persons = new ArrayList&lt;&gt;();
+    persons.add(person1);
+    persons.add(person2);
+    persons.add(person3);
+</code></pre>
+
+<p>创建PersonTest对象：</p>
+
+<blockquote>
+<p>PersonTest personTest = new PersonTest();</p>
+</blockquote>
+
+<p><br></p>
+
+<p>调用getUsername方法传入需要过滤的<code>姓名</code>和<code>Person</code>类集合persons，在getUsername方法中通过转换为Stream流对象，使用filter进行过滤（传入的name和person.getName()进行比较），最后返回List集合。</p>
+
+<pre><code>System.out.println(&quot;==============过滤得到姓名=============&quot;);
+List&lt;Person&gt; result1 = personTest.getUsername(&quot;张三&quot;, persons);
+result1.forEach(person -&gt; System.out.println(person.getName()));
+
+//==============过滤得到姓名=============
+public List&lt;Person&gt; getUsername(String name, List&lt;Person&gt; persons){
+    return persons.stream().
+           filter(person -&gt; name.equals(person.getName())).
+           collect(Collectors.toList());
+}
+</code></pre>
+
+<p>与上述一样，传入参数，在getUserage1方法中，可使用上述相同方法，也可定义一个BiFunction传入age和persons，最后调用apply方法，完成年龄过滤。</p>
+
+<pre><code>System.out.println(&quot;==============过滤得到年龄=============&quot;);
+List&lt;Person&gt; result2 = personTest.getUserage1(20, persons);
+result2.forEach(person -&gt; System.out.println(person.getAge()));
+
+//==============过滤得到年龄=============
+public List&lt;Person&gt; getUserage1(Integer age, List&lt;Person&gt; persons){
+    //定义BiFunction，方便调用
+    BiFunction&lt;Integer, List&lt;Person&gt;, List&lt;Person&gt;&gt; biFunction = (ageOfPerson, personList) -&gt; {
+        return persons.stream().filter(person -&gt; person.getAge() &gt; ageOfPerson).
+                collect(Collectors.toList());
+    };
+    return biFunction.apply(age, persons);
+}
+</code></pre>
+
+<p>直接传递行为，可用性更高。</p>
+
+<pre><code>System.out.println(&quot;==============过滤得到年龄，传参数BiFunction=============&quot;);
+List&lt;Person&gt; result3 = personTest.getUserage2(30, persons, 
+        (ageOfPerson, personList) -&gt; 
+                persons.stream().
+                        filter(person -&gt; person.getAge() &lt;= ageOfPerson).
+                        collect(Collectors.toList()));
+result3.forEach(person -&gt; System.out.println(person.getAge()));
+
+//==============过滤得到年龄，传参数BiFunction=============
+public List&lt;Person&gt; getUserage2(Integer age,
+                                List&lt;Person&gt; persons,
+                                BiFunction&lt;Integer, List&lt;Person&gt;, List&lt;Person&gt;&gt; biFunction){
+    return biFunction.apply(age, persons);
+}
+</code></pre>
+
+<p>答案：</p>
+
+<pre><code>==============过滤得到姓名=============
+张三
+==============过滤得到年龄=============
+30
+40
+==============过滤得到年龄，传参数BiFunction=============
+20
+30
+</code></pre>
+
+<hr />
+
+<h2 id="例2-将list集合中的字符串转换为大写">例2：将List集合中的字符串转换为大写</h2>
+
+<p>List集合中的元素：<br />
+&gt; List<String> list = Arrays.asList(&ldquo;hello&rdquo;, &ldquo;world&rdquo;);</p>
+
+<p>lambda表达式：list1.addAll(list)是将list对象向list1中添加两次，add是将每个元素转换为大写后添加到list1中。</p>
+
+<pre><code>list.forEach(item -&gt; System.out.println(item.toUpperCase()));
+
+或：  
+//将list中的数据添加到list1中
+List&lt;String&gt; list1 = new ArrayList&lt;&gt;();
+//这是将list对象向list1中添加两次
+//list.forEach(item -&gt; list1.addAll(list));
+
+//这是将list对象中的数据向list1中添加
+list.forEach(item -&gt; list1.add(item.toUpperCase()));
+list1.forEach(item -&gt; System.out.println(item));
+</code></pre>
+
+<p>使用Stream流对象，使用map京每个元素进行映射为大写后直接打印。分别采用lambda和method reference进行完成的。</p>
+
+<pre><code>//lambda
+list.stream().map(item -&gt; item.toUpperCase()).forEach(item -&gt; System.out.println(item));
+//方法引用
+list.stream().map(String :: toUpperCase).forEach(System.out :: println);
+</code></pre>
+
+<hr />
+
+<h2 id="例3-optional-t-reduce-binaryoperator-t-accumulator-的使用和数组-list与stream之间的转换">例3：Optional<T> reduce(BinaryOperator<T> accumulator)的使用和数组、List与Stream之间的转换</h2>
+
+<p>reduce方法返回Optional，传一个accumulator新的可变容器，s表示新创建的可变容器，str1表示当前流中的元素。
+concat方法的作用：将str1追加到s当中。</p>
+
+<pre><code>Stream&lt;String&gt; stream1 = Stream.of(&quot;zhangsan&quot;, &quot;lisi&quot;);
+
+//stream1.reduce(String::concat).ifPresent(item -&gt; System.out.println(item));
+stream1.reduce((s, str1) -&gt; s.concat(str1)).ifPresent(item -&gt; System.out.println(item));
+</code></pre>
+
+<p>数组转换为List集合，再转换为Stream</p>
+
+<pre><code>String[] str = new String[]{&quot;a&quot;, &quot;b&quot;, &quot;c&quot;};
+
+//Stream.of的源码就是调用的就是Arrays.stream(str);
+Stream stream2 = Stream.of(str);
+Stream stream3 = Arrays.stream(str);
+
+//转换成List集合
+List&lt;String&gt; list = Arrays.asList(str);
+
+//list直接调用stream()返回Stream
+Stream stream4 = list.stream();
+
+System.out.println(stream4.collect(Collectors.toList()));
+</code></pre>
+
+<p>答案：</p>
+
+<pre><code>zhangsanlisi
+[a, b, c]
+</code></pre>
+
+<hr />
+
+<h2 id="例4-range-rangeclose的使用">例4：range、rangeClose的使用</h2>
+
+<p>range：左闭右开<br />
+rangeClose：左闭右闭</p>
+
+<pre><code>IntStream.of(1, 2, 3, 4, 5).forEach(System.out::println);
+
+System.out.println(&quot;====================&quot;);
+IntStream.range(1, 5).forEach(System.out::println);
+
+System.out.println(&quot;====================&quot;);
+IntStream.rangeClosed(1, 5).forEach(System.out::println);
+</code></pre>
+
+<p>答案：</p>
+
+<pre><code>1
+2
+3
+4
+5
+====================
+1
+2
+3
+4
+====================
+1
+2
+3
+4
+5
+</code></pre>
+
+<hr />
+
+<h2 id="例5-t-reduce-t-identity-binaryoperator-t-accumulator-的使用">例5：T reduce(T identity, BinaryOperator<T> accumulator)的使用</h2>
+
+<p>reduce的第一个参数是<code>累加函数的恒等值</code>（？？？），第二个参数是新创建的accumulator可变容器。</p>
+
+<pre><code>List&lt;Integer&gt; list = Arrays.asList(1, 2, 3, 4, 5);
+System.out.println(list.stream().map(s -&gt; s * 2).reduce(0, Integer::sum));
+System.out.println(list.stream().map(s -&gt; s * 2).reduce(0, (a, b) -&gt; a + b));
+</code></pre>
+
+<p>答案：</p>
+
+<pre><code>30  
+30  
+</code></pre>
+
+<hr />
+
+<h2 id="例6-stream类中toarray-collect-函数式接口-toset无序输出-treeset自然排序和joining字符串拼接">例6：Stream类中toArray、collect（函数式接口）、toSet无序输出、TreeSet自然排序和joining字符串拼接</h2>
+
+<blockquote>
+<p>Stream<String> stream = Stream.of(&ldquo;hello&rdquo;, &ldquo;world&rdquo;, &ldquo;hahaha&rdquo;, &ldquo;welcome&rdquo;);</p>
+</blockquote>
+
+<p>使用<code>&lt;A&gt; A[] toArray(IntFunction&lt;A[]&gt; generator)</code>，根据提供长度生成新的数组。</p>
+
+<pre><code>        //toArray:生成所需类型和提供长度的新数组的函数
+        //lambda
+        String[] streamStr1 = stream.toArray(length -&gt; new String[length]);
+        //方法引用
+//        String[] streamStr1 = stream.toArray(String[]::new);
+        Arrays.asList(streamStr1).forEach(System.out::println);
+
+//        String[] streamStr2 = stream.toArray(new IntFunction&lt;String[]&gt;() {
+//            @Override
+//            public String[] apply(int length) {
+//                return new String[value];
+//            }
+//        });
+//        Arrays.asList(streamStr2).forEach(System.out::println);
+
+答案：
+hello
+world
+hahaha
+welcome
+</code></pre>
+
+<p><code>&lt;R&gt; R collect(Supplier&lt;R&gt; supplier, BiConsumer&lt;R, ? super T&gt; accumulator, BiConsumer&lt;R, R&gt; combiner)</code>的使用。关于collect中各参数的作用：<br />
+lambda:<br />
+1. 创建一个新的结果容器
+2. 操作list集合中的数据，放到新创建的结果容器中
+3. 将创建的结果容器合并</p>
+
+<p>method reference:<br />
+1. 创建一个新的结果容器
+2. 操作list集合中的数据，放到新创建的结果容器中
+3. 将创建的结果容器合并</p>
+
+<pre><code>System.out.println(&quot;=============collect---lambda============&quot;);
+List&lt;String&gt; list1 = stream.
+        collect(() -&gt; new ArrayList&lt;&gt;(),
+                (theList, item) -&gt; theList.add(item.toUpperCase()),
+                (newList, theList) -&gt; newList.addAll(theList));
+list1.forEach(System.out::println);
+
+System.out.println(&quot;=============collect---method reference============&quot;);
+List&lt;String&gt; list2 = stream.
+        collect(LinkedList::new,
+                LinkedList::add,
+                LinkedList::addAll);
+list2.forEach(System.out::println);
+
+答案：  
+=============collect---lambda============
+HELLO
+WORLD
+HAHAHA
+WELCOME
+=============collect---method reference============
+HELLO
+WORLD
+HAHAHA
+WELCOME
+</code></pre>
+
+<p>Collectors中的toSet、toCollection和joining：<br />
+1. 使用Collectors.toSet可进行无序输出
+2. Collectors.toCollection：按输入元素顺序将元素累积到一个新的Collection中，再使用TreeSet进行自然排序
+3. 使用joining进行字符串拼接</p>
+
+<pre><code>System.out.println(&quot;=============Set无序输出============&quot;);
+//1、Collectors自带的toSet();
+Set&lt;String&gt; set = stream.collect(Collectors.toSet());
+//2、将数据放进TreeSet中
+Set&lt;String&gt; set = stream.collect(Collectors.toCollection(TreeSet::new));
+//Set&lt;String&gt; set = stream.collect(Collectors.toCollection(() -&gt; new TreeSet&lt;&gt;()));
+set.forEach(System.out::println);
+
+System.out.println(&quot;=============字符串拼接============&quot;);
+String set1 = stream.collect(Collectors.joining());
+System.out.println(set1);
+</code></pre>
+
+<hr />
+
+<h2 id="例7-map和flatmap的使用">例7：map和flatMap的使用</h2>
+
+<p>map：将每个item进行映射
+flatMap：</p>
+
+<ul>
+<li>可将list使用stream()（stream方法在List类的父类Collection中）转换为Stream类型<br /></li>
+
+<li><p>Stream.of(Arrays.asList(1, 2), &hellip;)中包含的是List数据集合，使用flatMap可将所有List集合打平，就像包所有List集合中的数据放在一个List集合中</p>
+
+<pre><code>List&lt;String&gt; list = Arrays.asList(&quot;hello&quot;, &quot;world&quot;, &quot;helloworld&quot;);
+
+System.out.println(&quot;==============flatMap==============&quot;);
+//lambda
+//list = list.stream().collect(() -&gt; new ArrayList&lt;&gt;(),
+//                             (list2, item) -&gt; list2.add(item.toUpperCase()),
+//                             (list1, list2) -&gt; list1.addAll(list2));
+        
+//method reference
+list.stream().map(String::toUpperCase).
+    collect(Collectors.toList()).
+    forEach(System.out::println);
+
+System.out.println(&quot;==============flatMap==============&quot;);
+Stream&lt;List&lt;Integer&gt;&gt; stream = Stream.of(Arrays.asList(1, 2), Arrays.asList(2, 3, 4), Arrays.asList(5, 6));
+//flatMap是将stream中的三个List集合平铺到一个里面，map起运算作用
+stream.flatMap(theList -&gt; theList.stream()).map(item -&gt; item * item).
+    collect(Collectors.toList()).forEach(System.out::println);
+
+
+答案：  
+==============flatMap==============
+HELLO
+WORLD
+HELLOWORLD
+==============flatMap==============
+1
+4
+4
+9
+16
+25
+36
+</code></pre></li>
+</ul>
+
+<hr />
+
+<h2 id="例8-generate-iterate-limit-使用具体方法maptoint-summarystatistics和顺逆序排列">例8：generate、iterate-limit、使用具体方法mapToInt、summaryStatistics和顺逆序排列</h2>
+
+<p><code>generate</code>中是一个Supplier对象(不管是什么，返回一个结果)，不接受参数，返回一个值.</p>
+
+<pre><code>Stream&lt;String&gt; stream = Stream.generate(() -&gt; UUID.randomUUID().toString());
+//Stream&lt;String&gt; stream = Stream.generate(UUID.randomUUID()::toString);
+stream.findFirst().ifPresent(System.out::println);
+//stream.findFirst().ifPresent((item) -&gt; System.out.println(item));
+</code></pre>
+
+<p>不使用limit便会无限制的加下去</p>
+
+<pre><code>Stream.iterate(1, item -&gt; item + 2).limit(5).forEach(System.out::println);
+</code></pre>
+
+<p><strong>练习</strong>：找出大于2的元素，然后将每个元素乘以2，然后忽略流中前两个元素，再取流中前两个元素，最后求取出的元素总和。</p>
+
+<p>可使用<code>Stream.iterate(1, item -&gt; item + 2).limit(6)</code>。</p>
+
+<p>对于具体的知道类型的元素，使用具体的方法（mapToInt），避免使用map造成自动装箱、拆箱，造成性能损耗。</p>
+
+<p>求最小值，min方法返回的时一个OptionalInt类型，所以需要使用ifPresent。</p>
+
+<p>数据：
+&gt; Stream<Integer> stream1 = Stream.of(1, 3, 5, 7, 9, 11);
+&gt; //Stream<Integer> stream1 = Stream.iterate(1, item -&gt; item + 2).limit(6);</p>
+
+<pre><code>//使用mapToInt，避免使用map造成自动装箱、拆箱，会造成性能损耗
+System.out.println(stream1.filter(item -&gt; item &gt; 2).
+        mapToInt(item -&gt; item * 2).skip(2).limit(2).sum()
+);
+
+//求最小值，min方法返回的时一个OptionalInt类型，所以需要使用ifPresent
+stream1.filter(item -&gt; item &gt; 2).mapToInt(item -&gt; item * 2).min().ifPresent(System.out::println);
+
+答案：  
+32
+6
+</code></pre>
+
+<p>IntStream中的summaryStatistics方法用于描述流元素的各种摘要数据（sum, max, min, avg, count）<br />
+该方法是IntSummaryStatistics类型，用于收集统计信息(如count、min、max、sum和average)的状态对象。</p>
+
+<pre><code>IntSummaryStatistics intSummaryStatistics = stream1.
+                filter(item -&gt; item &gt; 2).mapToInt(item -&gt; item * 2).
+                skip(2).limit(2).summaryStatistics();
+
+System.out.println(intSummaryStatistics.getSum());
+System.out.println(intSummaryStatistics.getMax());
+System.out.println(intSummaryStatistics.getMin());
+System.out.println(intSummaryStatistics.getAverage());
+System.out.println(intSummaryStatistics.getCount());
+
+答案：  
+32
+18
+14
+16.0
+2
+</code></pre>
+
+<p><strong><em>关于顺序、逆序排列</em></strong></p>
+
+<pre><code>List&lt;Integer&gt; list = Arrays.asList(6, 2, 3, 1, 4);
+
+//Collections.sort(list, (o1, o2) -&gt; o2.compareTo(o1));
+
+Collections.sort(list, Integer::compareTo);
+System.out.println(list);
+
+答案：  
+[6, 4, 3, 2, 1]
+[1, 2, 3, 4, 6]
+</code></pre>
+
+<hr />
+
+<h2 id="例9-串行流和并行流">例9：串行流和并行流</h2>
+
+<p>串行流(<code>stream()</code>)：</p>
+
+<pre><code>开始排序：
+耗时：4125
+5000000
+</code></pre>
+
+<p>并行流(<code>parallelStream()</code>)：</p>
+
+<pre><code>开始排序：
+耗时：2185
+5000000
+</code></pre>
+
+<p><code>很明显，并行流快，但并不是并行流就一定比串行流快</code></p>
+
+<pre><code>List&lt;String&gt; list = new ArrayList&lt;&gt;();
+//创建UUID并添加到list集合中
+for (int i = 0; i &lt; 5000000; i ++){
+        list.add(UUID.randomUUID().toString());
+}
+
+long startTime = System.currentTimeMillis();
+
+System.out.println(&quot;开始排序：&quot;);
+
+//返回UUID生成的个数：5000000
+//串行流
+//long count = list.stream().sorted().count();
+//并行流
+long count = list.parallelStream().sorted().count();
+
+long endTime = System.currentTimeMillis();
+
+System.out.println(&quot;耗时：&quot; + (endTime - startTime));
+
+System.out.println(count);
+</code></pre>
+
+<hr />
+
+<h2 id="例10-打印第一个长度为5的字符串的长度">例10：打印第一个长度为5的字符串的长度</h2>
+
+<p>我自己看注释应该看的懂，不写了 <code>^_^</code></p>
+
+<pre><code>List&lt;String&gt; list = Arrays.asList(&quot;hello1&quot;, &quot;world0&quot;, &quot;hello world&quot;);
+
+//将item直接映射为item.length()，在执行过滤条件是否item长度为5，找到第一个
+OptionalInt first = list.stream().mapToInt(item -&gt; item.length())
+        .filter(item -&gt; item == 5).findFirst();
+
+//如果不满足filter中的条件，没有长度为5的字符串，什么都不打印
+first.ifPresent(System.out::println);
+
+//如果不满足filter中的条件，没有长度为5的字符串，就打印0
+System.out.println(first.orElse(0));
+</code></pre>
+
+<hr />
+
+<h2 id="例11-flatmap">例11：flatMap</h2>
+
+<p><code>数据来源：</code>
+&gt; List<String> list = Arrays.asList(&ldquo;hello world&rdquo;, &ldquo;world hello&rdquo;, &ldquo;welcome hello&rdquo;, &ldquo;world hello welcome&rdquo;);</p>
+
+<p>使用slip切割后(hello world -&gt; [hello, world])，使用map只能得到到一个二维数组，<code>[[hello, world], [world, hello], [welcome, hello], [world, hello, welcome]]</code>；所以遍历时，需要使用Arrays.asList(item)将数组转化为List集合后，直接使用forEach进行遍历。</p>
+
+<pre><code>List&lt;String[]&gt; collect = list.stream().
+        map(item -&gt; item.split(&quot; &quot;)).
+        collect(Collectors.toList());
+
+collect.forEach(item -&gt; Arrays.asList(item).forEach(System.out::println));
+</code></pre>
+
+<p>使用flatMap将数据平铺就完全不一样了<br />
+切割后的字符串会变成数组，再使用Arrays.stream(item)方法，将数组传进去，进行平铺，调用toList方法，将所有的平铺的数据转换为List集合，最后打印。</p>
+
+<pre><code>list.stream().map(item -&gt; item.split(&quot; &quot;)).
+        //item -&gt; Arrays.stream(item)
+        flatMap(Arrays::stream).
+        collect(Collectors.toList()).
+        forEach(System.out::println);
+</code></pre>
+
+<hr />
+
+<h2 id="例12-互相打招呼-flatmap和map的结合使用">例12：互相打招呼（flatMap和map的结合使用）</h2>
+
+<ul>
+<li>问题：让list1中的数据依次对list2中打招呼<br /></li>
+</ul>
+
+<p>将list1中的数据平铺，在平铺的过程中，依次再对每个元素进行操作，对list2进行映射(<code>item2 -&gt; item + &quot; &quot; + item2</code>)<br />
+直接在平铺过程中，再次对list2进行映射，并使用list1平铺的数据，item与item2直接进行拼接，便可得到想要的结果。</p>
+
+<pre><code>List&lt;String&gt; list1 = Arrays.asList(&quot;hi&quot;, &quot;hello&quot;, &quot;你好&quot;);
+List&lt;String&gt; list2 = Arrays.asList(&quot;zhangsan&quot;, &quot;lisi&quot;, &quot;wangwu&quot;);
+
+List&lt;String&gt; collect = list1.stream().
+                flatMap(item -&gt; list2.stream().map(item2 -&gt; item + &quot; &quot; + item2)).
+                collect(Collectors.toList());
+
+collect.forEach(System.out::println);
+</code></pre>
+
+<hr />
+
+<h2 id="例13-分组-groupingby-和分区-partitioningby">例13：分组(groupingBy)和分区(partitioningBy)</h2>
+
+<p>groupingBy：<br />
+- 一个参数：传入Student::getName，便会根据name进行分组
+- 两个参数：传入Student::getName, Collectors.counting()，会根据第一个参数进行分组，第二个参数就是那么相同的个数</p>
+
+<p>partitioningBy：<br />
+- 一个参数：类型是<code>Predicate</code>，输入一个参数，返回Boolean值，Boolean值就是分区名称
+- 两个参数：同groupingBy差不多
+&gt; <code>使用map4.get(true)可直接，取出对于的分区中的所有数据</code></p>
+
+<pre><code>Student s1 = new Student(&quot;zhangsan&quot;, 100, 20);
+Student s2 = new Student(&quot;lisi&quot;, 90, 20);
+Student s3 = new Student(&quot;wangwu&quot;, 90, 30);
+Student s4 = new Student(&quot;zhangsan&quot;, 70, 40);
+
+List&lt;Student&gt; students = Arrays.asList(s1, s2, s3, s4);
+
+//此处groupingBy中的参数是Function
+//参数是：一个学生，返回姓名
+Map&lt;String, List&lt;Student&gt;&gt; map1 = students.stream()
+        .collect(Collectors.groupingBy(student -&gt; student.getName())); 
+        //Student::getName
+System.out.println(map1);
+
+//此处groupingBy中的参数:
+//第一个是：Function类型，传入参数一个学生，返回姓名
+//第二个是：通过name分组，name相同的个数
+Map&lt;String, Long&gt; map2 = students.stream()
+        .collect(Collectors.groupingBy(Student::getName, Collectors.counting()));
+System.out.println(map2);
+
+//求分组后的name相同的组的平均分
+Map&lt;String, Double&gt; map3 = students.stream()
+                .collect(Collectors.groupingBy(Student::getName, 
+                         Collectors.averagingInt(student -&gt; student.getScore())));
+System.out.println(map3);
+
+//分区，符合条件为true，反之。
+Map&lt;Boolean, List&lt;Student&gt;&gt; map4 = students.stream()
+        .collect(Collectors.partitioningBy(student -&gt; student.getScore() &gt;= 90));
+System.out.println(map4);
+
+Map&lt;Boolean, Long&gt; map5 = students.stream()
+                .collect(Collectors.partitioningBy(student -&gt; student.getScore() &gt;= 90, Collectors.counting()));
+System.out.println(map5);
+
+//获取符合条件的分区
+List&lt;Student&gt; students1 = map4.get(true);
+System.out.println(students1);
+</code></pre>
+
+<p><code>答案：</code></p>
+
+<pre><code>{
+        lisi=[Student(name=lisi, score=90, age=20)], 
+        zhangsan=[
+                        Student(name=zhangsan, score=100, age=20), 
+                        Student(name=zhangsan, score=70, age=40)
+                ], 
+        wangwu=[Student(name=wangwu, score=90, age=30)]
+}
+{lisi=1, zhangsan=2, wangwu=1}
+{lisi=90.0, zhangsan=85.0, wangwu=90.0}
+{
+        false=[Student(name=zhangsan, score=70, age=40)], 
+        true=[
+                Student(name=zhangsan, score=100, age=20), 
+                Student(name=lisi, score=90, age=20), 
+                Student(name=wangwu, score=90, age=30)
+        ]
+}
+{false=1, true=3}
+[
+        Student(name=zhangsan, score=100, age=20),
+         Student(name=lisi, score=90, age=20), 
+         Student(name=wangwu, score=90, age=30)
+]
+</code></pre>
+</article>
+    </section>
+
+    <footer class="ui attached segment dream-tags">
+      
+      
+      <a class="ui label" href="/tags/jdk8" title="jdk8">jdk8</a>
+      
+      
+    </footer>
+
+    
+
+    
+
+  </div>
+  <div class="fifteen wide mobile fifteen wide tablet four wide computer column">
+
+    
+<section class="ui top attached center aligned inverted segment">
+
+  <a id="tag-category-pop" class="ui right ribbon label" style="width: 1px;">
+    <i class="bars icon" title="Show menu"></i>
+  </a>
+
+  <div class="ui small circular image" style="margin-top: 1rem;">
+    
+    <img src="/img/cat.jpg">
+    
+  </div>
+  
+  <h3 class="ui inverted header">
+  CoderLeftEar&#39;s Blog
+
+
+    <div class="sub header"></div>
+  </h3>
+
+  
+  <div class="ui inverted horizontal list">
+  
+    
+    <a class="item" href="/post">
+      <i class="archive icon" title="Archives"></i>
+    </a>
+    
+    <a class="item" href="/tags">
+      <i class="tags icon" title="All Tags"></i>
+    </a>
+    <a class="item" href="/categories">
+      <i class="cube icon" title="All Categories"></i>
+    </a>
+
+
+  </div>
+</section>
+
+
+
+<section class="ui attached center aligned inverted segment dream-header-tags dream-tags">
+
+  
+  <a class="ui label" href="/tags/css" title="css">css</a>
+  
+  <a class="ui label" href="/tags/datastructure" title="datastructure">datastructure</a>
+  
+  <a class="ui label" href="/tags/docker" title="docker">docker</a>
+  
+  <a class="ui label" href="/tags/echarts" title="echarts">echarts</a>
+  
+  <a class="ui label" href="/tags/example" title="example">example</a>
+  
+  <a class="ui label" href="/tags/git" title="git">git</a>
+  
+  <a class="ui label" href="/tags/gulp" title="gulp">gulp</a>
+  
+  <a class="ui label" href="/tags/html" title="html">html</a>
+  
+  <a class="ui label" href="/tags/java" title="java">java</a>
+  
+  <a class="ui label" href="/tags/jdk8" title="jdk8">jdk8</a>
+  
+  <a class="ui label" href="/tags/js" title="js">js</a>
+  
+  <a class="ui label" href="/tags/juc" title="juc">juc</a>
+  
+  <a class="ui label" href="/tags/jvm" title="jvm">jvm</a>
+  
+  <a class="ui label" href="/tags/linux" title="linux">linux</a>
+  
+  <a class="ui label" href="/tags/mysql" title="mysql">mysql</a>
+  
+  <a class="ui label" href="/tags/redis" title="redis">redis</a>
+  
+  <a class="ui label" href="/tags/shiro" title="shiro">shiro</a>
+  
+  <a class="ui label" href="/tags/springannotation" title="springannotation">springannotation</a>
+  
+  <a class="ui label" href="/tags/springboot" title="springboot">springboot</a>
+  
+  <a class="ui label" href="/tags/vue" title="vue">vue</a>
+  
+  <a class="ui label" href="/tags/%E5%86%85%E5%AD%98" title="内存">内存</a>
+  
+  <a class="ui label" href="/tags/%E6%AD%A3%E5%88%99" title="正则">正则</a>
+  
+  <a class="ui label" href="/tags/%E6%BA%90%E7%A0%81" title="源码">源码</a>
+  
+  <a class="ui label" href="/tags/%E7%AC%94%E8%AE%B0" title="笔记">笔记</a>
+  
+  <a class="ui label" href="/tags/%E7%BC%96%E7%A0%81" title="编码">编码</a>
+  
+  <a class="ui label" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F" title="设计模式">设计模式</a>
+  
+</section>
+
+
+
+
+<section class="ui attached inverted segment dream-categories">
+
+  
+  <div class="ui inverted accordion">
+  
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/css" class="item">css</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/html%E5%9B%BE%E7%89%87%E5%B1%85%E4%B8%AD/" class="item">Html图片居中</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/datastructure" class="item">datastructure</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/datastructure02-arrayqueue/" class="item">DataStructure02-ArrayQueue</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/datastructure01-sparsearray/" class="item">DataStructure01-SparseArray</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/docker" class="item">docker</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/docker%E7%AC%94%E8%AE%B0/" class="item">Docker笔记</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/echarts" class="item">echarts</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/echarts%E7%AC%94%E8%AE%B0/" class="item">Echarts笔记</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/example" class="item">example</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/example/" class="item">Example</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/git" class="item">git</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git-stash%E5%88%A0%E9%99%A4%E5%90%8E%E6%89%BE%E5%9B%9E/" class="item">Git Stash删除后找回</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B015-git-rebase%E5%8E%9F%E7%90%86%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/" class="item">Git笔记15-git rebase原理深度剖析</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B014-git-cherry-pick/" class="item">Git笔记14-git cherry-pick</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B013-git-subtree/" class="item">Git笔记13-Git Subtree</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B012-git%E8%A3%B8%E5%BA%93%E4%B8%8Esubmodule/" class="item">Git笔记12-Git裸库与submodule</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B011-git-refspec%E8%BF%9C%E7%A8%8B%E6%A0%87%E7%AD%BE%E4%B8%8Egit-gc/" class="item">Git笔记11-git refspec、远程标签与git gc</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B010-git%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%88%AB%E5%90%8Dgitk%E4%B8%8Egit-gui/" class="item">Git笔记10-Git远程分支、别名、gitk与git gui</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B009-git%E5%88%86%E6%94%AF%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/" class="item">Git笔记09-Git分支最佳实践</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B008-git%E5%8D%8F%E4%BD%9C%E5%92%8Cgit%E8%BF%9C%E7%A8%8B%E5%8D%8F%E4%BD%9C%E6%A8%A1%E5%9E%8B/" class="item">Git笔记08-Git协作和Git远程协作模型</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B007-git%E8%BF%9C%E7%A8%8Bgithub%E5%92%8C%E5%85%AC%E7%A7%81%E9%92%A5/" class="item">Git笔记07-git远程、GitHub和公私钥</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B006-%E6%A0%87%E7%AD%BE%E4%B8%8Ediff/" class="item">Git笔记06-标签与diff</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B005-checkout%E8%BF%9B%E9%98%B6%E4%B8%8Estash/" class="item">Git笔记05-checkout进阶与stash</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B004-%E5%88%86%E6%94%AF%E8%BF%9B%E9%98%B6%E4%B8%8E%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%80/" class="item">Git笔记04-分支进阶与版本回退</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B003-.gitignore%E4%B8%8E%E5%88%86%E6%94%AF/" class="item">Git笔记03-.gitignore与分支</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B002-%E6%B7%BB%E5%8A%A0%E5%88%A0%E9%99%A4%E4%BF%AE%E6%94%B9%E6%97%A5%E5%BF%97/" class="item">Git笔记02-添加、删除、修改、日志</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B001-%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E6%93%8D%E4%BD%9C/" class="item">Git笔记01-基本命令操作</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/gulp" class="item">gulp</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/gulpfile/" class="item">Gulpfile</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/html" class="item">html</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/html%E5%9B%BE%E7%89%87%E5%B1%85%E4%B8%AD/" class="item">Html图片居中</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/java" class="item">java</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/hashmap%E5%AE%9E%E7%8E%B0/" class="item">HashMap实现</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/iterator%E9%81%8D%E5%8E%86listsetmap/" class="item">Iterator遍历List、Set、Map</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/linkedlist%E6%BA%90%E7%A0%81/" class="item">LinkedList源码</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/arraylist%E6%BA%90%E7%A0%81/" class="item">ArrayList源码</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/java%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/" class="item">Java内存分析</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/jdk8" class="item">jdk8</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jdk8-10-stream%E7%AC%94%E8%AE%B002/" class="item">Jdk8-10-Stream笔记02</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jdk8-09-method-reference/" class="item">Jdk8-09-Method Reference</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jdk8-collector/" class="item">Jdk8-Collector</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jdk8-08-stream%E7%AC%94%E8%AE%B001/" class="item">Jdk8-08-Stream笔记01</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jdk8-07-binaryoperator/" class="item">Jdk8-07-BinaryOperator</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jdk8-02-consumer/" class="item">Jdk8-02-Consumer</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jdk8-04-optional/" class="item">Jdk8-04-Optional</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jdk8-05-predicate/" class="item">Jdk8-05-Predicate</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jdk8-06-supplier/" class="item">Jdk8-06-Supplier</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jdk8-03-function/" class="item">Jdk8-03-Function</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jdk8-01-lambda/" class="item">Jdk8-01-Lambda</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/js" class="item">js</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/js-%E7%9F%AD%E8%B7%AF%E8%BF%90%E7%AE%97%E7%AC%A6/" class="item">Js短路运算符</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/js%E8%B7%A8%E5%9F%9F/" class="item">JS跨域</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/js%E5%B0%8F%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/" class="item">JS小问题记录</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/js%E7%AC%94%E8%AE%B001/" class="item">js笔记01</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/juc" class="item">juc</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/java-juc/" class="item">Java-JUC</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/jvm" class="item">jvm</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jvm%E6%8E%92%E9%94%99/" class="item">Jvm排错</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B007-book01/" class="item">JVM笔记07-Book01</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B006-java%E5%86%85%E5%AD%9801/" class="item">JVM笔记06-Java内存01</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B005-java%E5%AD%97%E8%8A%82%E7%A0%8102/" class="item">JVM笔记05-Java字节码02</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B004-java%E5%AD%97%E8%8A%82%E7%A0%8101/" class="item">JVM笔记04-Java字节码01</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B003-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A803/" class="item">JVM笔记03-类加载器03</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B002-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A802/" class="item">JVM笔记02 类加载器02</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B001-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A801/" class="item">JVM笔记01-类加载器01</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/linux" class="item">linux</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/linux%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2/" class="item">Linux开机自启设置</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/linux-jar%E5%8C%85%E9%83%A8%E7%BD%B2/" class="item">jar部署</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/linux%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E8%AE%BE%E7%BD%AE/" class="item">Linux开机自启设置</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/linux%E5%AE%89%E8%A3%85tomcatmysql/" class="item">Linux安装tomcat、mysql</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/linux/" class="item">Linux</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/mysql" class="item">mysql</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/mysql%E9%97%AE%E9%A2%98/" class="item">Mysql问题</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/mysql%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB/" class="item">Mysql事务隔离</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%AD%E8%A1%8C%E4%B8%BA/" class="item">Spring事务、传播行为</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/redis" class="item">redis</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/redis/" class="item">Redis</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/shiro" class="item">shiro</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/shiro%E7%AC%94%E8%AE%B0/" class="item">Shiro笔记</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/springannotation" class="item">springannotation</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/springannotation%E7%AC%94%E8%AE%B004-springmvc/" class="item">SpringAnnotation笔记04-SpringMVC</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/springannotation%E7%AC%94%E8%AE%B003-servlet30/" class="item">SpringAnnotation笔记03-Servlet30</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/springannotation%E7%AC%94%E8%AE%B002-aop/" class="item">SpringAnnotation笔记02-AOP</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/springannotation%E7%AC%94%E8%AE%B001-ioc/" class="item">SpringAnnotation笔记01-IOC</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/springboot" class="item">springboot</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/springboot%E7%AC%94%E8%AE%B001/" class="item">SpringBoot笔记01</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/springboot%E7%AC%94%E8%AE%B002/" class="item">SpringBoot笔记02</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/vue" class="item">vue</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/vue%E7%AC%94%E8%AE%B0-%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4list%E4%B8%AD%E6%95%B0%E6%8D%AE/" class="item">Vue笔记-批量删除list中数据</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/vue/" class="item">Vue笔记</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/%E5%86%85%E5%AD%98" class="item">内存</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/java%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/" class="item">Java内存分析</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/%E6%AD%A3%E5%88%99" class="item">正则</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="item">正则表达式</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/%E6%BA%90%E7%A0%81" class="item">源码</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/hashmap%E5%AE%9E%E7%8E%B0/" class="item">HashMap实现</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/linkedlist%E6%BA%90%E7%A0%81/" class="item">LinkedList源码</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/arraylist%E6%BA%90%E7%A0%81/" class="item">ArrayList源码</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/%E7%AC%94%E8%AE%B0" class="item">笔记</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/%E6%8A%A5%E9%94%99-%E7%AC%94%E8%AE%B0-%E6%9D%82/" class="item">笔记-杂</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/%E7%BC%96%E7%A0%81" class="item">编码</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/java%E5%90%84%E4%B8%AA%E7%BC%96%E7%A0%81%E6%89%80%E5%8D%A0%E5%AD%97%E8%8A%82%E6%95%B0/" class="item">Java各个编码所占字节数</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F" class="item">设计模式</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/001-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" class="item">001 单例模式</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/002-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" class="item">001-大话设计模式-单例模式</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/001-%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" class="item">001-大话设计模式-简单工厂模式</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+  </div>
+</section>
+
+
+
+<section class="ui bottom attached center aligned inverted segment">
+
+	<img src="/img/wx.jpg" alt="个人微信账号" width="130" height="130">
+	<p style="color: #35B41C">个人微信</p>
+
+	<a target="_blank" href="https://github.com/CoderLeftEar" title="github">
+		<img src="/img/github.png" alt="github" width="30" height="30"></img>
+	</a>
+	
+	<a target="_blank" href="#" title="新浪微博">
+		<img src="/img/xl.png" alt="新浪微博" width="30" height="30"></img>
+	</a>
+	
+	<br/>
+	<br/>
+
+    
+    <p>© 2021 CoderLeftEar&#39;s Blog</p>
+    
+    <p>Powered by <a href="https://gohugo.io/" target="_blank">Hugo</a> with theme <a href="https://github.com/g1eny0ung/hugo-theme-dream" target="_blank">Dream</a>.</p>
+</section>
+
+  </div>
+</div>
+
+      </section>
+      <section class="back">
+        <nav class="ui top secondary menu" style="overflow-x: auto">
+  <div class="item">
+    <i class="inverted big link bullseye icon dream-flip-toggle" title="Flip it!"></i>
+  </div>
+  
+  
+  
+  
+  
+</nav>
+
+<div class="ui centered grid about">
+  <div class="fifteen wide mobile fifteen wide tablet fifteen wide computer column">
+
+    <section class="ui stacked segments">
+      
+      <header class="ui inverted segment">
+      
+        <h2 class="ui header">
+          About
+        </h2>
+      </header>
+
+      
+      <article class="ui inverted segment markdown-body">
+      
+        <div class="ui stackable three column grid">
+          <div class="column">
+              
+              从现在开始写博客
+              
+          </div>
+          <div class="column">
+              
+          </div>
+          <div class="column">
+              
+          </div>
+        </div>
+      </article>
+
+      
+
+      
+      
+    </section>
+
+  </div>
+</div>
+
+      </section>
+    </div>
+  </div>
+
+  
+<script src="/js/jquery.min.js"></script>
+<script src="/js/semantic.min.js"></script>
+<script src="/js/html2canvas.min.js"></script>
+<script src="/js/bg.js"></script>
+<script src="/js/site.js"></script>
+<script src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+</body>
+
+</html>

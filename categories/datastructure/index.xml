@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>DataStructure on CoderLeftEar&#39;s Blog</title>
+    <link>https://inkbambo0.github.io/categories/datastructure/</link>
+    <description>Recent content in DataStructure on CoderLeftEar&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 04 Sep 2019 08:14:13 +0800</lastBuildDate>
+    
+	<atom:link href="https://inkbambo0.github.io/categories/datastructure/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>DataStructure02-ArrayQueue</title>
+      <link>https://inkbambo0.github.io/post/datastructure02-arrayqueue/</link>
+      <pubDate>Wed, 04 Sep 2019 08:14:13 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/datastructure02-arrayqueue/</guid>
+      <description>DataStructure02-ArrayQueue（使用数组模拟队列） 在ArrayQueue类中，定义数组队列中的方法 class ArrayQueue { private int maxSize; //数组最大容量 private int front; //队列头 private int rear; //队列尾 private int[] arr; //该数据用于存放数据，模拟队列 public ArrayQueue(int maxSize) { this.maxSize = maxSize; //指定队列最大值 arr = new int[this.maxSize]; //指定存放数据的数组的大小 front = -1; //指向队列头部，指向队列头的前一个位置 rear = -1; //指向队列尾，指向队列尾的数据，即最后一个数据 } //判断队列是否满 public boolean isFull() { return rear == maxSize; } //判断队列是否为空 public boolean isEmpty() { return front == rear; } //添加数据到队列 public void add (int value) { //队列是否满 if(isFull()){ System.</description>
+    </item>
+    
+    <item>
+      <title>DataStructure01-SparseArray</title>
+      <link>https://inkbambo0.github.io/post/datastructure01-sparsearray/</link>
+      <pubDate>Tue, 03 Sep 2019 21:01:19 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/datastructure01-sparsearray/</guid>
+      <description>DataStructure01-SparseArray 原始数组: 创建的放置棋子的数组棋盘
+//定义棋盘数组 int[][] arr = new int[11][11]; //定义总棋子个数 int sum = 0; //赋值 //0表示无子，1表示黑子，2表示白子 arr[1][0] = 1; arr[2][1] = 2; arr[3][2] = 2; //循环遍历 for (int i = 0; i &amp;lt; arr.length; i ++) { for (int j = 0; j &amp;lt; arr[0].length; j ++) { System.out.print(arr[i][j] + &amp;quot;\t&amp;quot;); //System.out.printf(&amp;quot;%d\t&amp;quot;, arr[i][j]); //判断是否是棋子，是就将sum++ if (arr[i][j] != 0) { sum ++; } } System.out.println(); } System.out.println(&amp;quot;总数：&amp;quot; + sum);  稀疏数组: 将普通二维数组转化为稀疏数组</description>
+    </item>
+    
+  </channel>
+</rss>

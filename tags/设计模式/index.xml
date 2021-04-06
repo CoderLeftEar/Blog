@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>设计模式 on CoderLeftEar&#39;s Blog</title>
+    <link>https://inkbambo0.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</link>
+    <description>Recent content in 设计模式 on CoderLeftEar&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 27 Jun 2020 21:26:41 +0800</lastBuildDate>
+    
+	<atom:link href="https://inkbambo0.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>001 单例模式</title>
+      <link>https://inkbambo0.github.io/post/001-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sat, 27 Jun 2020 21:26:41 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/001-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</guid>
+      <description>单例模式 枚举单例： package dp2.singleton; import java.util.concurrent.TimeUnit; /** * 懒汉式：双重检测锁模式 * * @Class Singleton01 * @Description TODO * @Author LeftEar * @Date 20/4/28 22:49 * @Version 1.0 */ public class Singleton02 { private Singleton02 () {} /** * 内部枚举 */ enum SingletonEnum { /** * 枚举对象，天生为单例 */ INSTANCE; private Singleton02 singleton02; SingletonEnum () { singleton02 = new Singleton02(); } public Singleton02 getInstance () { return singleton02; } } // 对外暴露的方法 public static Singleton02 getInstance() { return SingletonEnum.</description>
+    </item>
+    
+    <item>
+      <title>001-大话设计模式-单例模式</title>
+      <link>https://inkbambo0.github.io/post/002-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Tue, 02 Jul 2019 18:11:32 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/002-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</guid>
+      <description>单例模式 1.饿汉式—静态常量方式（线程安全） public class Singleton { private static Singleton instance = new Singleton(); private Singleton (){} public static Singleton getInstance() { return instance; } }  2.饿汉式—静态代码块方式（线程安全） public class Singleton { private static Singleton instance; static { instance = new Singleton(); } private Singleton() {} public static Singleton getInstance() { return instance; } }  3.懒汉式（线程不安全） public class Singleton { private static Singleton singleton; private Singleton() {} public static Singleton getInstance() { if (singleton == null) { singleton = new Singleton(); } return singleton; } }  4.</description>
+    </item>
+    
+    <item>
+      <title>001-大话设计模式-简单工厂模式</title>
+      <link>https://inkbambo0.github.io/post/001-%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Tue, 02 Jul 2019 18:11:32 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/001-%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</guid>
+      <description>简单工厂模式 一、需求 使用java实现一个计算器计算功能
+二、初步实现 public class Operation_first { public static void main(String[] args) { Scanner sc = new Scanner(System.in); System.out.print(&amp;quot;第一个数：&amp;quot;); int numberA = sc.nextInt(); System.out.print(&amp;quot;运算符：&amp;quot;); String operation = sc.next(); System.out.print(&amp;quot;第二个数：&amp;quot;); int numberB = sc.nextInt(); int result = 0; try { //运算 switch (operation) { case &amp;quot;+&amp;quot;: result = numberA + numberB; break; case &amp;quot;-&amp;quot;: result = numberA - numberB; break; case &amp;quot;*&amp;quot;: result = numberA * numberB; break; case &amp;quot;/&amp;quot;: result = numberA / numberB; break; default: break; } //打印结果 System.</description>
+    </item>
+    
+  </channel>
+</rss>

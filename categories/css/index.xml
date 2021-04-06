@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>css on CoderLeftEar&#39;s Blog</title>
+    <link>https://inkbambo0.github.io/categories/css/</link>
+    <description>Recent content in css on CoderLeftEar&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="https://inkbambo0.github.io/categories/css/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Html图片居中</title>
+      <link>https://inkbambo0.github.io/post/html%E5%9B%BE%E7%89%87%E5%B1%85%E4%B8%AD/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/html%E5%9B%BE%E7%89%87%E5%B1%85%E4%B8%AD/</guid>
+      <description> Html图片居中 &amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html lang=&amp;quot;en&amp;quot;&amp;gt; &amp;lt;head&amp;gt; &amp;lt;meta charset=&amp;quot;UTF-8&amp;quot;&amp;gt; &amp;lt;meta name=&amp;quot;viewport&amp;quot; content=&amp;quot;width=device-width, initial-scale=1.0&amp;quot;&amp;gt; &amp;lt;title&amp;gt;Document&amp;lt;/title&amp;gt; &amp;lt;style&amp;gt; .box { width: 120px; height: 180px; border: 2px solid rgb(118, 117, 117); border-radius: 4px; padding: 4px; overflow: hidden; } .image { width: 100%; height: 100%; background-image: url(&amp;quot;https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1089874897,1268118658&amp;amp;fm=26&amp;amp;gp=0.jpg&amp;quot;); background-repeat: no-repeat; background-position: center center; background-size: cover; } &amp;lt;/style&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; &amp;lt;h3&amp;gt;原图：&amp;lt;/h3&amp;gt; &amp;lt;img src=&amp;quot;https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1089874897,1268118658&amp;amp;fm=26&amp;amp;gp=0.jpg&amp;quot; alt=&amp;quot;&amp;quot;&amp;gt; &amp;lt;h3&amp;gt;居中：&amp;lt;/h3&amp;gt; &amp;lt;div class=&amp;quot;box&amp;quot;&amp;gt; &amp;lt;img src=&amp;quot;https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1089874897,1268118658&amp;amp;fm=26&amp;amp;gp=0.jpg&amp;quot; style=&amp;quot;width: 100%; height: 100%; object-fit: cover;&amp;quot;&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;div class=&amp;quot;box&amp;quot;&amp;gt; &amp;lt;div class=&amp;quot;image&amp;quot;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/body&amp;gt; &amp;lt;  </description>
+    </item>
+    
+  </channel>
+</rss>

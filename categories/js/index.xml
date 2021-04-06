@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>js on CoderLeftEar&#39;s Blog</title>
+    <link>https://inkbambo0.github.io/categories/js/</link>
+    <description>Recent content in js on CoderLeftEar&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 12 Nov 2020 09:44:32 +0800</lastBuildDate>
+    
+	<atom:link href="https://inkbambo0.github.io/categories/js/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Js短路运算符</title>
+      <link>https://inkbambo0.github.io/post/js-%E7%9F%AD%E8%B7%AF%E8%BF%90%E7%AE%97%E7%AC%A6/</link>
+      <pubDate>Thu, 12 Nov 2020 09:44:32 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/js-%E7%9F%AD%E8%B7%AF%E8%BF%90%E7%AE%97%E7%AC%A6/</guid>
+      <description>Js短路运算符 || 从前往后算，false || false || 1 =&amp;gt; 1 ;
+&amp;amp;&amp;amp; false &amp;amp;&amp;amp; clg(&amp;ldquo;It is false&amp;rdquo;); =&amp;gt; &amp;ldquo;It is false&amp;rdquo;;
+true &amp;amp;&amp;amp; clg(&amp;ldquo;It is true&amp;rdquo;) =&amp;gt; true;</description>
+    </item>
+    
+    <item>
+      <title>JS跨域</title>
+      <link>https://inkbambo0.github.io/post/js%E8%B7%A8%E5%9F%9F/</link>
+      <pubDate>Thu, 09 Jul 2020 12:38:34 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/js%E8%B7%A8%E5%9F%9F/</guid>
+      <description> JS跨域 </description>
+    </item>
+    
+    <item>
+      <title>JS小问题记录</title>
+      <link>https://inkbambo0.github.io/post/js%E5%B0%8F%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</link>
+      <pubDate>Tue, 02 Jun 2020 16:30:56 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/js%E5%B0%8F%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</guid>
+      <description>JS小问题记录 1.判断是PC还是Phone function isPC() { var userAgentInfo = navigator.userAgent; var Agents = [&amp;quot;Android&amp;quot;, &amp;quot;iPhone&amp;quot;, &amp;quot;SymbianOS&amp;quot;, &amp;quot;Windows Phone&amp;quot;, &amp;quot;iPad&amp;quot;, &amp;quot;iPod&amp;quot;]; var flag = true; for (var v = 0; v &amp;lt; Agents.length; v++) { if (userAgentInfo.indexOf(Agents[v]) &amp;gt; 0) { flag = false; break; } } return flag; } var isPCOrPhone = isPC(); // 判断是手机端还是电脑端 if(isPCOrPhone) { $(&amp;quot;#app&amp;quot;).css(&amp;quot;width&amp;quot;, &amp;quot;1200px&amp;quot;); $(&amp;quot;.top_title .container&amp;quot;).css(&amp;quot;width&amp;quot;, &amp;quot;1200px&amp;quot;); } else { $(&amp;quot;#app&amp;quot;).css(&amp;quot;width&amp;quot;, &amp;quot;100%&amp;quot;); $(&amp;quot;.top_title .container&amp;quot;).css(&amp;quot;width&amp;quot;, &amp;quot;100%&amp;quot;); }  2.</description>
+    </item>
+    
+    <item>
+      <title>js笔记01</title>
+      <link>https://inkbambo0.github.io/post/js%E7%AC%94%E8%AE%B001/</link>
+      <pubDate>Sun, 15 Sep 2019 10:54:19 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/js%E7%AC%94%E8%AE%B001/</guid>
+      <description> js笔记01 </description>
+    </item>
+    
+  </channel>
+</rss>

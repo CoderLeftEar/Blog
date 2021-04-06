@@ -1,0 +1,1084 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on CoderLeftEar&#39;s Blog</title>
+    <link>https://inkbambo0.github.io/post/</link>
+    <description>Recent content in Posts on CoderLeftEar&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 17 Mar 2021 13:56:02 +0800</lastBuildDate>
+    
+	<atom:link href="https://inkbambo0.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>SettTimeout代替setInterval</title>
+      <link>https://inkbambo0.github.io/post/setttimeout%E4%BB%A3%E6%9B%BFsetinterval/</link>
+      <pubDate>Wed, 17 Mar 2021 13:56:02 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/setttimeout%E4%BB%A3%E6%9B%BFsetinterval/</guid>
+      <description>function Timer() { this.timeID = null this.func = null } Timer.prototype.repeat = function(func, ms) { if (this.func === null) { this.func = func } // 确保一个 Timer 实例只能重复一个 func if (this.func !== func) { return } this.timeID = setTimeout(() =&amp;gt; { func() this.repeat(func, ms) }, ms) } Timer.prototype.clear = function() { clearTimeout(this.timeID) } const a = () =&amp;gt; console.log(&#39;a&#39;) const b = () =&amp;gt; console.log(&#39;b&#39;) const timer = new Timer() timer.</description>
+    </item>
+    
+    <item>
+      <title>Linux开机自启设置</title>
+      <link>https://inkbambo0.github.io/post/linux%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2/</link>
+      <pubDate>Sat, 23 Jan 2021 19:45:48 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/linux%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>jar部署</title>
+      <link>https://inkbambo0.github.io/post/linux-jar%E5%8C%85%E9%83%A8%E7%BD%B2/</link>
+      <pubDate>Mon, 28 Dec 2020 11:14:48 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/linux-jar%E5%8C%85%E9%83%A8%E7%BD%B2/</guid>
+      <description>jar部署 Linux中修改jar包中的配置文件 打包以及修改jar包
+cd genesys_data_etl mvn clean package -Poffline -Dmaven.test.skip=true 日志如下： [INFO] --- maven-jar-plugin:2.6:jar (default-jar) @ genesys_data_etl --- [INFO] Building jar: /Users/xx/IdeaProjects/genesys_data_etl/target/genesys_data_etl-0.0.1-0SNAPSHOT.jar 生成jar包 此时可以通过命令 java -jar genesys_data_etl-0.0.1-SNAPSHOT.jar 运行jar包。  但是要修改jar包中的配置文件怎么办呢？
+方式一 通过vim命令直接修改保存jar。超方便。 1.通过vim命令直接编辑jar vim xxx.jar 该命令首先会列出全部文件，可以通过输入/abc来搜索，定位到对应的abc文件后回车进入配置文件内进行编辑，:wq保存。
+方式二 通过jar命令替换jar包中的文件(也可新增) 1.列出jar包中的文件清单 jar tf genesys_data_etl-0.0.1-SNAPSHOT.jar
+2.提取出内部jar包的指定文件 jar xf genesys_data_etl-0.0.1-SNAPSHOT.jar BOOT-INF/classes/realtime/t_ivr_data_bj.json
+3.然后可以修改文件 vim BOOT-INF/classes/realtime/t_ivr_data_bj.json
+4.更新配置文件到内部jar包.(存在覆盖，不存在就新增) jar uf genesys_data_etl-0.0.1-SNAPSHOT.jar BOOT-INF/classes/realtime/t_ivr_data_bj.json
+4.1更新内部jar包到jar文件 jar uf genesys_data_etl-0.0.1-SNAPSHOT.jar 内部jar包.jar
+5.可以查看验证是否已经更改 vim genesys_data_etl-0.0.1-SNAPSHOT.jar
+方式三 解压jar包，修改后重新打包jar 1.解压 unzip genesys_data_etl-0.0.1-SNAPSHOT.jar 2.移除jar包,最好备份 rm genesys_data_etl-0.</description>
+    </item>
+    
+    <item>
+      <title>Js短路运算符</title>
+      <link>https://inkbambo0.github.io/post/js-%E7%9F%AD%E8%B7%AF%E8%BF%90%E7%AE%97%E7%AC%A6/</link>
+      <pubDate>Thu, 12 Nov 2020 09:44:32 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/js-%E7%9F%AD%E8%B7%AF%E8%BF%90%E7%AE%97%E7%AC%A6/</guid>
+      <description>Js短路运算符 || 从前往后算，false || false || 1 =&amp;gt; 1 ;
+&amp;amp;&amp;amp; false &amp;amp;&amp;amp; clg(&amp;ldquo;It is false&amp;rdquo;); =&amp;gt; &amp;ldquo;It is false&amp;rdquo;;
+true &amp;amp;&amp;amp; clg(&amp;ldquo;It is true&amp;rdquo;) =&amp;gt; true;</description>
+    </item>
+    
+    <item>
+      <title>Git Stash删除后找回</title>
+      <link>https://inkbambo0.github.io/post/git-stash%E5%88%A0%E9%99%A4%E5%90%8E%E6%89%BE%E5%9B%9E/</link>
+      <pubDate>Thu, 15 Oct 2020 16:52:25 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git-stash%E5%88%A0%E9%99%A4%E5%90%8E%E6%89%BE%E5%9B%9E/</guid>
+      <description> Git Stash删除后找回 查询所有记录 git log --graph --oneline --decorate $(git fsck --no-reflog | awk &#39;/dangling commit/ {print $3}&#39;)  添加到工作区 git stash apply 9fa8ujaf  </description>
+    </item>
+    
+    <item>
+      <title>Linux开机自启设置</title>
+      <link>https://inkbambo0.github.io/post/linux%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E8%AE%BE%E7%BD%AE/</link>
+      <pubDate>Mon, 21 Sep 2020 19:45:48 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/linux%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E8%AE%BE%E7%BD%AE/</guid>
+      <description> Linux开机自启设置 一、添加开机自启服务 在CentOS 7中添加开机自启服务非常方便，只需要两条命令(以Jenkins为例)：
+systemctl enable jenkins.service #设置jenkins服务为自启动服务 sysstemctl start jenkins.service #启动jenkins服务  二、添加开机自启脚本 在centos7中增加脚本有两种常用的方法，以脚本autostart.sh为例：
+#!/bin/bash #description:开机自启脚本 /usr/local/tomcat/bin/startup.sh #启动tomcat  方法一 1、赋予脚本可执行权限（/opt/script/autostart.sh是你的脚本路径）
+chmod +x /opt/script/autostart.sh  2、打开/etc/rc.d/rc.local或/etc/rc.local文件，在末尾增加如下内容
+su - user -c &#39;/opt/script/autostart.sh&#39;  3、在centos7中，/etc/rc.d/rc.local的权限被降低了，所以需要执行如下命令赋予其可执行权限
+chmod +x /etc/rc.d/rc.local  方法二 1、将脚本移动到/etc/rc.d/init.d目录下
+mv /opt/script/autostart.sh /etc/rc.d/init.d  2、增加脚本的可执行权限
+chmod +x /etc/rc.d/init.d/autostart.sh  3、添加脚本到开机自动启动项目中
+cd /etc/rc.d/init.d chkconfig --add autostart.sh chkconfig autostart.sh on  </description>
+    </item>
+    
+    <item>
+      <title>Jvm排错</title>
+      <link>https://inkbambo0.github.io/post/jvm%E6%8E%92%E9%94%99/</link>
+      <pubDate>Sat, 05 Sep 2020 09:38:13 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jvm%E6%8E%92%E9%94%99/</guid>
+      <description> Jvm排错 </description>
+    </item>
+    
+    <item>
+      <title>Linux安装tomcat、mysql</title>
+      <link>https://inkbambo0.github.io/post/linux%E5%AE%89%E8%A3%85tomcatmysql/</link>
+      <pubDate>Sat, 15 Aug 2020 17:14:48 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/linux%E5%AE%89%E8%A3%85tomcatmysql/</guid>
+      <description>Linux安装tomcat、mysql linux上安装mysql5.7 1、下载tar包，这里使用wget从官网下载 wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz
+2、将mysql安装到/usr/local/mysql下  解压   tar -xvf mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz
+  移动   mv mysql-5.7.22-linux-glibc2.12-x86_64 /usr/local/
+  重命名  mv /usr/local/mysql-5.7.22-linux-glibc2.12-x86_64 /usr/local/mysql
+3、新建data目录  mkdir /usr/local/mysql/data
+ 4、新建mysql用户、mysql用户组 # mysql用户组 groupadd mysql # mysql用户 useradd mysql -g mysql  5、将/usr/local/mysql的所有者及所属组改为mysql  chown -R mysql.mysql /usr/local/mysql
+ 6、配置  /usr/local/mysql/bin/mysql_install_db &amp;ndash;user=mysql &amp;ndash;basedir=/usr/local/mysql/ &amp;ndash;datadir=/usr/local/mysql/data
+  如果出现以下错误：
+2018-07-14 06:40:32 [WARNING] mysql_install_db is deprecated. Please consider switching to mysqld --initialize 2018-07-14 06:40:32 [ERROR] Child process: /usr/local/mysql/bin/mysqldterminated prematurely with errno= 32 2018-07-14 06:40:32 [ERROR] Failed to execute /usr/local/mysql/bin/mysqld --bootstrap --datadir=/usr/local/mysql/data --lc-messages-dir=/usr/local/mysql/share --lc-messages=en_US --basedir=/usr/local/mysql -- server log begin -- -- server log end --  则使用以下命令：</description>
+    </item>
+    
+    <item>
+      <title>JS跨域</title>
+      <link>https://inkbambo0.github.io/post/js%E8%B7%A8%E5%9F%9F/</link>
+      <pubDate>Thu, 09 Jul 2020 12:38:34 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/js%E8%B7%A8%E5%9F%9F/</guid>
+      <description> JS跨域 </description>
+    </item>
+    
+    <item>
+      <title>001 单例模式</title>
+      <link>https://inkbambo0.github.io/post/001-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sat, 27 Jun 2020 21:26:41 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/001-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</guid>
+      <description>单例模式 枚举单例： package dp2.singleton; import java.util.concurrent.TimeUnit; /** * 懒汉式：双重检测锁模式 * * @Class Singleton01 * @Description TODO * @Author LeftEar * @Date 20/4/28 22:49 * @Version 1.0 */ public class Singleton02 { private Singleton02 () {} /** * 内部枚举 */ enum SingletonEnum { /** * 枚举对象，天生为单例 */ INSTANCE; private Singleton02 singleton02; SingletonEnum () { singleton02 = new Singleton02(); } public Singleton02 getInstance () { return singleton02; } } // 对外暴露的方法 public static Singleton02 getInstance() { return SingletonEnum.</description>
+    </item>
+    
+    <item>
+      <title>Echarts笔记</title>
+      <link>https://inkbambo0.github.io/post/echarts%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Tue, 16 Jun 2020 20:28:21 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/echarts%E7%AC%94%E8%AE%B0/</guid>
+      <description>Echarts笔记 官方配置地址
+http://echarts.baidu.com/option.html#tooltip.trigger
+eg1: &amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html&amp;gt; &amp;lt;head&amp;gt; &amp;lt;meta charset=&amp;quot;utf-8&amp;quot;&amp;gt; &amp;lt;!-- 引入 ECharts 文件 --&amp;gt; &amp;lt;script src=&amp;quot;echarts.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;div id=&amp;quot;pie1&amp;quot; style=&amp;quot;width: 600px;height:400px;&amp;quot;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;script type=&amp;quot;text/javascript&amp;quot;&amp;gt; var myChart1 = echarts.init(document.getElementById(&#39;pie1&#39;)); option1 = { title:{ text:&#39;按类型统计&#39;, top:&#39;bottom&#39;, left:&#39;center&#39;, textStyle:{ fontSize: 14, fontWeight: &#39;&#39;, color: &#39;#333&#39; }, },//标题 tooltip: { trigger: &#39;item&#39;, formatter: &amp;quot;{a} &amp;lt;br/&amp;gt;{b}: {c} ({d}%)&amp;quot;， /*formatter:function(val){ //让series 中的文字进行换行 console.log(val);//查看val属性，可根据里边属性自定义内容 var content = var[&#39;name&#39;]; return content;//返回可以含有html中标签 },*/ //自定义鼠标悬浮交互信息提示，鼠标放在饼状图上时触发事件 },//提示框，鼠标悬浮交互时的信息提示 legend: { show: false, orient: &#39;vertical&#39;, x: &#39;left&#39;, data: [&#39;50%-学生&#39;, &#39;25%-老师&#39;, &#39;25%-家长&#39;] },//图例属性，以饼状图为例，用来说明饼状图每个扇区，data与下边series中data相匹配 graphic:{ type:&#39;text&#39;, left:&#39;center&#39;, top:&#39;center&#39;, style:{ text:&#39;用户统计\n&#39;+&#39;100&#39;, //使用“+”可以使每行文字居中 textAlign:&#39;center&#39;, font:&#39;italic bolder 16px cursive&#39;, fill:&#39;#000&#39;, width:30, height:30 } },//此例饼状图为圆环中心文字显示属性，这是一个原生图形元素组件，功能很多 series: [ { name:&#39;用户统计&#39;,//tooltip提示框中显示内容 type: &#39;pie&#39;,//图形类型，如饼状图，柱状图等 radius: [&#39;35%&#39;, &#39;65%&#39;],//饼图的半径，数组的第一项是内半径，第二项是外半径。支持百分比，本例设置成环形图。具体可以看文档或改变其值试一试 //roseType:&#39;area&#39;,是否显示成南丁格尔图，默认false itemStyle: { normal:{ label:{ show:true, textStyle:{color:&#39;#3c4858&#39;,fontSize:&amp;quot;18&amp;quot;}, formatter:function(val){ //让series 中的文字进行换行 return val.</description>
+    </item>
+    
+    <item>
+      <title>正则表达式</title>
+      <link>https://inkbambo0.github.io/post/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</link>
+      <pubDate>Fri, 12 Jun 2020 08:47:25 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</guid>
+      <description> 正则表达式 </description>
+    </item>
+    
+    <item>
+      <title>Gulpfile</title>
+      <link>https://inkbambo0.github.io/post/gulpfile/</link>
+      <pubDate>Wed, 10 Jun 2020 11:12:41 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/gulpfile/</guid>
+      <description>Gulp gulpfile.js const gulp = require(&#39;gulp&#39;); const $ = require(&#39;gulp-load-plugins&#39;)(); const htmlmin = require(&#39;gulp-htmlmin&#39;); const cleanCss = require(&#39;gulp-clean-css&#39;); const uglify = require(&#39;gulp-uglify&#39;); const babel = require(&#39;gulp-babel&#39;); const imagemin = require(&#39;gulp-imagemin&#39;); const clean = require(&#39;gulp-clean&#39;); function htmlBuild () { return gulp.src(&#39;./src/*.html&#39;) .pipe(htmlmin({ collapseWhitespace: true, removeComments: true, minifyJS: true, minifyCSS: true, })) .pipe(gulp.dest(&#39;./dist/&#39;)) } function cssBuild () { return gulp.src(&#39;./src/css/*.css&#39;) .pipe(gulp.dest(&#39;./dist/css/&#39;)) .pipe(gulp.src([&#39;./src/css/style.css&#39;, &#39;./src/css/bootstrap-theme.css&#39;, &#39;./src/css/bootstrap.css&#39;,])) .pipe(cleanCss({compatibility: &#39;ie7&#39;})) .pipe(gulp.dest(&#39;./dist/css/&#39;)) } function jsBuild () { return gulp.</description>
+    </item>
+    
+    <item>
+      <title>JS小问题记录</title>
+      <link>https://inkbambo0.github.io/post/js%E5%B0%8F%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</link>
+      <pubDate>Tue, 02 Jun 2020 16:30:56 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/js%E5%B0%8F%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</guid>
+      <description>JS小问题记录 1.判断是PC还是Phone function isPC() { var userAgentInfo = navigator.userAgent; var Agents = [&amp;quot;Android&amp;quot;, &amp;quot;iPhone&amp;quot;, &amp;quot;SymbianOS&amp;quot;, &amp;quot;Windows Phone&amp;quot;, &amp;quot;iPad&amp;quot;, &amp;quot;iPod&amp;quot;]; var flag = true; for (var v = 0; v &amp;lt; Agents.length; v++) { if (userAgentInfo.indexOf(Agents[v]) &amp;gt; 0) { flag = false; break; } } return flag; } var isPCOrPhone = isPC(); // 判断是手机端还是电脑端 if(isPCOrPhone) { $(&amp;quot;#app&amp;quot;).css(&amp;quot;width&amp;quot;, &amp;quot;1200px&amp;quot;); $(&amp;quot;.top_title .container&amp;quot;).css(&amp;quot;width&amp;quot;, &amp;quot;1200px&amp;quot;); } else { $(&amp;quot;#app&amp;quot;).css(&amp;quot;width&amp;quot;, &amp;quot;100%&amp;quot;); $(&amp;quot;.top_title .container&amp;quot;).css(&amp;quot;width&amp;quot;, &amp;quot;100%&amp;quot;); }  2.</description>
+    </item>
+    
+    <item>
+      <title>Shiro笔记</title>
+      <link>https://inkbambo0.github.io/post/shiro%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Mon, 01 Jun 2020 20:38:32 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/shiro%E7%AC%94%E8%AE%B0/</guid>
+      <description> Shiro笔记 </description>
+    </item>
+    
+    <item>
+      <title>Mysql问题</title>
+      <link>https://inkbambo0.github.io/post/mysql%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Sat, 30 May 2020 17:14:48 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/mysql%E9%97%AE%E9%A2%98/</guid>
+      <description>MySQL问题 Tomcat -&amp;gt; shutdown.sh java.net.ConnectException: Connection refused at java.net.PlainSocketImpl.socketConnect(Native Method) at java.net.PlainSocketImpl.doConnect(PlainSocketImpl.java:333) at java.net.PlainSocketImpl.connectToAddress(PlainSocketImpl.java:195) at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:182) at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:366) at java.net.Socket.connect(Socket.java:529) at java.net.Socket.connect(Socket.java:478) at java.net.Socket.&amp;lt;init&amp;gt;(Socket.java:375) at java.net.Socket.&amp;lt;init&amp;gt;(Socket.java:189) at org.apache.catalina.startup.Catalina.stopServer(Catalina.java:498) at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39) at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25) at java.lang.reflect.Method.invoke(Method.java:597) at org.apache.catalina.startup.Bootstrap.stopServer(Bootstrap.java:370) at org.apache.catalina.startup.Bootstrap.main(Bootstrap.java:457)  原因是tomcat内存太小了，需要给tomcat增加虚拟内存。
+在linux系统里修改tomcat内存的方法 修改/opt/tomcat/bin/catalina.sh这个文件；
+# OS specific support. $var _must_ be set to either true or false. cygwin=false  这两行之行插入一行，最终修改为以下这样：
+# OS specific support. $var _must_ be set to either true or false.</description>
+    </item>
+    
+    <item>
+      <title>Vue笔记-批量删除list中数据</title>
+      <link>https://inkbambo0.github.io/post/vue%E7%AC%94%E8%AE%B0-%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4list%E4%B8%AD%E6%95%B0%E6%8D%AE/</link>
+      <pubDate>Tue, 19 May 2020 20:34:47 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/vue%E7%AC%94%E8%AE%B0-%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4list%E4%B8%AD%E6%95%B0%E6%8D%AE/</guid>
+      <description>Vue笔记 使用some方法查找需要删除的数据 this.list.some((item, i) =&amp;gt; { if (item.id == id) { this.list.splice(i, 1) return true; } })  使用findIndex方法 var index = this.list.findIndex(item =&amp;gt; { if (item.id == id){ return true; } }) this.list.splice(index, 1)  vue中增加一个搜索同步按钮功能 在vue中使用过滤器处理对应的数据；主要采用管道符&amp;rsquo;|&amp;rsquo;</description>
+    </item>
+    
+    <item>
+      <title>Docker笔记</title>
+      <link>https://inkbambo0.github.io/post/docker%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Wed, 05 Feb 2020 19:19:17 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/docker%E7%AC%94%E8%AE%B0/</guid>
+      <description> Docker笔记 </description>
+    </item>
+    
+    <item>
+      <title>Vue笔记</title>
+      <link>https://inkbambo0.github.io/post/vue/</link>
+      <pubDate>Wed, 05 Feb 2020 19:19:17 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/vue/</guid>
+      <description>Vue npm: npm参数：
+-S，-D参数：
+ -S，&amp;ndash;save安装包信息将加入到dependencies（生产阶段的依赖）
+ -D，&amp;ndash;save&amp;ndash;dev安装包信息将加入到devDependencies（开发阶段的依赖），所以开发阶段一般使用它
+ i是install的缩写（注意：前面没有“-”）
+  npm root -g：全局安装位置。</description>
+    </item>
+    
+    <item>
+      <title>SpringBoot笔记01</title>
+      <link>https://inkbambo0.github.io/post/springboot%E7%AC%94%E8%AE%B001/</link>
+      <pubDate>Tue, 10 Dec 2019 21:48:06 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/springboot%E7%AC%94%E8%AE%B001/</guid>
+      <description> SpringBoot笔记01 一、简介 优点：  快速创建独立运行的Spring项目以及主流框架集成 使用嵌入式的Servlet容器，应用无需打成war包 starters自动依赖与版本控制 大量的自动配置，简化开发，也可以修改默认值 无需配置xml，无代码生成，开箱即用 准生产环境的运行时应用监控 与云计算的天然集成  缺点： 二、主类注解 @SpringBootApplication  @SpringBootConfiguration：
+ @Configuration：表示是一个springboot配置类  @EnableAutoConfiguration：以前需要配置的，现在自动配置
+ @AutoConfigurationPackage：自动配置包，将主配置类所在包及下面所有包扫描
+ @Import(AutoConfigurationPackages.Registrar.class)：自动扫描包（com.springboot）
+ @Import(AutoConfigurationImportSelector.class)：需要导入那些组件的选择器
+   </description>
+    </item>
+    
+    <item>
+      <title>SpringBoot笔记02</title>
+      <link>https://inkbambo0.github.io/post/springboot%E7%AC%94%E8%AE%B002/</link>
+      <pubDate>Tue, 10 Dec 2019 21:48:06 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/springboot%E7%AC%94%E8%AE%B002/</guid>
+      <description>SpringBoot笔记02 Hello World</description>
+    </item>
+    
+    <item>
+      <title>Linux</title>
+      <link>https://inkbambo0.github.io/post/linux/</link>
+      <pubDate>Tue, 22 Oct 2019 17:14:48 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/linux/</guid>
+      <description>Linux 一、文件系统的管理 tips:输入命令的时候要常用tab键来补全
+ls 查看目录信息 （ ls / ）
+ls -l 等价于 ll  路径的表示方法有“相对”和“绝对” 比如如果当前所处目录为 /home/renwoxing，要查看/home目录下的信息，可以有两种方法： ls ../ ls /home
+pwd 查看当前所处目录的绝对路径
+cd 切换目录 (cd /) ,如果不带参数则切换到用户主目录 ~
+mkdir 创建文件夹 mkdir -p a/b/c 如果要创建的文件夹的父目录不存在，则自动创建
+rmdir 删除空文件夹 (只能删除空文件夹) rm -r /a/b (删除非空文件夹) 删除文件 rm filename (rm -r 删除文件夹 rm -rf 强制删除文件或文件夹)
+创建文件 touch a.avi 创建一个空文件 vi blabla.txt 用文本编辑器编辑一个文件并且保存 echo &amp;ldquo;angelababy,zhen de hen xihuan ni&amp;rdquo; &amp;gt; qingshu.txt 把左边的输出放到右边的文件里去
+移动文件 修改文件名 mv a/wenjian1.</description>
+    </item>
+    
+    <item>
+      <title>Mysql事务隔离</title>
+      <link>https://inkbambo0.github.io/post/mysql%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB/</link>
+      <pubDate>Tue, 22 Oct 2019 17:14:48 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/mysql%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB/</guid>
+      <description>MySQL事务隔离： 事务的并发问题 　1、脏读：事务A读取了事务B更新的数据，然后B回滚操作，那么A读取到的数据是脏数据。
+　2、不可重复读：事务 A 多次读取同一数据，事务 B 在事务A多次读取的过程中，对数据作了更新并提交，导致事务A多次读取同一数据时，结果 不一致。
+　3、幻读：系统管理员A将数据库中所有学生的成绩从具体分数改为ABCDE等级，但是系统管理员B就在这个时候插入了一条具体分数的记录，当系统管理员A改结束后发现还有一条记录没有改过来，就好像发生了幻觉一样，这就叫幻读。
+隔离级别：    事务隔离级别 脏读 不可重复读 幻读     读未提交（read-uncommitted） √ √ √   读已提交（read-committed） × √ √   可重复读（repeatable-read） × × √   串行化（serializable） × × ×    MySQL默认第三个：repeatable read
+Oracle默认第二个：read commited
+查看当前事务隔离级别：SELECT @@tx_isolation;
+设置当前MySQL链接的隔离级别：
+set session transaction isolation level read committed;
+设置数据库系统的全局隔离级别：
+set global transaction isolation level read committed;</description>
+    </item>
+    
+    <item>
+      <title>Redis</title>
+      <link>https://inkbambo0.github.io/post/redis/</link>
+      <pubDate>Fri, 18 Oct 2019 17:11:30 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/redis/</guid>
+      <description>Redis 概念 redis是一款高性能的NOSQL系列的非关系型数据库
+1.1.什么是NOSQL ​ NoSQL(NoSQL = Not Only SQL)，意即“不仅仅是SQL”，是一项全新的数据库理念，泛指非关系型的数据库。 ​ 随着互联网web2.0网站的兴起，传统的关系数据库在应付web2.0网站，特别是超大规模和高并发的SNS类型的web2.0纯动态网站已经显得力不从心，暴露了很多难以克服的问题，而非关系型的数据库则由于其本身的特点得到了非常迅速的发展。NoSQL数据库的产生就是为了解决大规模数据集合多重数据种类带来的挑战，尤其是大数据应用难题。
+1.1.1. NOSQL和关系型数据库比较  优点：   成本：nosql数据库简单易部署，基本都是开源软件，不需要像使用oracle那样花费大量成本购买使用，相比关系型数据库价格便宜。 查询速度：nosql数据库将数据存储于缓存之中，关系型数据库将数据存储在硬盘中，自然查询速度远不及nosql数据库。 存储数据的格式：nosql的存储格式是key,value形式、文档形式、图片形式等等，所以可以存储基础类型以及对象或者是集合等各种格式，而数据库则只支持基础类型。 4）扩展性：关系型数据库有类似join这样的多表查询机制的限制导致扩展很艰难。   缺点：   维护的工具和资料有限，因为nosql是属于新的技术，不能和关系型数据库10几年的技术同日而语。 不提供对sql的支持，如果不支持sql这样的工业标准，将产生一定用户的学习和使用成本。 不提供关系型数据库对事务的处理。  1.1.2. 非关系型数据库的优势：  性能NOSQL是基于键值对的，可以想象成表中的主键和值的对应关系，而且不需要经过SQL层的解析，所以性能非常高。 可扩展性同样也是因为基于键值对，数据之间没有耦合性，所以非常容易水平扩展。  1.1.3. 关系型数据库的优势：  复杂查询可以用SQL语句方便的在一个表以及多个表之间做非常复杂的数据查询。 事务支持使得对于安全性能很高的数据访问要求得以实现。对于这两类数据库，对方的优势就是自己的弱势，反之亦然。  1.1.4. 总结  关系型数据库与NoSQL数据库并非对立而是互补的关系，即通常情况下使用关系型数据库，在适合使用NoSQL的时候使用NoSQL数据库， 让NoSQL数据库对关系型数据库的不足进行弥补。 一般会将数据存储在关系型数据库中，在nosql数据库中备份存储关系型数据库的数据  1.2.主流的NOSQL产品 ​ • 键值(Key-Value)存储数据库 ​ 相关产品： Tokyo Cabinet/Tyrant、Redis、Voldemort、Berkeley DB ​ 典型应用： 内容缓存，主要用于处理大量数据的高访问负载。 ​ 数据模型： 一系列键值对 ​ 优势： 快速查询 ​ 劣势： 存储的数据缺少结构化 ​ • 列存储数据库 ​ 相关产品：Cassandra, HBase, Riak ​ 典型应用：分布式的文件系统 ​ 数据模型：以列簇式存储，将同一列数据存在一起 ​ 优势：查找速度快，可扩展性强，更容易进行分布式扩展 ​ 劣势：功能相对局限 ​ • 文档型数据库 ​ 相关产品：CouchDB、MongoDB ​ 典型应用：Web应用（与Key-Value类似，Value是结构化的） ​ 数据模型： 一系列键值对 ​ 优势：数据结构要求不严格 ​ 劣势： 查询性能不高，而且缺乏统一的查询语法 ​ • 图形(Graph)数据库 ​ 相关数据库：Neo4J、InfoGrid、Infinite Graph ​ 典型应用：社交网络 ​ 数据模型：图结构 ​ 优势：利用图结构相关算法。 ​ 劣势：需要对整个图做计算才能得出结果，不容易做分布式的集群方案。</description>
+    </item>
+    
+    <item>
+      <title>Java-JUC</title>
+      <link>https://inkbambo0.github.io/post/java-juc/</link>
+      <pubDate>Wed, 16 Oct 2019 09:22:04 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/java-juc/</guid>
+      <description>Java-JUC 什么是进程、线程？ 1、进程： 进程是一个具有一定独立功能的程序关于某个数据集合的一次运行活动。它是操作系统动态执行的基本单元，在传统的操作系统中，进程既是基本分配单元，也是基本执行单元。（一个QQ.exe的运行就是一个进程，word程序进程）。
+2、线程： 通常一个进程中可以包含若干个线程，当然一个进程中至少一个线程，不然没有存在意义。线程可以利用进程所拥有的资源，在引入线程的操作系统中，通常都是把进程作为分配资源的基本单位，而把线程作为独立运行和独立调度的基本单位，由于线程比进程更小，基本上不拥有系统资源，故对它的调度所付出的开销就会小得多，能更高效的提高系统多个程序间并发执行的程度。（QQ中和每个人聊天就是每一个线程，word中检查拼写错误的线程）。
+什么是并发、并行？ 1、并发： 多个线程同一个时间点争取同一个资源。
+2、并行 同一个时间点多个任务同时执行。
+多项工作一起执行，之后再汇总。
+Ticket 实现多线程的方式：  继承Thread类,重写run()方法 实现Runnable接口,实现run()方法 实现Callable接口，实现call()方法 通过线程池创建线程  高内聚高耦合： 高内聚： 空调的制冷和制热，是空调自带的，内聚在空调中的。
+低耦合： 例：前后端分离，互相依赖最小。
+多线程与操作系统有关，多线程不是.start();后立刻启动，而是进入就绪状态，等待操作系统和CPU调用run方法的时候，开始启动。
+Thread.State  NEW：新建 RUNNABLE：就绪，可运行 BLOCKED：阻塞 WAITING：等待，不见不散 TIMED_WAITING：等待，超时不见 TERMINATED：终结  wait：放开锁去睡
+sleep：握着锁去睡
+函数式接口： 只能有一个普通方法，可以有多个defalt方法，多个静态方法，多个Object中的方法。
+线程 -&amp;gt; 操作(对外暴露的方法) -&amp;gt; 资源类 通过Lock接口进行上锁和解锁： public class ThreadDemo02 { public static void main(String[] args) { final Ticket ticket = new Ticket(); // new Thread(new Runnable() { // @Override // public void run() { // for (int i = 0; i &amp;lt; 4000; i ++) { // ticket.</description>
+    </item>
+    
+    <item>
+      <title>SpringAnnotation笔记04-SpringMVC</title>
+      <link>https://inkbambo0.github.io/post/springannotation%E7%AC%94%E8%AE%B004-springmvc/</link>
+      <pubDate>Sun, 13 Oct 2019 21:45:20 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/springannotation%E7%AC%94%E8%AE%B004-springmvc/</guid>
+      <description> SpringAnnotation笔记04-SpringMVC </description>
+    </item>
+    
+    <item>
+      <title>SpringAnnotation笔记03-Servlet30</title>
+      <link>https://inkbambo0.github.io/post/springannotation%E7%AC%94%E8%AE%B003-servlet30/</link>
+      <pubDate>Sun, 13 Oct 2019 21:45:04 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/springannotation%E7%AC%94%E8%AE%B003-servlet30/</guid>
+      <description>SpringAnnotation笔记03-Servlet30 @WebService(&amp;ldquo;/hello&amp;rdquo;) 拦截指定路径名称
+Shared libraries（共享库）/ runtimes pluggability（运行时插件） 1、 前提条件：需要闯将META-INF.services文件夹，并在其中创建名为javax.servlet.ServletContainerInitializer的文件，其内容为需要加载类的全类名com.wang.servelt.MyServletContainerInitializer。然后便会在项目启动时，会加载META-INF.services下的文件，找到对应的类，并加载它。
+@HandlesTypes(value = {HelloService.class})：容器在启动的时候会将@HandlesTypes指定的这个类型下面指定的子类（实现类、子类）传递过来。
+c @HandlesTypes中指定的类型的所有子类 ctx 代表当前Web应用的ServletContxt，一个Web应用一个
+/** * 容器在启动的时候会将@HandlesTypes指定的这个类型 * 下面指定的子类（实现类、子类）传递过来。 */ @HandlesTypes(value = {HelloService.class}) public class MyServletContainerInitializer implements ServletContainerInitializer { /** * 启动时会运行此方法 * * @Date 2019/10/14 9:01 * @param c @HandlesTypes中指定的类型的所有子类 * @param ctx 代表当前Web应用的ServletContxt，一个Web应用一个ServletContext * @return void */ @Override public void onStartup(Set&amp;lt;Class&amp;lt;?&amp;gt;&amp;gt; c, ServletContext ctx) throws ServletException { for (Class&amp;lt;?&amp;gt; cla : c) { System.out.println(cla); } } }  2、注册组件  使用ServletContext注册Web组件（Servlet、Filter、Listener）</description>
+    </item>
+    
+    <item>
+      <title>SpringAnnotation笔记02-AOP</title>
+      <link>https://inkbambo0.github.io/post/springannotation%E7%AC%94%E8%AE%B002-aop/</link>
+      <pubDate>Thu, 10 Oct 2019 14:55:12 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/springannotation%E7%AC%94%E8%AE%B002-aop/</guid>
+      <description>SpringAnnotation笔记02-AOP 环绕通知相关  导入aop所需jar包
+ 定义一个业务逻辑类，定义除法运算方法
+ 定义一个切面类：
+ 前置通知(@Before)：logStart：在目标方法(div)运行之前运行
+ 后置通知(@After)：在目标方法(div)运行结束之后运行（无论方法正常结束还是异常结束）
+ 返回通知(@AfterReturning)：在目标方法(div)正常返回之后运行
+ 异常通知(@AfterThrowing)：在目标方法(div)出现异常以后运行
+ 环绕通知(@Around)：动态代理，手动推进目标方法运行
+  将业务逻辑类和切面类都添加到配置类中
+ 给切面类标注@Aspect注解
+ 在配置类上标注【开启基于注解的aop模式】@EnableAspectJAutoProxy（使用@Aspect注释标记的组件，类似于Spring中xml配置文件中的）
+  切面类：通过JoinPoint joinPoint，Exception exception，Object result等参数获取方法名称、异常、返回值等。
+//告诉容器这个类是一个切面类 @Aspect public class AspectSurrounding { //抽取公共切入点 @Pointcut(&amp;quot;execution(public int com.wang.springannotation.aop.Calculator.*(..))&amp;quot;) public void pointCut() {} //在目标方法之前切入 @Before(&amp;quot;execution(public int com.wang.springannotation.aop.Calculator.*(..))&amp;quot;) // @Before(&amp;quot;pointCut()&amp;quot;) public void brforeLog(JoinPoint joinPoint) { Object[] args = joinPoint.getArgs(); System.out.println(&amp;quot;前置通知...&amp;quot; + joinPoint.getSignature().getName() + &amp;quot;...@Before参数表：&amp;quot; + &amp;quot;{&amp;quot;+args+&amp;quot;}&amp;quot;); } //在目标方法运行结束之后切入（无论正常结束还是异常结束） @After(&amp;quot;com.</description>
+    </item>
+    
+    <item>
+      <title>JVM笔记07-Book01</title>
+      <link>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B007-book01/</link>
+      <pubDate>Mon, 30 Sep 2019 08:31:53 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B007-book01/</guid>
+      <description> JVM笔记07-Book01 </description>
+    </item>
+    
+    <item>
+      <title>SpringAnnotation笔记01-IOC</title>
+      <link>https://inkbambo0.github.io/post/springannotation%E7%AC%94%E8%AE%B001-ioc/</link>
+      <pubDate>Sun, 29 Sep 2019 23:54:18 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/springannotation%E7%AC%94%E8%AE%B001-ioc/</guid>
+      <description>SpringAnnotation笔记01-IOC 注解类 配置文件方式： //配置文件 &amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt; &amp;lt;beans xmlns=&amp;quot;http://www.springframework.org/schema/beans&amp;quot; xmlns:xsi=&amp;quot;http://www.w3.org/2001/XMLSchema-instance&amp;quot; xsi:schemaLocation=&amp;quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&amp;quot;&amp;gt; &amp;lt;bean id=&amp;quot;person&amp;quot; class=&amp;quot;com.wang.bean.Person&amp;quot;&amp;gt; &amp;lt;property name=&amp;quot;name&amp;quot; value=&amp;quot;zhangsan&amp;quot;/&amp;gt; &amp;lt;property name=&amp;quot;age&amp;quot; value=&amp;quot;20&amp;quot;/&amp;gt; &amp;lt;/bean&amp;gt; &amp;lt;/beans&amp;gt; ----------------------------------------------------- ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(&amp;quot;bean.xml&amp;quot;); //配置文件的位置 Person person = (Person) applicationContext.getBean(&amp;quot;person&amp;quot;); System.out.println(person);  配置类方式： @Configuration：告诉spring这是一个配置类。
+@Bean(value = &amp;quot;person&amp;quot;)：给容器中注册一个Bean；类型为返回值类型，id默认使用方法名，还可通过value设置id。
+//告诉spring这是一个配置类 @Configuration public class PersonConfig { //给容器中注册一个Bean；class类型为返回值类型，默认id为方法名 @Bean public Person person () { return new Person(&amp;quot;lisi&amp;quot;, 25); } } AnnotationConfigApplicationContext applicationContext2 = new AnnotationConfigApplicationContext(PersonConfig.class); Person person2 = (Person) applicationContext2.</description>
+    </item>
+    
+    <item>
+      <title>JVM笔记06-Java内存01</title>
+      <link>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B006-java%E5%86%85%E5%AD%9801/</link>
+      <pubDate>Sun, 29 Sep 2019 19:12:52 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B006-java%E5%86%85%E5%AD%9801/</guid>
+      <description>JVM笔记06-Java内存01 栈帧（Stack Frame）：每个方法在执行是都会生成一个与这个方法相关的、独有的栈帧（数据结构），本身存贮操作数栈里的数据、存贮局部变量表、方法的返回地址。
+程序计数器（Program Counter）： 描述线程在执行字节码时，执行完第一行后，下一行的位置。
+本地方法栈：关于native的，Java中有native的方法（不是有Java实现的，而是由C、C++实现的），主要用于处理本地方法。
+堆（Heap）：所创建的绝大多数对象都是位于堆中，jvm中所管理的最大的内存，被所有内存共享（共享区域），jvm创建的时候，堆的内存会从操作系统被申请下来，存放我们所创建的对象实例。
+方法区（Method Area）：存储元信息。永久代（Permanent Generation），从jdk1.8开始，已经彻底废除永久代，使用元空间（meta space）。
+运行时常量池：方法区的一部分内容。编译期间生成class文件的时候，生成的各种字面量、符号引用，这些内容在进行加载完之后，都会进入到方法区的运行时常量池当中进行存放。
+直接内存（Direct Memory）：并不是有JVM世界管理的，而是有操作系统进行管理的</description>
+    </item>
+    
+    <item>
+      <title>JVM笔记05-Java字节码02</title>
+      <link>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B005-java%E5%AD%97%E8%8A%82%E7%A0%8102/</link>
+      <pubDate>Fri, 27 Sep 2019 09:13:21 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B005-java%E5%AD%97%E8%8A%82%E7%A0%8102/</guid>
+      <description>JVM笔记05-Java字节码02  JVM笔记05-Java字节码02  栈帧（stack frame） 符号引用、直接引用 invokevirtual  方法的静态分派： 方法的动态分派：  虚方法（类加载的连接阶段） 基于栈、寄存器的指令集对比  例：栈指令集案例吧！    栈帧（stack frame） 栈帧是一种用于帮助jvm执行方法调用和方法执行的数据结构。
+栈帧本身是一种数据结构，封装了方法的局部变量表、动态链接信息、方法返回地址以及操作数栈等信息。
+slot(变量槽)：存贮局部变量的最小单位。可复用：10个局部变量不一定有10个slot存贮。
+按下面的例子来说：5个局部变量，会有3个slot存贮。
+public void test () { int a = 1; if (a &amp;lt; 5) { int b = 2; int c = 3; } int d = 4; int e = 5; }  符号引用、直接引用  有些符号引用是在类加载阶段或是第一次使用时就会转化为直接引用，这种转换及叫做静态解析；
+ 另外一些符号引用则是在每次运行期转换为直接引用，这种转换叫做动态链接，这体现为Java的多态性。
+  从Java字节码来说，a.sleep()每次调用的都是Animal类的sleep()方法，但会有一个invokevirtual指令会在运行期间检测a真正指向的对象。
+Animal a = new Dog(); a.</description>
+    </item>
+    
+    <item>
+      <title>JVM笔记04-Java字节码01</title>
+      <link>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B004-java%E5%AD%97%E8%8A%82%E7%A0%8101/</link>
+      <pubDate>Mon, 16 Sep 2019 15:48:32 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B004-java%E5%AD%97%E8%8A%82%E7%A0%8101/</guid>
+      <description>JVM笔记04-Java字节码01  JVM笔记04-Java字节码01  Java字节码常量池  Class文件结构常量池中11种数据类型  Java字节码结构 Access_Flag 访问标志 This Clsaa Name Super Class Name Interfaces Fields Method Attributes 助记符（monitorenter、monitorexit）含义 Java字节码默认有一个this对象参数、异常处理方式   CAFEBABE0000003400180A00040014090003001507001607001701000161010001490100063C696E69743E010003282956010004436F646501000F4C696E654E756D6265725461626C650100124C6F63616C5661726961626C655461626C650100047468697301001E4C636F6D2F77616E672F6A766D2F62797465636F64652F44656D6F30313B01000467657441010003282949010004736574410100042849295601000A536F7572636546696C6501000B44656D6F30312E6A6176610C000700080C0005000601001C636F6D2F77616E672F6A766D2F62797465636F64652F44656D6F30310100106A6176612F6C616E672F4F626A65637400210003000400000001000200050006000000030001000700080001000900000038000200010000000A2AB700012A04B50002B100000002000A0000000A00020000000700040008000B0000000C00010000000A000C000D00000001000E000F000100090000002F00010001000000052AB40002AC00000002000A0000000600010000000B000B0000000C000100000005000C000D0000000100100011000100090000003E00020002000000062A1BB50002B100000002000A0000000A00020000000F00050010000B00000016000200000006000C000D00000000000600050006000100010012000000020013  Java字节码常量池  使用javap -verbose命令分析一个字节码文件时，将会分析该字节的魔数、版本号、常量池、类信息、类的构造方法、类中的方法信息、类变量与成员变量等信息。
+ 魔数：所有.class字节码文件的前4个字节都是魔数，魔数为固定值：0xCAFABABE(CA FE BA BE)。
+ 魔数之后的4个字节为版本信息，后两个字节表示major version（主版本号），这里的版本号为00 00 00 34，换算成十进制，表示次版本号为0，主版本为52，所以，该文件的版本号为：1.8.0。可以通过java -version命令来验证这一点。
+ 常量池（constant pool）：紧接着主版本号之后就是常量池入口。一个Java类定义的很多信息都是由常量池来维护和描述的，可以将常量池看作是Class文件的资源仓库，比如说Java类中定义的方法与变量信息，都是存储在常量池中。常量池中主要存储两类常量：字面量和符号引用。
+ 字面量如文本字符，Java中声明为final的常量值等。 符号引用如类和接口的全局限定名，字段的名称和描述符，方法的名称和描述符等。  常量池的总体结构：Java类所对应的常量池主要由常量池数量和常量池数组（常量表）这两部分组成。常量池数量紧跟在主版本后面，占据两个字节；常量池数组则紧跟在常量池数量之后。常量池数组与一般数组不同的是，常量池数组中的元素类型和结构都是不同的；但是，每一个元素的第一个数据都是一个u1类型，该字节是一个标志位，占据1个字节。JVM在解析常量池时，会根据这个u1类型来获取元素的具体类型。值的注意的是，常量池数组中元素个数 = 常量池数（00 18） - 1 （其中0暂时不使用），目的是满足某些常量池索引值的数据在特定情况下需要表达不引用任何一个常量池的含义；根本原因在于，索引为0也是一个常量（保留常量），只不过它不位于常量表中，这个常量就对应null值，所以，常量池的索引从1开始而非0开始。
+  ###Class文件结构常量池中11种数据类型
+ 在JVM规范中，每个变量/字段就对应有描述信息，描述信息主要的作用是描述字段的数据类型、方法的参数列表（包括数量、类型与顺序）与返回值。根据描述符规则，基本数据类型和代表无返回值的void类型都用一个大写字符表示，对象类型则使用字符L加对象的全限定名称来表示，为了压缩字节码文件的体积，对于基本数据类型，JVM都只是用一个大写字母表示，如下表示：B - byte，S - short，I - int，J - long，F - float，D - double，C - char，Z - boolean，V - void，L - 对象类型，如Ljava/lang/String; 对于数组类型来说，每一个维度使用一个前置的[来表示，int[]被记录为[I，String[][]被记录为[[Ljava/lang/String; 用描述符描述方法时，按照先参照列表，后返回值的顺序来描述。参数列表按照参数的严格顺序放在一组()之内，如方法：String getNickname(int id, String name)的描述符为：(I, Ljava/lang/String)Ljava/lang/String;  0A 0004 0014 09 0003 0015 07 0016 07 0017 01 0001 61 01 0001 49 01 0006 3C 69 6E 69 74 3E 01 0003 28 29 56 01 0004 43 6F 64 65 01 000F 4C 69 6E 65 4E 75 6D 62 65 72 54 61 62 6C 65 01 0012 4C 6F 63 61 6C 56 61 72 69 61 62 6C 65 54 61 62 6C 65 01 0004 74 68 69 73 01 001E 4C 63 6F 6D 2F 77 61 6E 67 2F 6A 76 6D 2F 62 79 74 65 63 6F 64 65 2F 44 65 6D 6F 30 31 3B 01 0004 67 65 74 41 01 0003 28 29 49 01 0004 73 65 74 41 01 0004 28 49 29 56 01 000A 53 6F 75 72 63 65 46 69 6C 65 01 000B 44 65 6D 6F 30 31 2E 6A 61 76 61 0C 0007 0008 0C 0005 0006 01 001C 63 6F 6D 2F 77 61 6E 67 2F 6A 76 6D 2F 62 79 74 65 63 6F 64 65 2F 44 65 6D 6F 30 31 01 0010 6A 61 76 61 2F 6C 61 6E 67 2F 4F 62 6A 65 63 74   #1 = Methodref #4.</description>
+    </item>
+    
+    <item>
+      <title>js笔记01</title>
+      <link>https://inkbambo0.github.io/post/js%E7%AC%94%E8%AE%B001/</link>
+      <pubDate>Sun, 15 Sep 2019 10:54:19 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/js%E7%AC%94%E8%AE%B001/</guid>
+      <description> js笔记01 </description>
+    </item>
+    
+    <item>
+      <title>笔记-杂</title>
+      <link>https://inkbambo0.github.io/post/%E6%8A%A5%E9%94%99-%E7%AC%94%E8%AE%B0-%E6%9D%82/</link>
+      <pubDate>Sun, 15 Sep 2019 10:54:19 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/%E6%8A%A5%E9%94%99-%E7%AC%94%E8%AE%B0-%E6%9D%82/</guid>
+      <description>笔记 mysql导入数据库出错 mysql导入备份数据时出错 ERROR 1204(HY000) unkonw MySQL server host。。。
+问题描述： 用mysqldump命令将数据库备份到外部文件，但是用mysql命令行导入备份数据时，出现ERROR 2005(HY000) unkonw MySQL server host…错误
+解决方法： 因为在平时工作中经常使用mysqldump命令导出备份数据，然后用mysql客户端命令行工具中的source命令导入数据，从来没有出过错，唯一的区别是字符集不同，这次要导入的数据库的字符集是utf8，所以就联想到是不是需要为mysql客户端命令行工具指定字符集，在查看了帮助后，用如下命令打开mysql客户端工具mysql -uroot -p –default-character-set=utf8，然后再导入备份数据，一切ok。
+单体开发：在一个项目上推挤所有功能
+微服务：将项目进行拆分，微小的单体模块，之间通过类似rpc远程过程调用，http rest方式调用</description>
+    </item>
+    
+    <item>
+      <title>JVM笔记03-类加载器03</title>
+      <link>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B003-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A803/</link>
+      <pubDate>Tue, 10 Sep 2019 08:14:16 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B003-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A803/</guid>
+      <description>JVM笔记03-类加载器03  JVM笔记03-类加载器03  自定义类加载器在复杂类加载情况下运动分析 类加载器命名空间实战与彻底理解  1. 2.  类加载器实例剖析与疑难点解析  BootstrapClassLoader ExtensionClassLoader  类加载器命名空间深度解析  例1： 例2： 类加载器的双亲委托模型的好处  扩展类加载器和总结  启动类加载器的相关  Launcher源码分析和forName源码分析 线程上下文类加载器的分析与事项（setContextClassLoader();）  例1： 例2：ServiceLoader案例 例3：  jar hell问题   自定义类加载器在复杂类加载情况下运动分析 案例在上一篇
+注释掉clazz.newInstance();就不会实例化MyDog对象，即MyDog的构造方法不会被调用，因此不会实例化MyCat对象，没有对MyCat进行主动使用。但并不代表MyDog没有被加载。
+注释掉clazz.newInstance(): [Loaded com.wang.jvm.custom.MyDog from file:/E:/JavaEE/ClassLoad/out/production/classes/] hashcode: 356573597 没有注释掉clazz.newInstance(): [Loaded com.wang.jvm.custom.MyDog from file:/E:/JavaEE/ClassLoad/out/production/classes/] hashcode: 356573597 invoke dog class constructor!sun.misc.Launcher$AppClassLoader@18b4aac2 [Loaded com.wang.jvm.custom.MyCat from file:/E:/JavaEE/ClassLoad/out/production/classes/] invoke cat class constructor!sun.misc.Launcher$AppClassLoader@18b4aac2  MyClassLoader loader = new MyClassLoader(&amp;quot;loader&amp;quot;); Class&amp;lt;?</description>
+    </item>
+    
+    <item>
+      <title>DataStructure02-ArrayQueue</title>
+      <link>https://inkbambo0.github.io/post/datastructure02-arrayqueue/</link>
+      <pubDate>Wed, 04 Sep 2019 08:14:13 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/datastructure02-arrayqueue/</guid>
+      <description>DataStructure02-ArrayQueue（使用数组模拟队列） 在ArrayQueue类中，定义数组队列中的方法 class ArrayQueue { private int maxSize; //数组最大容量 private int front; //队列头 private int rear; //队列尾 private int[] arr; //该数据用于存放数据，模拟队列 public ArrayQueue(int maxSize) { this.maxSize = maxSize; //指定队列最大值 arr = new int[this.maxSize]; //指定存放数据的数组的大小 front = -1; //指向队列头部，指向队列头的前一个位置 rear = -1; //指向队列尾，指向队列尾的数据，即最后一个数据 } //判断队列是否满 public boolean isFull() { return rear == maxSize; } //判断队列是否为空 public boolean isEmpty() { return front == rear; } //添加数据到队列 public void add (int value) { //队列是否满 if(isFull()){ System.</description>
+    </item>
+    
+    <item>
+      <title>DataStructure01-SparseArray</title>
+      <link>https://inkbambo0.github.io/post/datastructure01-sparsearray/</link>
+      <pubDate>Tue, 03 Sep 2019 21:01:19 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/datastructure01-sparsearray/</guid>
+      <description>DataStructure01-SparseArray 原始数组: 创建的放置棋子的数组棋盘
+//定义棋盘数组 int[][] arr = new int[11][11]; //定义总棋子个数 int sum = 0; //赋值 //0表示无子，1表示黑子，2表示白子 arr[1][0] = 1; arr[2][1] = 2; arr[3][2] = 2; //循环遍历 for (int i = 0; i &amp;lt; arr.length; i ++) { for (int j = 0; j &amp;lt; arr[0].length; j ++) { System.out.print(arr[i][j] + &amp;quot;\t&amp;quot;); //System.out.printf(&amp;quot;%d\t&amp;quot;, arr[i][j]); //判断是否是棋子，是就将sum++ if (arr[i][j] != 0) { sum ++; } } System.out.println(); } System.out.println(&amp;quot;总数：&amp;quot; + sum);  稀疏数组: 将普通二维数组转化为稀疏数组</description>
+    </item>
+    
+    <item>
+      <title>JVM笔记02 类加载器02</title>
+      <link>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B002-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A802/</link>
+      <pubDate>Tue, 03 Sep 2019 20:56:20 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B002-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A802/</guid>
+      <description>类加载  类加载过程 类的加载  有两种类型的类加载器 类加载器并不需要等到某个类被“首次主动使用”是再加载它。  连接  类的连接 类的准备  类的初始化  类的初始化步骤 类初始化的时机  类加载器的加载、加载器种类及类加载器的关系 类加载器的双亲委托机制  案例：  双亲委托机制案例： ClassLoader源码 自定义类加载器 引入命名空间 命名空间 类的卸载  案例：    类加载 类加载过程 类的加载  类的加载的最终产品是位于内存中的Class对象 Class对象封装了类在方法区内的数据结构，并且向Java程序员提供了访问方法区内的数据结构的接口。  有两种类型的类加载器  Java虚拟机自带的加载器  根类加载器（启动类加载器）（BootStrap） 扩展类加载器（Extension） 系统（应用）类加载器（System / App）  用户自定义的类加载器  一定是java.lang.ClassLoader（抽象类）的子类 用户可以定制类的加载方式   类加载器并不需要等到某个类被“首次主动使用”是再加载它。  JVM规范允许类加载器在预料某个类将要被使用时就加载它，如果在预知加载过程中遇到了.class文件缺失或存在错误，类加载器必须在程序首次主动使用该类是才报告错误（LinkageError错误） 如果这个类一直没有被程序主动使用，那么来加载器就不会报告错误。  连接 类的连接  类被加载后，就进入连接阶段。连接就是将已经读入到内存中的二进制数据合并到虚拟机的运行时环境中去。
+ 类的验证的内容（主要部分）：</description>
+    </item>
+    
+    <item>
+      <title>Jdk8-10-Stream笔记02</title>
+      <link>https://inkbambo0.github.io/post/jdk8-10-stream%E7%AC%94%E8%AE%B002/</link>
+      <pubDate>Tue, 03 Sep 2019 09:26:35 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jdk8-10-stream%E7%AC%94%E8%AE%B002/</guid>
+      <description>Stream笔记02 1. 添加数据到List集合中：
+Student s1 = new Student(&amp;quot;zhangsan&amp;quot;, 80); Student s2 = new Student(&amp;quot;lisi&amp;quot;, 90); Student s3 = new Student(&amp;quot;wangwu&amp;quot;, 100); Student s4 = new Student(&amp;quot;zhaoliu&amp;quot;, 90); Student s5 = new Student(&amp;quot;zhaoliu&amp;quot;, 50); List&amp;lt;Student&amp;gt; students = Arrays.asList(s1, s2, s3, s4, s5);  分数最小值的学生：
+students.stream(). // min(Comparator.comparingInt(student -&amp;gt; student.getScore())).ifPresent(System.out::println); collect(Collectors.minBy( Comparator.comparingInt(student -&amp;gt; student.getScore()) )).ifPresent(System.out::println); 结果： Student(name=zhaoliu, score=50)  获得分数最大值的学生：
+students.stream(). collect(Collectors.maxBy( Comparator.comparingInt(student -&amp;gt; student.getScore()) )).ifPresent(System.out::println); 结果： Student(name=wangwu, score=100)  平均分：</description>
+    </item>
+    
+    <item>
+      <title>Jdk8-09-Method Reference</title>
+      <link>https://inkbambo0.github.io/post/jdk8-09-method-reference/</link>
+      <pubDate>Mon, 02 Sep 2019 23:31:04 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jdk8-09-method-reference/</guid>
+      <description>method reference Student类：
+class Student { private String name; private int score; public static int compareStudentByName1(Student s1, Student s2) { return s1.getName().compareTo(s2.getName()); } public static int compareStudentByScore1(Student s1, Student s2) { return s1.getScore() - s2.getScore(); } public static int compareStudentByName2(Student s1, Student s2) { return s1.getName().compareTo(s2.getName()); } public static int compareStudentByScore2(Student s1, Student s2) { return s1.getScore() - s2.getScore(); } }  Student1类：
+class Student1 { public int compareStudentByName(Student s1, Student s2) { return s1.</description>
+    </item>
+    
+    <item>
+      <title>JVM笔记01-类加载器01</title>
+      <link>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B001-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A801/</link>
+      <pubDate>Sun, 25 Aug 2019 11:36:56 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B001-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A801/</guid>
+      <description>类加载器、类的加载连接与初始化  类加载器、类的加载连接与初始化  类加载 类加载器 类的加载、连接与初始化 类的使用和卸载 Java虚拟机对类的使用方式 案例： 类的加载 JVM参数 关于public static final String str = &amp;ldquo;hello&amp;rdquo;;  反编译  助记符： 数组实例 父子接口 案例：关于初始化过程的代码   所有的类一定是由类加载器加载的，但数组例外，数组是由jvm加载的
+类加载 定义：在Java代码中，类型的加载、连接与初始化过程都是在程序运行期间完成的。
+类型：可以理解为class；这里指的是定义的class、interface、枚举，不存在对象的概念。表示类本身，并不表示对象。
+类型的加载：将已经存在的字节码文件从硬盘上加载到内存中。 连接：将类与类之间的关系固定好，对于字节码的一些相关处理，验证、准备、解析都是在此阶段完成的。
+初始化：赋值
+类加载器 加载类的工具
+以下情况，Java虚拟机会结束生命周期： - 执行了System.exit(); - 程序正常结束。 - 程序在执行过程中遇到了异常或错误而异常终止。 - 由于操作系统出现错误而导致Java虚拟机进程终止。
+类的加载、连接与初始化  加载：查找并加载类的二进制数据（加载类的class文件加载进内存） 连接  验证：确保被加载的类的正确性。（使得class文件时按照jvm的规范进行的） 准备：为类的静态变量分配内存，并将其初始化为默认值。  class test { &amp;emsp;&amp;emsp;private static int a = 1; } 先加载test类，然后将变量a设置为int类型的默认值0。  解析：将符号引用转换为直接引用。  符号引用：通过符号的表示，一个类中的方法通过符号引用另一个类所需的目标。 直接引用：直接将这个方法通过指针指向所需要用的目标的对象的内存中的位置。   初始化：为类的静态变量赋予正确的初始值（a = 1) 类的实例化：  为新的对象分配内存 为实例变量赋默认值 为实例变量赋正确的初始值 java编译器为它编译的每个类都至少生成一个实例初始化方法（构造器），在java的class文件中，这个实例初始化方法被称为&amp;rdquo;&amp;lt;init&amp;gt;&amp;ldquo;（静态变量是&amp;rdquo;&amp;lt;clinit&amp;gt;&amp;ldquo;）；针对源代码中每个类的构造方法，java编译器都产生一个&amp;lt;init&amp;gt;方法。 ===================== 另一种对象创建过程：类加载检查 - 分配内存 - 初始化零值 - 设置对象头 - 执行init方法  垃圾回收和对象终结  类的使用和卸载  使用：用类创建对象、调用方法。 卸载：class字节码文件加载到内存中，形成自己的数据结构，驻留在内存中，还可以被销毁。  Java虚拟机对类的使用方式 所有的Java虚拟机实现必须在每个类或接口 被Java程序首次主动使用时才初始化它们。</description>
+    </item>
+    
+    <item>
+      <title>Git笔记15-git rebase原理深度剖析</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B015-git-rebase%E5%8E%9F%E7%90%86%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/</link>
+      <pubDate>Sun, 18 Aug 2019 22:54:00 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B015-git-rebase%E5%8E%9F%E7%90%86%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/</guid>
+      <description>Git笔记15-git rebase原理深度剖析 rebase： 变基、衍合</description>
+    </item>
+    
+    <item>
+      <title>Git笔记14-git cherry-pick</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B014-git-cherry-pick/</link>
+      <pubDate>Sat, 17 Aug 2019 18:37:56 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B014-git-cherry-pick/</guid>
+      <description>Git笔记14-git cherry-pick git cherry-pick git cherry-pick：错误的在dev分支比master分支比多两个提交
+master: commit 04f05f3a7076f38ccacb5cd544727d108599ff39 (HEAD -&amp;gt; master) Author: zhangsan &amp;lt;zhangsan@git.com&amp;gt; Date: Sun Aug 18 22:41:08 2019 +0800 initial commit ============================================== dev: commit a84738c41b782e33e00fd6491e0e7e523bd18c97 (HEAD -&amp;gt; dev) Author: zhangsan &amp;lt;zhangsan@git.com&amp;gt; Date: Sun Aug 18 22:42:35 2019 +0800 add hello3 commit c5ea82c4dde3277efa9b4640131681f0ce7f1f04 Author: zhangsan &amp;lt;zhangsan@git.com&amp;gt; Date: Sun Aug 18 22:42:03 2019 +0800 add hello2 commit 04f05f3a7076f38ccacb5cd544727d108599ff39 (master) Author: zhangsan &amp;lt;zhangsan@git.com&amp;gt; Date: Sun Aug 18 22:41:08 2019 +0800 initial commit  在master上使用git cherry-pick c5ea82可将在dev分支上提交到的所有信息在当前master上再次执行，但不能跳过执行，不能直接执行git cherry-pick a84738，会报冲突错误，需手动排除冲突</description>
+    </item>
+    
+    <item>
+      <title>Git笔记13-Git Subtree</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B013-git-subtree/</link>
+      <pubDate>Sat, 17 Aug 2019 09:08:49 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B013-git-subtree/</guid>
+      <description>Git笔记13-Git Subtree git subtree:
+添加远程项目设置别名subtree-origin：
+&amp;gt; git reomte add subtree-origin git@github.com:Mr-WangG/git_subtree_child.git
+从subtree-origin的master中克隆项目，
+-squash：将所需要依赖的所有分支的所有提交合并为一个提交，这个提交再与当前subtree-origin分支合并又发生一次提交(&amp;ndash;prefix=subtree / &amp;ndash;prefix subtree / -P subtree)
+&amp;gt; git subtree add &amp;ndash;prefix=subtree subtree-origin master (-squash)
+从subtree-origin拉取到subtree中：
+&amp;gt; git subtree pull &amp;ndash;prefix=subtree subtree-origin master
+在git_subtree_parent中，使用***可将依赖的项目进行修改并push到git_subtree_parent和git_subtree_child中，直接进行修改：
+&amp;gt; git subtree push &amp;ndash;prefix=subtree subtree-origin master
+出现一下错误：可以采用以下方法，能解决部分
+error: failed to push some refs to &#39;git@github.com:Mr-WangG/git_subtree_child.git&#39; hint: hint: ***  git pull origin master git pull --rebase origin master git push --set-upstream origin master  原因是远程与本地不一致导致的 使用git pull &amp;ndash;rebase origin master: 意思是将远程更新到合并到本地中，&amp;ndash;rebase作用是取消本地中刚刚的commit，并临时保存到.</description>
+    </item>
+    
+    <item>
+      <title>Jdk8-Collector</title>
+      <link>https://inkbambo0.github.io/post/jdk8-collector/</link>
+      <pubDate>Fri, 16 Aug 2019 17:35:01 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jdk8-collector/</guid>
+      <description>Jdk8-Collector collect: 收集器
+Collector作为collect方法的参数
+Collector是一个接口，是一个可变的汇聚操作，该操作将输入元素累积到一个可变的结果容器中（例：ArrayList可变，其中的元素是可以增加的），可选的将累计的结果转换为一个最终的表示形式，在所有元素处理完毕之后。支持串行合并行两种方式执行。
+汇聚操作：将元素累积到Collection中，使用StringBuilder，计算关于sum、min、max或average等元素的汇总信息，计算“数据透视表”摘要（如“卖方最大成交金额”等）。Collectors提供了许多常见的可变汇聚的实现。Collectors本身实际上是一个工厂。
+Collector有四个函数指定，将条目累积到一个可变的结果容器中，并且可选的对结果进行最终的转换：
+Collector&amp;lt;T, A, R&amp;gt; T: 流中每一个元素的类型。
+A: 中间生成的结果容器的类型，例：ArrayList类型。
+R: 汇聚操作单结果类型。
+Supplier&amp;lt;A&amp;gt; supplier()：创建并返回一个新的结果容器。 BiConsumer&amp;lt;A, T&amp;gt; accumulator()：将一个新的数据元素（流中的每个元素）折叠到可变结果容器当中。 BinaryOperator&amp;lt;A&amp;gt; combiner()： 1.将两个结果容器合并为一个。 2.接受两个部分结果并将其合并的函数。组合器函数可以将状态从一个参数折叠到另一个参数并返回该参数（集合A，B，将B全部放到A中），或者返回一个新的结果容器（集合A，B，将A、B放到新的集合C中）。 BinaryOperator&amp;lt;A&amp;gt; combiner()：从中间积累类型执行最后的转换到最终结果类型 Function&amp;lt;A, R&amp;gt; finisher()：操作A（结果容器），返回R。  为了确保串行与并行操作结果的等价性，Collector函数需要满足的两个条件：identity（同一性）与associativity（结合性）。
+同一性
+{@code a} must be equivalent to {@code combiner.apply(a, supplier.get())}.   a == combiner.applu(a, supplier.get());
+ 相当于：
+ combiner == (List list1, List list2) -&amp;gt; {list1.addAll(list2), return list1;}
+ 结合性
+串行：调用BiConsumer的双参，无返回指的accept()方法，将输入元素t1，t2放到a1中，最后强转给r1。
+A a1 = supplier.get(); accumulator.accept(a1, t1); accumulator.</description>
+    </item>
+    
+    <item>
+      <title>Git笔记12-Git裸库与submodule</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B012-git%E8%A3%B8%E5%BA%93%E4%B8%8Esubmodule/</link>
+      <pubDate>Thu, 15 Aug 2019 01:48:11 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B012-git%E8%A3%B8%E5%BA%93%E4%B8%8Esubmodule/</guid>
+      <description>Git笔记12-Git裸库与submodule git裸库 没有工作区的工作仓库
+mkdir git-bare &amp;amp;&amp;amp; cd git_bare git init -bare
+submodule 将依赖的项目添加到本项目中：
+&amp;gt; git submodule add git@github.com:Mr-WangG/git_child.git mymodule
+进入mymodule目录中使用git pull更新来过来的单个项目
+将所有依赖的项目更新：git submodule foreach git pull
+clone - 克隆父项目不会将依赖的项目clone，mymodule目录中是空的，需要手动clone git clone git@github.com:Mr-WangG/git_parent.git git_par git submodule init
+git submodule update &amp;ndash;recursive
+
+ 克隆父项目时，会将依赖的项目一起克隆下来 git clone git@github.com:Mr-WangG/git_parent.git git_par &amp;ndash;recursive  delete 将mymodule从暂存区删除：
+git rm &amp;ndash;cached mymodule
+将mymodule从工作区删除：
+rm -rf mymodule
+git add . git commit -m &amp;ldquo;remove submodule&amp;rdquo;
+git push</description>
+    </item>
+    
+    <item>
+      <title>Git笔记11-git refspec、远程标签与git gc</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B011-git-refspec%E8%BF%9C%E7%A8%8B%E6%A0%87%E7%AD%BE%E4%B8%8Egit-gc/</link>
+      <pubDate>Wed, 14 Aug 2019 21:35:48 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B011-git-refspec%E8%BF%9C%E7%A8%8B%E6%A0%87%E7%AD%BE%E4%B8%8Egit-gc/</guid>
+      <description>Git笔记11-git refspec、远程标签与git gc git refspec: 将本地的分支推送到远程的那个分支上。
+git push 完整写法：src本地分支名称，dest远程分支名称
+git push origin src:dest
+git pull 完整写法：src远程分支名称，dest本地分支名称
+git push origin src:dest
+一、git refspec 1、HEAD HEAD: 指向当前分支所在的引用标志符 查看HEAD：git symbolic-ref HEAD
+修改HEAD：git symbolic-ref HEAD refs/heads/develop
+2、ORIG_HEAD ORIG_HEAD: 远程最新的commit_id
+3、FETCH_HEAD FETCH_HEAD: 拉取下来后，最新的commit_id
+二、远程标签 查看标签：git show v1.0
+推送标签：git push origin v1.0 (批量)：git push origin v1.0 v2.0 未推送全部推送：git push origin &amp;ndash;tags 完整写法：git push origin refs/tags/v1.0:refs/tags/v1.0
+拉取所有：git pull 拉取一个：git fetch origin tag v7.0
+删除标签远程(git pull本地却不能体现)：
+git push origin :refs/tags/v1.</description>
+    </item>
+    
+    <item>
+      <title>Git笔记10-Git远程分支、别名、gitk与git gui</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B010-git%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%88%AB%E5%90%8Dgitk%E4%B8%8Egit-gui/</link>
+      <pubDate>Wed, 14 Aug 2019 00:38:46 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B010-git%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%88%AB%E5%90%8Dgitk%E4%B8%8Egit-gui/</guid>
+      <description>Git笔记10-Git远程分支、别名、gitk与git gui 别名设置：
+- 内部命令
+&amp;gt; git config &amp;ndash;global alias.br branch - 外部命令(需要加!)
+&amp;gt; git config &amp;ndash;global alias.ui &amp;lsquo;!gitk&amp;rsquo;
+1、非master分支(develop test)推送： 在非master向远程推送：
+Mr.Wang@Mr-Wang MINGW64 /e/Desk/desk/gitTest (develop) $ git push fatal: The current branch develop has no upstream branch. To push the current branch and set the remote as upstream, use git push --set-upstream origin develop  执行git push --set-upstream origin develop(或 git push -u origin develop)
+$ git push --set-upstream origin develop Total 0 (delta 0), reused 0 (delta 0) remote: remote: Create a pull request for &#39;develop&#39; on GitHub by visiting: remote: https://github.</description>
+    </item>
+    
+    <item>
+      <title>Git笔记09-Git分支最佳实践</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B009-git%E5%88%86%E6%94%AF%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</link>
+      <pubDate>Tue, 13 Aug 2019 22:01:17 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B009-git%E5%88%86%E6%94%AF%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</guid>
+      <description>Git笔记09-Git分支最佳实践 git add的三个作用：
+- 刚创建的未追踪的文件加入到追踪列表当中
+- 将已经追踪并修改的文件纳入到暂存区（缓存区）
+- 文件出现冲突，解决冲突后，add告知冲突已被解决
+vim编辑下：
+- dd删除一行 - 2,4d: 删除2到3行
+一、修改冲突问题： 第一个用户修改commit，push后，第二个用户再次修改commit，push：
+$ git push To github.com:Mr-WangG/gitTest.git ! [rejected] master -&amp;gt; master (fetch first) error: failed to push some refs to &#39;git@github.com:Mr-WangG/gitTest.git&#39; hint: Updates were rejected because the remote contains work that you do hint: not have locally. This is usually caused by another repository pushing hint: to the same ref. You may want to first integrate the remote changes hint: (e.</description>
+    </item>
+    
+    <item>
+      <title>Git笔记08-Git协作和Git远程协作模型</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B008-git%E5%8D%8F%E4%BD%9C%E5%92%8Cgit%E8%BF%9C%E7%A8%8B%E5%8D%8F%E4%BD%9C%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Tue, 13 Aug 2019 09:49:31 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B008-git%E5%8D%8F%E4%BD%9C%E5%92%8Cgit%E8%BF%9C%E7%A8%8B%E5%8D%8F%E4%BD%9C%E6%A8%A1%E5%9E%8B/</guid>
+      <description>Git笔记08-Git协作和Git远程协作模型 第一部分 查看所有分支：
+$ git branch -a * master remotes/origin/master  查看所有远程分支：
+$ git branch -r origin/master  查看所有分支最后一次提交：
+$ git branch -av * master 01c84c4 commit remotes/origin/master 01c84c4 commit  再进行一次提交后，执行git branch -av，master比origin/master多一次提交：
+$ git branch -av * master 9794ba4 [ahead 1] commit remotes/origin/master 01c84c4 commit  执行git push，执行了两件事，将master推送到远程，origin/master的当前提交指向master的提交。
+第二部分 执行git pull将本地从远程Updating 9794ba4..906f1df（快进）：
+$ git pull remote: Enumerating objects: 5, done. remote: Counting objects: 100% (5/5), done. remote: Compressing objects: 100% (2/2), done.</description>
+    </item>
+    
+    <item>
+      <title>Git笔记07-git远程、GitHub和公私钥</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B007-git%E8%BF%9C%E7%A8%8Bgithub%E5%92%8C%E5%85%AC%E7%A7%81%E9%92%A5/</link>
+      <pubDate>Mon, 12 Aug 2019 22:56:37 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B007-git%E8%BF%9C%E7%A8%8Bgithub%E5%92%8C%E5%85%AC%E7%A7%81%E9%92%A5/</guid>
+      <description>Git笔记07-git远程、GitHub和公私钥 添加到远程，别名为origin的https://github.com/Mr-WangG/gitTest.git：
+git remote add origin https://github.com/Mr-WangG/gitTest.git
+将master推送到origin并建立联系：
+git push -u origin master
+所有远程仓库的别名：
+git remote show
+显示具体的远程仓库信息：
+git remote show origin
+$ git remote show origin * remote origin Fetch URL: https://github.com/Mr-WangG/gitTest.git Push URL: https://github.com/Mr-WangG/gitTest.git HEAD branch: master Remote branch: master tracked Local branch configured for &#39;git pull&#39;: master merges with remote master Local ref configured for &#39;git push&#39;: master pushes to master (up to date)  公钥、私钥：</description>
+    </item>
+    
+    <item>
+      <title>Git笔记06-标签与diff</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B006-%E6%A0%87%E7%AD%BE%E4%B8%8Ediff/</link>
+      <pubDate>Sun, 11 Aug 2019 18:09:07 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B006-%E6%A0%87%E7%AD%BE%E4%B8%8Ediff/</guid>
+      <description>Git笔记06-标签与diff 标签：不区别分支
+git tag v1.0
+git tag -a v2.0 -m &amp;ldquo;2.0 released&amp;rdquo;
+查看：
+git tag
+git show v1.0 精确查找：
+git tag -l &amp;ldquo;v2.0&amp;rdquo;
+模糊查找：
+git tag -l &amp;ldquo;*2&amp;rdquo;
+删除：
+git tag -d v1.0
+文件上一次修改人的信息：
+git blame
+Linux中的diff：
+diff a b
+diff -u a b
+git中的diff：
+ 暂存区与工作区的区别(原始文件：暂存区 目标文件：工作区)：
+git diff
+$ git diff warning: LF will be replaced by CRLF in test.txt. The file will have its original line endings in your working directory diff --git a/test.</description>
+    </item>
+    
+    <item>
+      <title>Git笔记05-checkout进阶与stash</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B005-checkout%E8%BF%9B%E9%98%B6%E4%B8%8Estash/</link>
+      <pubDate>Sat, 10 Aug 2019 16:02:24 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B005-checkout%E8%BF%9B%E9%98%B6%E4%B8%8Estash/</guid>
+      <description>Git笔记05-checkout进阶与stash checkout 创建并切换到3fs345（临时名称、分支）提交的分支：
+&amp;gt; git checkout 3fs345
+创建mycommit分支并指向3fs345：
+&amp;gt; git branch mycommit 3fs345
+分支重命名：
+&amp;gt; git branch -m master master2
+stash 临时存储： &amp;gt; git stash
+添加说明：
+&amp;gt; git stash save &amp;ldquo;commit&amp;rdquo;
+查看：stash@{0}表示最新
+&amp;gt; git stash list
+恢复并删除当前stash：
+&amp;gt; git stash pop
+恢复不删除当前stash：
+&amp;gt; git stash apply
+手动删除：
+&amp;gt; git stash drop stash@{0}
+指定恢复之前stash的内容：
+&amp;gt; git stash apply stash@{0}</description>
+    </item>
+    
+    <item>
+      <title>Jdk8-08-Stream笔记01</title>
+      <link>https://inkbambo0.github.io/post/jdk8-08-stream%E7%AC%94%E8%AE%B001/</link>
+      <pubDate>Sat, 10 Aug 2019 10:14:41 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jdk8-08-stream%E7%AC%94%E8%AE%B001/</guid>
+      <description>Stream笔记01  Stream笔记01  例1：过滤name、age (直接采用Stream -&amp;gt; 通过BiFunction调用apply方法 -&amp;gt; 直接传递行为) 例2：将List集合中的字符串转换为大写 例3：Optional reduce(BinaryOperator accumulator)的使用和数组、List与Stream之间的转换 例4：range、rangeClose的使用 例5：T reduce(T identity, BinaryOperator accumulator)的使用 例6：Stream类中toArray、collect（函数式接口）、toSet无序输出、TreeSet自然排序和joining字符串拼接 例7：map和flatMap的使用 例8：generate、iterate-limit、使用具体方法mapToInt、summaryStatistics和顺逆序排列 例9：串行流和并行流 例10：打印第一个长度为5的字符串的长度 例11：flatMap 例12：互相打招呼（flatMap和map的结合使用） 例13：分组(groupingBy)和分区(partitioningBy)   例1：过滤name、age (直接采用Stream -&amp;gt; 通过BiFunction调用apply方法 -&amp;gt; 直接传递行为) 定义Person类，并进行赋值：
+ Person person1 = new Person(&amp;quot;张三&amp;quot;, 20); Person person2 = new Person(&amp;quot;李四&amp;quot;, 30); Person person3 = new Person(&amp;quot;王五&amp;quot;, 40); List&amp;lt;Person&amp;gt; persons = new ArrayList&amp;lt;&amp;gt;(); persons.add(person1); persons.add(person2); persons.add(person3);  创建PersonTest对象：
+ PersonTest personTest = new PersonTest();</description>
+    </item>
+    
+    <item>
+      <title>Jdk8-07-BinaryOperator</title>
+      <link>https://inkbambo0.github.io/post/jdk8-07-binaryoperator/</link>
+      <pubDate>Sat, 10 Aug 2019 09:57:17 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jdk8-07-binaryoperator/</guid>
+      <description>BinaryOperator BinaryOperator：是一个继承了BiFunction的接口，本身有两个比较大小的方法。minBy(); 和 maxBy();
+ BinaryOperatorTest binaryOperatorTest = new BinaryOperatorTest();
+&amp;lt;T&amp;gt; BinaryOperator minBy(Comparator&amp;lt;? super T&amp;gt; comparator)
+ 四则运算
+BinaryOperator&amp;lt;Integer&amp;gt; binaryOperator = (value1, value2) -&amp;gt; value1 * value2; //封装在方法中，传参 System.out.println(binaryOperatorTest.operatorFun(3, 4, binaryOperator)); //直接调用apply方法调用 System.out.println(binaryOperator.apply(3, 4)); //四则运算 public Integer operatorFun(int a, int b, BinaryOperator&amp;lt;Integer&amp;gt; binaryOperator){ return binaryOperator.apply(a, b); } 答案：12，12  大小比较：第三个参数传一个lambda，比较长度还是大小，写对应的lambda
+System.out.println(binaryOperatorTest.operatorFunMin(&amp;quot;abbbbbb&amp;quot;, &amp;quot;bbb&amp;quot;, (value1, value2) -&amp;gt; value1.compareTo(value2))); System.out.println(binaryOperatorTest.operatorFunMin(&amp;quot;abbbbbb&amp;quot;, &amp;quot;bbb&amp;quot;, (value1, value2) -&amp;gt; value1.length() - value2.length())); public String operatorFunMin(String a, String b, Comparator&amp;lt;String&amp;gt; comparator){ return BinaryOperator.</description>
+    </item>
+    
+    <item>
+      <title>Jdk8-02-Consumer</title>
+      <link>https://inkbambo0.github.io/post/jdk8-02-consumer/</link>
+      <pubDate>Fri, 09 Aug 2019 11:10:57 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jdk8-02-consumer/</guid>
+      <description> Consumer Consumer：接收一个参数，无返回值。
+List&amp;lt;String&amp;gt; list = Arrays.asList(&amp;quot;a&amp;quot;, &amp;quot;b&amp;quot;, &amp;quot;c&amp;quot;, &amp;quot;d&amp;quot;, &amp;quot;e&amp;quot;); Consumer&amp;lt;String&amp;gt; consumer = item -&amp;gt; System.out.println(item); list.forEach(consumer);  </description>
+    </item>
+    
+    <item>
+      <title>Jdk8-04-Optional</title>
+      <link>https://inkbambo0.github.io/post/jdk8-04-optional/</link>
+      <pubDate>Fri, 09 Aug 2019 11:10:02 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jdk8-04-optional/</guid>
+      <description>Optional Optional：主要解决空指针异常。使用of()、ofNullable()创建包含值的optional。
+of()：传入null，会报空指针异常。 ofNullable()：可以穿null，不会报异常。
+ Optional optional = Optional.ofNullable(&amp;ldquo;hello&amp;rdquo;);
+ 使用isPresent方法判断optional是否为空，和传统做法差不多，不推荐使用。
+if(optional.isPresent()) { System.out.println(optional.get()); }  推荐使用此种方法
+optional.ifPresent(item -&amp;gt; System.out.println(item));  orElse：如果optional中有值，返回该值，否则返回orElse中的值。
+orElseGet：如果optional中有值，返回该值，它会执行作为参数传入Supplier函数式接口，并返回结果。
+System.out.println(optional.orElse(&amp;quot;world&amp;quot;)); System.out.println(optional.orElseGet(() -&amp;gt; &amp;quot;hahaha&amp;quot;));  雇员和公司类：
+@Data @AllArgsConstructor class Employee{ private String name; } @Data @AllArgsConstructor class Company{ private String name; private List&amp;lt;Employee&amp;gt; employees; public Company(String name) { this.name = name; } }  传统方法 &amp;ndash;&amp;gt; 判断Company中的employee是否有值
+Employee emp1 = new Employee(&amp;quot;zhangsan&amp;quot;); Employee emp2 = new Employee(&amp;quot;lisi&amp;quot;); Company c = new Company(&amp;quot;haha&amp;quot;); //员工集合 List&amp;lt;Employee&amp;gt; employees = Arrays.</description>
+    </item>
+    
+    <item>
+      <title>Jdk8-05-Predicate</title>
+      <link>https://inkbambo0.github.io/post/jdk8-05-predicate/</link>
+      <pubDate>Fri, 09 Aug 2019 11:09:49 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jdk8-05-predicate/</guid>
+      <description>Predicate Predicate：接收一个输入参数，返回一个Boolean值。
+包括一个返回值是Boolean的test方法、三个默认方法和一个静态isEqual()。
+test里是输入参数：
+Predicate&amp;lt;String&amp;gt; predicate = P -&amp;gt; P.length() &amp;gt; 5; System.out.println(predicate.test(&amp;quot;Hello World!&amp;quot;));  Predicate中的静态方法isEqual：
+System.out.println(Predicate.isEqual(&amp;quot;test&amp;quot;).test(&amp;quot;tes7t&amp;quot;));  and, or和negate使用在filter中：
+List&amp;lt;Integer&amp;gt; list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10); Predicate&amp;lt;Integer&amp;gt; p1 = i -&amp;gt; i &amp;gt; 2; Predicate&amp;lt;Integer&amp;gt; p2 = i -&amp;gt; i &amp;lt; 8; Predicate&amp;lt;Integer&amp;gt; p3 = i -&amp;gt; i % 2 != 0; list.stream().filter(p1.and(p2).and(p3.negate())).collect(Collectors.toList()).forEach(System.out::println);  答案是：偶数 &amp;ndash; 4, 6</description>
+    </item>
+    
+    <item>
+      <title>Jdk8-06-Supplier</title>
+      <link>https://inkbambo0.github.io/post/jdk8-06-supplier/</link>
+      <pubDate>Fri, 09 Aug 2019 11:09:35 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jdk8-06-supplier/</guid>
+      <description> Supplier Supplier：不接受参数，返回结果，用来创建对象。
+Supplier是个接口，有一个get()方法，创建完对象后，如要调用需要先调用自身的get()。
+Student类：
+@Data @NoArgsConstructor class Student{ private String name = &amp;quot;张三&amp;quot;; }  使用内部类：
+Supplier&amp;lt;Student&amp;gt; supplier = new Supplier&amp;lt;Student&amp;gt;() { @Override public Student get() { return new Student(); } }; System.out.println(supplier.get().getName());  使用Lambda表达式：
+supplier = () -&amp;gt; new Student(); System.out.println(supplier.get().getName());  使用方法引用：
+supplier = Student::new; System.out.println(supplier.get().getName());  </description>
+    </item>
+    
+    <item>
+      <title>Jdk8-03-Function</title>
+      <link>https://inkbambo0.github.io/post/jdk8-03-function/</link>
+      <pubDate>Fri, 09 Aug 2019 11:09:07 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jdk8-03-function/</guid>
+      <description>Function Function：接收一个参数返回一个结果。
+BiFunction：接收两个参数返回一个结果。
+创建对象：
+&amp;gt; FunctionDemo functionDemo = new FunctionDemo();
+
+在内部使用：
+System.out.println(functionDemo.convert(2, value -&amp;gt; { return value;})); System.out.println(functionDemo.convert(3, value -&amp;gt; { return ((int)value * (int)value);})); public Object convert1(Object obj, Function&amp;lt;Object, Object&amp;gt; function){ return function.apply(obj); }  将lambda抽取出来,加法：
+Function&amp;lt;Object, Object&amp;gt; function = value -&amp;gt; ((int)value + (int)value); Object obj = functionDemo.convert1(5, function); System.out.println(obj); public Object convert1(Object obj, Function&amp;lt;Object, Object&amp;gt; function){ return function.apply(obj); }  compose的使用：
+System.out.println(functionDemo.convert2(5, value -&amp;gt; (int)value + 1, value -&amp;gt; (int)value * (int)value)); public Object convert2(Object obj, Function&amp;lt;Object, Object&amp;gt; function1, Function&amp;lt;Object, Object&amp;gt; function2){ //compose原理 //return function2.</description>
+    </item>
+    
+    <item>
+      <title>Jdk8-01-Lambda</title>
+      <link>https://inkbambo0.github.io/post/jdk8-01-lambda/</link>
+      <pubDate>Fri, 09 Aug 2019 11:08:54 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jdk8-01-lambda/</guid>
+      <description>Lambda 关于函数式接口： - 如果一个接口只有一个抽象方法，那么该接口就是一个函数式接口
+- 如果我们在某个接口上声明了FunctionalInterface注解，那么编译器就会按照函数式接口的定义来要求该接口
+- 如果某个接口只有一个抽象方法，但我们并没有给改接口声明FunctionalInterface注解，那么编译器依旧会将该接口看作是函数式接口
+
+ 如果函数式接口中存在Object类中的的方法时，不会算入总方法数，会看作基础Object类
+ 案例：
+List&amp;lt;Integer&amp;gt; list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);  System.out.println(&amp;quot;--------foreach遍历--------&amp;quot;); //foreach遍历 for (Integer num : list) { System.out.println(num); }  System.out.println(&amp;quot;--------for循环--------&amp;quot;); //for循环 for(int i = 0; i &amp;lt; list.size(); i ++){ System.out.println(list.get(i)); }  System.out.println(&amp;quot;--------内部类--------&amp;quot;); list.forEach(new Consumer&amp;lt;Integer&amp;gt;() { @Override public void accept(Integer integer) { System.out.println(integer); } });  System.out.println(&amp;quot;--------Lambda--------&amp;quot;); //Lambda list.forEach(i -&amp;gt; System.</description>
+    </item>
+    
+    <item>
+      <title>Git笔记04-分支进阶与版本回退</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B004-%E5%88%86%E6%94%AF%E8%BF%9B%E9%98%B6%E4%B8%8E%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%80/</link>
+      <pubDate>Fri, 09 Aug 2019 10:46:32 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B004-%E5%88%86%E6%94%AF%E8%BF%9B%E9%98%B6%E4%B8%8E%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%80/</guid>
+      <description>Git笔记04-分支进阶与版本回退 图形化显示：
+git log &amp;ndash;graph
+简写：
+git log &amp;ndash;graph &amp;ndash;abbrev-commit
+add、commit一步完成：
+git commit -am &amp;ldquo;commit&amp;rdquo;
+merge快进和不使用快进 dev:
+* commit d1c84073b5aea7baa64f95f05f9cf291850d3888 (HEAD -&amp;gt; dev) | Author: Mr-WangG &amp;lt;mr.wang214880676@gmail.com&amp;gt; | Date: Sat Aug 10 20:40:06 2019 +0800 | | third | * commit 0d51d62d68daf5e5c2bc80e74097cc84f450aef6 (master) | Author: Mr-WangG &amp;lt;mr.wang214880676@gmail.com&amp;gt; | Date: Sat Aug 10 20:39:00 2019 +0800 | | seconed | * commit 2cb4d2524b959234f1cd79e4015b9b8339937bdf Author: Mr-WangG &amp;lt;mr.wang214880676@gmail.com&amp;gt; Date: Sat Aug 10 20:38:24 2019 +0800 first  master:</description>
+    </item>
+    
+    <item>
+      <title>Git笔记03-.gitignore与分支</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B003-.gitignore%E4%B8%8E%E5%88%86%E6%94%AF/</link>
+      <pubDate>Thu, 08 Aug 2019 17:06:01 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B003-.gitignore%E4%B8%8E%E5%88%86%E6%94%AF/</guid>
+      <description>Git笔记03-.gitignore与分支 一、.gitignore  空目录git自动忽略
+ 通配符：
+&amp;gt; *.xml
+不忽略设置：
+&amp;gt; !a.b
+忽略当前目录下的TODO
+&amp;gt; /test.txt
+忽略多层目录下的TODO
+&amp;gt; /*/test.txt
+&amp;gt; /**/test.txt
+注释：
+&amp;gt; /**/test.txt
+忽略build目录下的所有文件：
+&amp;gt; mydir/
+创建目录并进入：
+&amp;gt; mkdir mydir &amp;amp;&amp;amp; cd mydir
+为创建.gitignore就提交，创建.gitignore后需要使用此命令清除缓存
+ git rm -r &amp;ndash;cached .
+ 二、分支 查看分支：
+&amp;gt; git branch
+创建：
+&amp;gt; git branch new _branch
+切换：
+&amp;gt; git checkout master
+&amp;gt; git checkout -
+在分支中添加或修改数据后需要add、commit
+删除分支：
+&amp;gt; 在新分支没有添加：git branch -d new_branch
+&amp;gt; 添加文件后，再执行：git branch -D new_branch</description>
+    </item>
+    
+    <item>
+      <title>Git笔记02-添加、删除、修改、日志</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B002-%E6%B7%BB%E5%8A%A0%E5%88%A0%E9%99%A4%E4%BF%AE%E6%94%B9%E6%97%A5%E5%BF%97/</link>
+      <pubDate>Thu, 08 Aug 2019 11:22:05 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B002-%E6%B7%BB%E5%8A%A0%E5%88%A0%E9%99%A4%E4%BF%AE%E6%94%B9%E6%97%A5%E5%BF%97/</guid>
+      <description>Git笔记02-添加、删除、修改、日志 〇、git add的三个作用：  刚创建的未追踪的文件加入到追踪列表当中
+ 将已经追踪并修改的文件纳入到暂存区（缓存区）
+ 文件出现冲突，解决冲突后，add告知冲突已被解决
+  一、删除命令 1、git rm file  删除了一个文件(工作区) 将被删除的文件纳入到暂存区中  执行提交就完成删除操作了，但是不能恢复
+删除后恢复文件：
+ git reset HEAD file &amp;ndash;&amp;gt; git checkout &amp;ndash; file,完成文件恢复
+ git reset HEAD file &amp;ndash;&amp;gt; git add file,可看做将删除的文件提交到暂存区（commit后彻底删除），也可重复执行上一步^^^^^。
+  1、rm file  删除了一个文件(工作区)
+$ git status On branch master Changes not staged for commit: (use &amp;quot;git add/rm &amp;lt;file&amp;gt;...&amp;quot; to update what will be committed) (use &amp;quot;git checkout -- &amp;lt;file&amp;gt;.</description>
+    </item>
+    
+    <item>
+      <title>Git笔记01-基本命令操作</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B001-%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E6%93%8D%E4%BD%9C/</link>
+      <pubDate>Tue, 06 Aug 2019 00:11:45 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B001-%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E6%93%8D%E4%BD%9C/</guid>
+      <description>Git笔记01-基本命令操作 一、基本命令 1、git init:初始化本地仓库 2、git status:当前处于什么状态 $ git status On branch master No commits yet Untracked files: (use &amp;quot;git add &amp;lt;file&amp;gt;...&amp;quot; to include in what will be committed) test.txt nothing added to commit but untracked files present (use &amp;quot;git add&amp;quot; to track)  3、git add .:将文件纳入暂存区当中 git add .：添加新增文件和修改的文件
+git add -u（git add -update）：只添加修改的文件
+git add -A：添加所有文件，包括删除的文件
+$ git status On branch master No commits yet Changes to be committed: (use &amp;quot;git rm --cached &amp;lt;file&amp;gt;.</description>
+    </item>
+    
+    <item>
+      <title>Example</title>
+      <link>https://inkbambo0.github.io/post/example/</link>
+      <pubDate>Mon, 05 Aug 2019 13:49:00 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/example/</guid>
+      <description>title: &amp;quot;Example&amp;quot; date: 2019-08-05T13:49:00+08:00 author: CoderLeftEar tags: [&amp;quot;example&amp;quot;] categories: [&amp;quot;example&amp;quot;] cover: ../default1.jpg draft: true  11111111111111111111111111111111 </description>
+    </item>
+    
+    <item>
+      <title>HashMap实现</title>
+      <link>https://inkbambo0.github.io/post/hashmap%E5%AE%9E%E7%8E%B0/</link>
+      <pubDate>Sun, 04 Aug 2019 11:30:48 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/hashmap%E5%AE%9E%E7%8E%B0/</guid>
+      <description>HashMap实现  未添加泛型的Node类
+ public class Node { int hash; Object key; Object value; Node next; }   1、put、myHash、tostring
+ /** * put、myHash、tostring * * @author Mr.Wang * */ public class HashMap01 { Node[] table;	//桶位数组 bucket array int size; public HashMap01() { table = new Node[16]; } public void put(Object key, Object value) { Node newNode = new Node(); newNode.hash = myHash(key.hashCode(), table.length); newNode.key = key; newNode.value = value; newNode.</description>
+    </item>
+    
+    <item>
+      <title>Iterator遍历List、Set、Map</title>
+      <link>https://inkbambo0.github.io/post/iterator%E9%81%8D%E5%8E%86listsetmap/</link>
+      <pubDate>Sun, 04 Aug 2019 11:25:11 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/iterator%E9%81%8D%E5%8E%86listsetmap/</guid>
+      <description>Iterator遍历List、Set、Map  Iterator遍历List、Set、Map
+ public class Iterator01 { public static void main(String[] args) { /** * Iterator遍历list或set，相同 */ listIterator(); /** * Iterator遍历map */ //map.entrySet(); //	mapIterator01(); //map.keySet(); //	mapIterator02(); } public static void listIterator() { List&amp;lt;String&amp;gt; list = new ArrayList&amp;lt;String&amp;gt;(); list.add(&amp;quot;aaa&amp;quot;); list.add(&amp;quot;bbb&amp;quot;); list.add(&amp;quot;ccc&amp;quot;); Iterator&amp;lt;String&amp;gt; it = list.iterator(); while(it.hasNext()) { System.out.println(it.next()); } } public static void mapIterator01() { Map&amp;lt;Integer, String&amp;gt; map = new HashMap&amp;lt;&amp;gt;(); map.put(20, &amp;quot;bb&amp;quot;); map.put(30, &amp;quot;cc&amp;quot;); map.put(10, &amp;quot;aa&amp;quot;); Set&amp;lt;Entry&amp;lt;Integer, String&amp;gt;&amp;gt; set = map.</description>
+    </item>
+    
+    <item>
+      <title>Java各个编码所占字节数</title>
+      <link>https://inkbambo0.github.io/post/java%E5%90%84%E4%B8%AA%E7%BC%96%E7%A0%81%E6%89%80%E5%8D%A0%E5%AD%97%E8%8A%82%E6%95%B0/</link>
+      <pubDate>Sun, 04 Aug 2019 10:49:35 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/java%E5%90%84%E4%B8%AA%E7%BC%96%E7%A0%81%E6%89%80%E5%8D%A0%E5%AD%97%E8%8A%82%E6%95%B0/</guid>
+      <description> Java各个编码所占字节数 </description>
+    </item>
+    
+    <item>
+      <title>LinkedList源码</title>
+      <link>https://inkbambo0.github.io/post/linkedlist%E6%BA%90%E7%A0%81/</link>
+      <pubDate>Tue, 09 Jul 2019 20:59:13 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/linkedlist%E6%BA%90%E7%A0%81/</guid>
+      <description>LinkedList源码实现  Node类实现
+public class Node { Node previous; Node next; Object element; public Node(Node previous, Node next, Object element) { this.previous = previous; this.next = next; this.element = element; } public Node(Object element) { this.element = element; } }  1、添加、遍历的链表
+/** * 添加、遍历的链表 * * @author Mr.Wang * */ public class LinkedList01 { private Node first; private Node last; private int size; /** * 添加数据 * * @param obj */ public void add(Object obj) { Node node = new Node(obj); if(first == null) { //第一个节点为空，那么node节点就为第一个节点，并且前后都为null node.</description>
+    </item>
+    
+    <item>
+      <title>ArrayList源码</title>
+      <link>https://inkbambo0.github.io/post/arraylist%E6%BA%90%E7%A0%81/</link>
+      <pubDate>Tue, 09 Jul 2019 20:58:54 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/arraylist%E6%BA%90%E7%A0%81/</guid>
+      <description>ArrayList源码实现  1、基本功能
+/** * ArrayList基本实现 * * @author Mr.Wang * */ public class ArrayList01 { //存放数据 private Object[] elementData; //大小 private int size; //默认大小 private static final int DEFAULT_CAPACITY = 10; //elementData默认大小 public ArrayList01() { elementData = new Object[DEFAULT_CAPACITY]; } //elementData自定义大小 public ArrayList01(int capacity) { elementData = new Object[capacity]; } //添加数据的方法 public void add(Object obj) { elementData[size ++] = obj; } @Override public String toString() { //将elementData中的数据放到sb中 StringBuilder sb = new StringBuilder(); sb.</description>
+    </item>
+    
+    <item>
+      <title>Java内存分析</title>
+      <link>https://inkbambo0.github.io/post/java%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/</link>
+      <pubDate>Wed, 03 Jul 2019 20:23:43 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/java%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/</guid>
+      <description> java程序在内存中的执行的过程分析 </description>
+    </item>
+    
+    <item>
+      <title>001-大话设计模式-单例模式</title>
+      <link>https://inkbambo0.github.io/post/002-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Tue, 02 Jul 2019 18:11:32 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/002-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</guid>
+      <description>单例模式 1.饿汉式—静态常量方式（线程安全） public class Singleton { private static Singleton instance = new Singleton(); private Singleton (){} public static Singleton getInstance() { return instance; } }  2.饿汉式—静态代码块方式（线程安全） public class Singleton { private static Singleton instance; static { instance = new Singleton(); } private Singleton() {} public static Singleton getInstance() { return instance; } }  3.懒汉式（线程不安全） public class Singleton { private static Singleton singleton; private Singleton() {} public static Singleton getInstance() { if (singleton == null) { singleton = new Singleton(); } return singleton; } }  4.</description>
+    </item>
+    
+    <item>
+      <title>001-大话设计模式-简单工厂模式</title>
+      <link>https://inkbambo0.github.io/post/001-%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Tue, 02 Jul 2019 18:11:32 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/001-%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</guid>
+      <description>简单工厂模式 一、需求 使用java实现一个计算器计算功能
+二、初步实现 public class Operation_first { public static void main(String[] args) { Scanner sc = new Scanner(System.in); System.out.print(&amp;quot;第一个数：&amp;quot;); int numberA = sc.nextInt(); System.out.print(&amp;quot;运算符：&amp;quot;); String operation = sc.next(); System.out.print(&amp;quot;第二个数：&amp;quot;); int numberB = sc.nextInt(); int result = 0; try { //运算 switch (operation) { case &amp;quot;+&amp;quot;: result = numberA + numberB; break; case &amp;quot;-&amp;quot;: result = numberA - numberB; break; case &amp;quot;*&amp;quot;: result = numberA * numberB; break; case &amp;quot;/&amp;quot;: result = numberA / numberB; break; default: break; } //打印结果 System.</description>
+    </item>
+    
+    <item>
+      <title>Spring事务、传播行为</title>
+      <link>https://inkbambo0.github.io/post/spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%AD%E8%A1%8C%E4%B8%BA/</link>
+      <pubDate>Tue, 02 Jul 2019 18:11:32 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%AD%E8%A1%8C%E4%B8%BA/</guid>
+      <description> Spring事务、传播行为 Spring事务的几种实现方式  编程式事务管理对基于 POJO 的应用来说是唯一选择。我们需要在代码中调用beginTransaction()、commit()、rollback()等事务管理相关的方法，这就是编程式事务管理。 基于 TransactionProxyFactoryBean的声明式事务管理 基于 @Transactional 的声明式事务管理 基于Aspectj AOP配置事务  https://blog.csdn.net/mufeng633/article/details/88552245
+Spring Boot的事务管理注解 https://blog.csdn.net/u010963948/article/details/79208328
+在主程序类上标注：
+开启事务管理器：
+ @EnableTransactionManagement
+  xml配置方式：
+   开启后在需要使用事务的类或方法上标注@Transactional即可。
+存在多个事务管理器 ：
+ 使用value具体指定使用哪个事务管理器：@Transactional(value=&amp;ldquo;xxxxx&amp;rdquo;)  注解@Transaction 用法 也可标注在类上，该类中的所有公共方法都配置相同的事务属性。
+   属性名 说明     value 当在配置文件中有多个 TransactionManager , 可以用该属性指定选择哪个事务管理器。   propagation 事务的传播行为，默认值为 REQUIRED。   isolation 事务的隔离级别，默认值采用 DEFAULT。   timeout 事务的超时时间，默认值为-1。强制回滚前最多可以等待的时间。   read-only 指定事务是否为只读事务，默认值为 false；为了忽略那些不需要事   rollback-for 用于指定能够触发事务回滚的异常类型，如果有多个异常类型需要指定，各类型之间可以通过逗号分隔。   no-rollback- for 抛出 no-rollback-for 指定的异常类型，不回滚事务。    propagation &amp;mdash; 七种事务传播行为：    事务传播行为类型 说明     REQUIRED 默认。使用调用者的事务。   REQUIRES_NEW 不使用调用者的事务，挂起当前事务，新建事务，在内部使用事务。   MANDATORY 使用当前的事务，如果当前没有事务，就抛出异常。   SUPPORTS 支持当前事务，如果当前没有事务，就以非事务方式执行。   NOT_SUPPORTED 以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。   NEVER 以非事务方式执行，如果当前存在事务，则抛出异常。   NESTED 如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，新建事务并运行。    </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://inkbambo0.github.io/post/plan/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/plan/</guid>
+      <description>css3
+react
+轮子/sb/ry</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://inkbambo0.github.io/post/%E6%B3%A8%E8%A7%A3/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/%E6%B3%A8%E8%A7%A3/</guid>
+      <description>title: &amp;quot;注解&amp;quot; date: 2020-04-22T18:11:32+08:00 author: CoderLeftEar categories: [&amp;quot;注解&amp;quot;] tags: [&amp;quot;注解&amp;quot;] draft: true  注解 元注解： 反射： 一个类在内存中只有一个Class对象。
+一个类被加载后，类的整个结构都会被封装在Class对象中。
+反射获取类： Person peron = new Student();
+person.getClass();
+Class.forName(&amp;ldquo;com.java.Student&amp;rdquo;);
+Person.class</description>
+    </item>
+    
+    <item>
+      <title>Html图片居中</title>
+      <link>https://inkbambo0.github.io/post/html%E5%9B%BE%E7%89%87%E5%B1%85%E4%B8%AD/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/html%E5%9B%BE%E7%89%87%E5%B1%85%E4%B8%AD/</guid>
+      <description> Html图片居中 &amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html lang=&amp;quot;en&amp;quot;&amp;gt; &amp;lt;head&amp;gt; &amp;lt;meta charset=&amp;quot;UTF-8&amp;quot;&amp;gt; &amp;lt;meta name=&amp;quot;viewport&amp;quot; content=&amp;quot;width=device-width, initial-scale=1.0&amp;quot;&amp;gt; &amp;lt;title&amp;gt;Document&amp;lt;/title&amp;gt; &amp;lt;style&amp;gt; .box { width: 120px; height: 180px; border: 2px solid rgb(118, 117, 117); border-radius: 4px; padding: 4px; overflow: hidden; } .image { width: 100%; height: 100%; background-image: url(&amp;quot;https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1089874897,1268118658&amp;amp;fm=26&amp;amp;gp=0.jpg&amp;quot;); background-repeat: no-repeat; background-position: center center; background-size: cover; } &amp;lt;/style&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; &amp;lt;h3&amp;gt;原图：&amp;lt;/h3&amp;gt; &amp;lt;img src=&amp;quot;https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1089874897,1268118658&amp;amp;fm=26&amp;amp;gp=0.jpg&amp;quot; alt=&amp;quot;&amp;quot;&amp;gt; &amp;lt;h3&amp;gt;居中：&amp;lt;/h3&amp;gt; &amp;lt;div class=&amp;quot;box&amp;quot;&amp;gt; &amp;lt;img src=&amp;quot;https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1089874897,1268118658&amp;amp;fm=26&amp;amp;gp=0.jpg&amp;quot; style=&amp;quot;width: 100%; height: 100%; object-fit: cover;&amp;quot;&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;div class=&amp;quot;box&amp;quot;&amp;gt; &amp;lt;div class=&amp;quot;image&amp;quot;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/body&amp;gt; &amp;lt;  </description>
+    </item>
+    
+  </channel>
+</rss>

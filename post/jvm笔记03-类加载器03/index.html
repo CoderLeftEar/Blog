@@ -1,0 +1,1702 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>
+JVM笔记03-类加载器03
+</title>
+
+  
+  
+  <meta name="author" content="CoderLeftEar" />
+  <meta name="description" content="JVM笔记03-类加载器03  JVM笔记03-类加载器03  自定义类加载器在复杂类加载情况下运动分析 类加载器命名空间实战与彻底理解  1. 2.  类加载器实例剖析与疑难点解析  BootstrapClassLoader ExtensionClassLoader  类加载器命名空间深度解析  例1： 例2： 类加载器的双亲委托模型的好处  扩展类加载器和总结  启动类加载器的相关  Launcher源码分析和forName源码分析 线程上下文类加载器的分析与事项（setContextClassLoader();）  例1： 例2：ServiceLoader案例 例3：  jar hell问题   自定义类加载器在复杂类加载情况下运动分析 案例在上一篇
+注释掉clazz.newInstance();就不会实例化MyDog对象，即MyDog的构造方法不会被调用，因此不会实例化MyCat对象，没有对MyCat进行主动使用。但并不代表MyDog没有被加载。
+注释掉clazz.newInstance(): [Loaded com.wang.jvm.custom.MyDog from file:/E:/JavaEE/ClassLoad/out/production/classes/] hashcode: 356573597 没有注释掉clazz.newInstance(): [Loaded com.wang.jvm.custom.MyDog from file:/E:/JavaEE/ClassLoad/out/production/classes/] hashcode: 356573597 invoke dog class constructor!sun.misc.Launcher$AppClassLoader@18b4aac2 [Loaded com.wang.jvm.custom.MyCat from file:/E:/JavaEE/ClassLoad/out/production/classes/] invoke cat class constructor!sun.misc.Launcher$AppClassLoader@18b4aac2  MyClassLoader loader = new MyClassLoader(&amp;quot;loader&amp;quot;); Class&amp;lt;?" />
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6" />
+
+
+<link rel="canonical" href="https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B003-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A803/" />
+<link rel="alternative" href="/index.xml" title="CoderLeftEar&#39;s Blog" type="application/atom+xml" />
+
+<link href="/css/semantic.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="/css/site.css" />
+<link rel="stylesheet" href="/css/github-markdown.css" />
+
+<link rel="stylesheet" href="/css/vs.css">
+<link rel="icon" href="/img/favicon.ico" type="img/x-ico" />
+
+
+
+</head>
+
+<body>
+  <div class="flip-container">
+    <div class="flipper">
+      <section class="front">
+        
+<nav class="ui top secondary menu">
+  <div class="item">
+    <i class="inverted big link bullseye icon dream-flip-toggle" title="Flip it!"></i>
+  </div>
+  <div class="item">
+    <a href="/">
+      <i class="inverted big link home icon" title="Home"></i>
+    </a>
+  </div>
+</nav>
+ 
+<div class="ui centered grid">
+  <div class="fifteen wide mobile fifteen wide tablet eleven wide computer column post-list post-single-main">
+
+    <section class="ui top attached segment">
+      <a class="ui black right corner label" href="javascript:void(0)" onclick="savePostAsImg()">
+        <i class="save icon"></i>
+      </a>
+      <header>
+        <h1 class="ui header">
+          JVM笔记03-类加载器03
+          <div class="sub header">
+		  @ CoderLeftEar · 2019-09-10 08:14:16
+
+		  </div>
+        </h1>
+      </header>
+      <article class="markdown-body" style="margin-top: 2rem; font-size: 1.4rem;">
+
+<h1 id="jvm笔记03-类加载器03">JVM笔记03-类加载器03</h1>
+
+<hr />
+
+<!-- TOC -->
+
+<ul>
+<li><a href="#jvm笔记03-类加载器03">JVM笔记03-类加载器03</a>
+
+<ul>
+<li><a href="#自定义类加载器在复杂类加载情况下运动分析">自定义类加载器在复杂类加载情况下运动分析</a></li>
+<li><a href="#类加载器命名空间实战与彻底理解">类加载器命名空间实战与彻底理解</a>
+
+<ul>
+<li><a href="#1">1.</a></li>
+<li><a href="#2">2.</a></li>
+</ul></li>
+<li><a href="#类加载器实例剖析与疑难点解析">类加载器实例剖析与疑难点解析</a>
+
+<ul>
+<li><a href="#bootstrapclassloader">BootstrapClassLoader</a></li>
+<li><a href="#extensionclassloader">ExtensionClassLoader</a></li>
+</ul></li>
+<li><a href="#类加载器命名空间深度解析">类加载器命名空间深度解析</a>
+
+<ul>
+<li><a href="#例1">例1：</a></li>
+<li><a href="#例2">例2：</a></li>
+<li><a href="#类加载器的双亲委托模型的好处">类加载器的双亲委托模型的好处</a></li>
+</ul></li>
+<li><a href="#扩展类加载器和总结">扩展类加载器和总结</a>
+
+<ul>
+<li><a href="#启动类加载器的相关">启动类加载器的相关</a></li>
+</ul></li>
+<li><a href="#launcher源码分析和forname源码分析">Launcher源码分析和forName源码分析</a></li>
+<li><a href="#线程上下文类加载器的分析与事项setcontextclassloader">线程上下文类加载器的分析与事项（setContextClassLoader();）</a>
+
+<ul>
+<li><a href="#例1-1">例1：</a></li>
+<li><a href="#例2serviceloader案例">例2：ServiceLoader案例</a></li>
+<li><a href="#例3">例3：</a></li>
+</ul></li>
+<li><a href="#jar-hell问题">jar hell问题</a></li>
+</ul></li>
+</ul>
+
+<!-- /TOC -->
+
+<h2 id="自定义类加载器在复杂类加载情况下运动分析">自定义类加载器在复杂类加载情况下运动分析</h2>
+
+<p><font color='red' size=5>案例在上一篇</font></p>
+
+<p>注释掉clazz.newInstance();就不会实例化MyDog对象，即MyDog的构造方法不会被调用，因此不会实例化MyCat对象，没有对MyCat进行主动使用。<code>但并不代表MyDog没有被加载</code>。</p>
+
+<pre><code>注释掉clazz.newInstance():
+[Loaded com.wang.jvm.custom.MyDog from file:/E:/JavaEE/ClassLoad/out/production/classes/]
+hashcode: 356573597
+
+没有注释掉clazz.newInstance():
+[Loaded com.wang.jvm.custom.MyDog from file:/E:/JavaEE/ClassLoad/out/production/classes/]
+hashcode: 356573597
+invoke dog class constructor!sun.misc.Launcher$AppClassLoader@18b4aac2
+[Loaded com.wang.jvm.custom.MyCat from file:/E:/JavaEE/ClassLoad/out/production/classes/]
+invoke cat class constructor!sun.misc.Launcher$AppClassLoader@18b4aac2
+</code></pre>
+
+<pre><code>MyClassLoader loader = new MyClassLoader(&quot;loader&quot;);
+Class&lt;?&gt; clazz = loader.loadClass(&quot;com.wang.jvm.custom.MyDog&quot;);
+System.out.println(&quot;hashcode: &quot; + clazz.hashCode());
+//创建MyDog1的实例
+clazz.newInstance();
+
+public class MyDog {
+    public MyDog() throws ClassNotFoundException {
+        System.out.println(&quot;invoke dog class constructor!&quot; + this.getClass().getClassLoader());
+        new MyCat();
+    }
+}
+
+public class MyCat {
+    public MyCat() {
+        System.out.println(&quot;invoke cat class constructor!&quot; + this.getClass().getClassLoader());
+    }
+}
+
+</code></pre>
+
+<hr />
+
+<h2 id="类加载器命名空间实战与彻底理解">类加载器命名空间实战与彻底理解</h2>
+
+<h3 id="1">1.</h3>
+
+<p>在指定目录的情况下：</p>
+
+<pre><code>MyClassLoader loader = new MyClassLoader(&quot;loader&quot;);
+loader.setPath(&quot;D:/classes/&quot;);
+
+Class&lt;?&gt; clazz = loader.loadClass(&quot;com.wang.jvm.custom.MyDog&quot;);
+
+System.out.println(&quot;hashcode: &quot; + clazz.hashCode());
+
+//创建MyDog1的实例
+clazz.newInstance();
+</code></pre>
+
+<ul>
+<li><p>删除MyDog：dog由自定义加载器加载，cat由系统类加载器加载。（dog类：先由下到上，在由上到下，只有自定义加载器能够加载。cat类：系统类加载器能够加载cat类）</p>
+
+<pre><code>com.wang.jvm.custom.MyDog===============loader
+hashcode: 21685669
+invoke dog class constructor!com.wang.jvm.custom.MyClassLoader@1540e19d
+invoke cat class constructor!sun.misc.Launcher$AppClassLoader@18b4aac2
+</code></pre></li>
+
+<li><p>删除MyCat类（运行报错：java.lang.NoClassDefFoundError: com/wang/jvm/custom/MyCat）：dog类系统类加载器能够加载，而cat类只能有自定义加载器加载（<code>父加载器不能访问子加载器，子加载器能够访问父加载器</code>）</p></li>
+
+<li><p>加载指定目录下的class文件</p>
+
+<pre><code>com.wang.jvm.custom.MyDog===============loader
+hashcode: 21685669
+invoke dog class constructor!com.wang.jvm.custom.MyClassLoader@1540e19d
+com.wang.jvm.custom.MyCat===============loader
+invoke cat class constructor!com.wang.jvm.custom.MyClassLoader@1540e19d
+</code></pre></li>
+
+<li><p>至于其他情况，未来的我，你自己想吧，现在我不想写了<code>: &lt;</code></p></li>
+</ul>
+
+<h3 id="2">2.</h3>
+
+<ul>
+<li><p>在MyCat类中添加<code>System.out.println(MyDog.class);</code>，删除out下的dog的class文件，运行报错（原因：和命名空间（由该类加载器和其父类加载器所加载的类组成）有关，由于dog的class文件已经被删除，所以由自定义加载器加载，但cat类的class文件没有删除，在dog类中new的cat对象会有系统类加载器加载，但由于<code>命名空间</code>的原因，有系统类加载器加载的cat中包含打印dog.class的代码，但父不能访问子，所有报错：java.lang.NoClassDefFoundError: com/wang/jvm/custom/MyDog）</p></li>
+
+<li><p>这里脑子有点乱，未来的我，你自己考虑吧！</p></li>
+</ul>
+
+<hr />
+
+<h2 id="类加载器实例剖析与疑难点解析">类加载器实例剖析与疑难点解析</h2>
+
+<ul>
+<li><p>查看jvm的三个自带的类加载器加载的文件：</p>
+
+<pre><code>System.out.println(System.getProperty(&quot;sun.boot.class.path&quot;));
+System.out.println(System.getProperty(&quot;java.ext.dirs&quot;));
+System.out.println(System.getProperty(&quot;java.class.path&quot;));
+
+结果：
+根类加载器：
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\resources.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\rt.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\sunrsasign.jar;C:\Program Files\Java\jdk1.8.0_192\jre\lib\jsse.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\jce.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\charsets.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\jfr.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\classes
+
+扩展类加载器：
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\ext;
+C:\Windows\Sun\Java\lib\ext
+
+应用类加载器：
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\charsets.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\deploy.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\ext\access-bridge-64.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\ext\cldrdata.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\ext\dnsns.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\ext\jaccess.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\ext\jfxrt.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\ext\localedata.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\ext\nashorn.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\ext\sunec.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\ext\sunjce_provider.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\ext\sunmscapi.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\ext\sunpkcs11.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\ext\zipfs.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\javaws.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\jce.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\jfr.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\jfxswt.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\jsse.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\management-agent.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\plugin.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\resources.jar;
+C:\Program Files\Java\jdk1.8.0_192\jre\lib\rt.jar;
+E:\JavaEE\ClassLoad\out\production\classes;
+C:\Users\Mr.Wang\.gradle\caches\modules-2\files-2.1\org.projectlombok\lombok\1.18.8\448003bc1b234aac04b58e27d7755c12c3ec4236\lombok-1.18.8.jar;
+D:\IntelliJ IDEA 2018.3.1\lib\idea_rt.jar
+</code></pre></li>
+</ul>
+
+<h3 id="bootstrapclassloader">BootstrapClassLoader</h3>
+
+<ul>
+<li>在<code>C:\Program Files\Java\jdk1.8.0_192\jre\classes</code>目录下放项目本身的out目录下的classes文件夹下的com文件夹，执行代码，执行结果：<code>null</code>。由此更能体现出父子类加载器之间的关系。</li>
+</ul>
+
+<h3 id="extensionclassloader">ExtensionClassLoader</h3>
+
+<pre><code>AESKeyGenerator aesKeyGenerator = new AESKeyGenerator();
+System.out.println(aesKeyGenerator.getClass().getClassLoader());
+System.out.println(BootstrapClassLoaderDemo.class.getClassLoader());
+
+结果：
+sun.misc.Launcher$ExtClassLoader@12a3a380
+sun.misc.Launcher$AppClassLoader@18b4aac2
+</code></pre>
+
+<h2 id="类加载器命名空间深度解析">类加载器命名空间深度解析</h2>
+
+<h3 id="例1">例1：</h3>
+
+<p>未删除任何class文件，由下而上，最后会有APPClassLoader加载，结果为<code>true</code>。</p>
+
+<pre><code>MyClassLoader loader1 = new MyClassLoader(&quot;loader1&quot;);
+MyClassLoader loader2 = new MyClassLoader(&quot;loader2&quot;);
+
+Class&lt;?&gt; clazz1 = loader1.loadClass(&quot;com.wang.jvm.ClassLoaderLoadClass.Person&quot;);
+Class&lt;?&gt; clazz2 = loader2.loadClass(&quot;com.wang.jvm.ClassLoaderLoadClass.Person&quot;);
+
+//加载同一个类，第二次直接引用第一次的加载
+System.out.println(clazz1 == clazz2);
+
+//创建对象
+Object object1 = clazz1.newInstance();
+Object object2 = clazz2.newInstance();
+
+//使用反射获取clazz1对象的setPerson方法，参数为Object类型
+Method method = clazz1.getMethod(&quot;setPerson&quot;, Object.class);
+//调用object1对象的setPerson方法传入object2对象
+method.invoke(object1, object2);
+</code></pre>
+
+<h3 id="例2">例2：</h3>
+
+<p>指定加载目录，删除Person.class文件后，所以会由MyClassLoader类加载器加载Person的class文件，得到loader1和loader2，但因为<code>命名空间</code>的关系，所以这两个类加载器没有任何关系，都有自己的命名空间，<code>不同命名空间之间的类不可见</code>，所以为false；
+至于抛异常，是因为不同命名空间之间类不可见。</p>
+
+<pre><code>MyClassLoader loader1 = new MyClassLoader(&quot;loader1&quot;);
+MyClassLoader loader2 = new MyClassLoader(&quot;loader2&quot;);
+
+loader1.setPath(&quot;D:/classes/&quot;);
+loader2.setPath(&quot;D:/classes/&quot;);
+
+Class&lt;?&gt; clazz1 = loader1.loadClass(&quot;com.wang.jvm.ClassLoaderLoadClass.Person&quot;);
+Class&lt;?&gt; clazz2 = loader2.loadClass(&quot;com.wang.jvm.ClassLoaderLoadClass.Person&quot;);
+
+//加载同一个类，第二次直接引用第一次的加载
+System.out.println(clazz1 == clazz2);
+
+//创建对象
+Object object1 = clazz1.newInstance();
+Object object2 = clazz2.newInstance();
+
+//使用反射获取clazz1对象的setPerson方法，参数为Object类型
+Method method = clazz1.getMethod(&quot;setPerson&quot;, Object.class);
+//调用object1对象的setPerson方法传入object2对象
+method.invoke(object1, object2);
+
+结果：
+com.wang.jvm.ClassLoaderLoadClass.Person===============loader1
+com.wang.jvm.ClassLoaderLoadClass.Person===============loader2
+false
+Exception in thread &quot;main&quot; java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at com.wang.jvm.ClassLoaderLoadClass.NameSpaceDemo2.main(NameSpaceDemo2.java:33)
+Caused by: java.lang.ClassCastException: com.wang.jvm.ClassLoaderLoadClass.Person cannot be cast to com.wang.jvm.ClassLoaderLoadClass.Person
+	at com.wang.jvm.ClassLoaderLoadClass.Person.setPerson(Person.java:12)
+	... 5 more
+
+</code></pre>
+
+<h3 id="类加载器的双亲委托模型的好处">类加载器的双亲委托模型的好处</h3>
+
+<p><img src="https://raw.githubusercontent.com/CoderLeftEar/Blog-Images/master/blog/双亲委托的好处.jpg" alt="" /></p>
+
+<h2 id="扩展类加载器和总结">扩展类加载器和总结</h2>
+
+<pre><code>public class NameSpaceDemo3 {
+    static {
+        System.out.println(&quot;initial loading&quot;);
+    }
+    public static void main(String[] args) {
+        System.out.println(Person.class.getClassLoader());
+        System.out.println(NameSpaceDemo1.class.getClassLoader());
+    }
+}
+</code></pre>
+
+<ul>
+<li><p>修改扩展类加载器在运行期时加载的目录，后面是需要运行的类，但还是由APPClassLoader加载。</p>
+
+<pre><code>$ java -Djava.ext.dirs=./ com.wang.jvm.ClassLoaderLoadClass.NameSpaceDemo3
+initial loading
+sun.misc.Launcher$AppClassLoader@73d16e93
+sun.misc.Launcher$AppClassLoader@73d16e93
+
+</code></pre></li>
+
+<li><p>原因是：扩展类加载器加载方式不一样，不能直接加载器class文件，需要达成jar包(<code>打包类加载器加载的类，不是打包需要运行的类</code>)。</p>
+
+<pre><code>$ jar cvf NameSpaceDemo3.jar com/wang/jvm/ClassLoaderLoadClass/NameSpaceDemo1.class
+已添加清单
+正在添加: com/wang/jvm/ClassLoaderLoadClass/NameSpaceDemo1.class(输入 = 1626) (输出 = 831)(压缩了 48%)
+
+Mr.Wang@Mr-Wang MINGW64 /e/JavaEE/ClassLoad/out/production/classes
+$ java -Djava.ext.dirs=./ com.wang.jvm.ClassLoaderLoadClass.NameSpaceDemo3
+initial loading
+sun.misc.Launcher$AppClassLoader@2a139a55
+sun.misc.Launcher$ExtClassLoader@33909752
+
+</code></pre></li>
+</ul>
+
+<hr />
+
+<h3 id="启动类加载器的相关">启动类加载器的相关</h3>
+
+<hr />
+
+<ul>
+<li><strong>所有的类一定是由类加载器加载的，但数组例外，数组是由jvm加载的。</strong></li>
+<li><strong>除根类加载器外的所有加载器也是java类，ext和app它们是由BootstrapClassLoader（由C++编写）加载的。</strong></li>
+<li>BootstrapClassLoader是内嵌于jvm当中的，jvm启动的时候，一块特殊的机器码会运行（就是启动类加载器），再由boot加载ext和app加载器，最后再加载其他的类。</li>
+<li>启动类加载器是特定于平台的机器指令，他负责开启整个加载过程。</li>
+<li>启动类加载器还会负责加载供jre正常运行所需要的基本组件，包括java.util和java.lang包中的类等等。</li>
+<li><strong><code>如果没有特别指定，则用户自定义的类加载器默认都以系统类加载器作为父加载器。</code></strong></li>
+</ul>
+
+<hr />
+
+<pre><code>System.out.println(Launcher.class.getClassLoader());
+
+System.out.println(ClassLoader.class.getClassLoader());
+
+System.out.println(&quot;---------------------------------&quot;);
+
+System.out.println(System.getProperty(&quot;java.system.class.loader&quot;));
+
+System.out.println(BootMoreDemo.class.getClassLoader());
+
+System.out.println(MyClassLoader.class.getClassLoader());
+
+System.out.println(ClassLoader.getSystemClassLoader());
+</code></pre>
+
+<p>直接运行：<br />
+- Launcher(里面包含app和ext类加载器)和ClassLoader，会由启动类加载器加载。
+- 打印&rdquo;java.system.class.loader&rdquo;，结果为null，不存在
+- BootMoreDemo和MyClassLoader（自定义类加载器默认是APPClassLoader加载的）都是由AppClassLoader加载的，但为什么执行结果为null。</p>
+
+<pre><code>null
+null
+---------------------------------
+null
+sun.misc.Launcher$AppClassLoader@18b4aac2
+null(sun.misc.Launcher$AppClassLoader@18b4aac2)
+sun.misc.Launcher$AppClassLoader@18b4aac2
+</code></pre>
+
+<p>通过控制台命令运行：<br />
+- 指定&rdquo;java.system.class.loader&rdquo;的值是自定义的MyClassLoader类加载器，运行BootMoreDemo类。
+- Launcher和ClassLoader还是由启动类加载器加载。
+- 指定&rdquo;java.system.class.loader&rdquo;的值之后，打印结果变为指定的类加载器。
+- BootMoreDemo和MyClassLoader还是由系统类加载器加载。
+- <code>ClassLoader.getSystemClassLoader()</code>：结果为<code>MyClassLoader</code>。</p>
+
+<p><code>getSystemClassLoader()</code>：返回用于委托的系统类加载器。这是新类加载器实例的默认委托父类，通常是用于启动应用程序的类加载器。</p>
+
+<pre><code>$ java -Djava.system.class.loader=com.wang.jvm.custom.MyClassLoader com.wang.jvm.ClassLoaderLoadClass.BootMoreDemo
+null
+null
+---------------------------------
+com.wang.jvm.custom.MyClassLoader
+sun.misc.Launcher$AppClassLoader@18b4aac2
+sun.misc.Launcher$AppClassLoader@18b4aac2
+com.wang.jvm.custom.MyClassLoader@6d06d69c
+</code></pre>
+
+<hr />
+
+<h2 id="launcher源码分析和forname源码分析">Launcher源码分析和forName源码分析</h2>
+
+<p>听不懂，笔记也不想做，烦死了！下一个！</p>
+
+<hr />
+
+<h2 id="线程上下文类加载器的分析与事项-setcontextclassloader">线程上下文类加载器的分析与事项（setContextClassLoader();）</h2>
+
+<p><code>setContextClassLoader</code>（线程上下文类加载器）：
+存在的主要作用：为了改变双亲委托模型在某些场景下不太适用，或者无法满足我们需求的这样的境况。</p>
+
+<p><code>当前类加载器(Current ClassLoader)</code></p>
+
+<ul>
+<li>每个类都会使用加载自身的类加载器去加载其他引用的类（如果Class A 引用了Class B ，那么加载了A的类加载器就会去加载B（但前提是B没有被加载））。</li>
+</ul>
+
+<p><code>线程上下文加载器(Context ClassLoader)</code></p>
+
+<ul>
+<li>线程上下文类加载器从jdk1.2开始引入，类Thread中的getContextClassLoader()与serContextClassLoader(ClassLoader c)分别用来获取和设置上下文类加载器。</li>
+<li>如果没有通过set进行设置的话，线程将继承其父线程的上下文类加载器。Java应用运行时的初始线程的上下文加载器是系统类加载器。在线程中运行的代码可以通过加载器来加载类与资源。</li>
+</ul>
+
+<p>线程上下文加载器的重要性：
+<code>SPI(Service Provider Interface)</code></p>
+
+<ul>
+<li>父ClassLoader可以使用当前线程Threa.currentThread().getContextClassLoader()所指定的ClassLoader来加载类。这就改变了父ClassLoader不能使用子ClassLoader或是其他没有直接父子关系的ClassLoader加载类的情况，即改变了双亲委托模型。</li>
+<li>线程上下文类加载器就是当前线程的Current ClassLoader。</li>
+<li>在双亲委托模型下，类加载是由下至上的，即下层的类加载器会委托上层进行加载。但对于SPI来说，有些接口是Java核心库所提供的，而Java核心库是由启动类加载器来加载的，而这些接口的实现却来自于不同的jar包（厂商提供），Java的启动类加载器是不会加载其他来源的jar包，这样传统的双亲委托模型就无法满足SPI的要求。而通过给当前线程设置上下文类加载器，就可以设置的上下文类加载器来实现对于接口实现类的加载。</li>
+</ul>
+
+<h3 id="例1-1">例1：</h3>
+
+<p>这里的Thread不是Thread类，是当前线程。</p>
+
+<pre><code>public class ContextLoaderDemo2 implements Runnable {
+
+    private Thread thread;
+
+    public ContextLoaderDemo2 () {
+        thread = new Thread(this);
+        thread.start();
+    }
+
+    @Override
+    public void run() {
+        ClassLoader classLoader = this.thread.getContextClassLoader();
+
+        this.thread.setContextClassLoader(classLoader);
+
+        System.out.println(&quot;Class: &quot; + classLoader.getClass());
+        System.out.println(&quot;Parent: &quot; + classLoader.getParent().getClass());
+
+    }
+
+    public static void main(String[] args) {
+        new ContextLoaderDemo2();
+    }
+}
+
+结果：
+Class: class sun.misc.Launcher$AppClassLoader
+Parent: class sun.misc.Launcher$ExtClassLoader
+</code></pre>
+
+<p><strong><code>线程上下文类加载器</code></strong>：</p>
+
+<ul>
+<li><p>线程上下文类加载器的一般使用模式（获取 - 使用 - 还原）。</p>
+
+<pre><code>ClassLoader classLoader = Thread.currentThread.getContextClassLoader();
+try {
+    Thread.currentThread().setContextClassLoader(targetTccl);
+    myMethod();
+} finally {
+    Thread.currentThread().setContextClassLoader(classLoader);
+}
+</code></pre></li>
+
+<li><p>myMethod里面调用了Thread.currentThread().getContextClassLoader();获取当前线程的上下文做某些事。</p></li>
+
+<li><p>如果一个类由类加载器A加载，那么这个类的依赖类也是由相同的类加载器加载的（如果该依赖类之前没有被加载过的话）。</p></li>
+
+<li><p>ContextClassLoader的作用就是为了破坏Java的类加载委托机制。</p></li>
+
+<li><p>当高层提供了统一的接口让低层去实现，同时又要在高层加载（或实例化）低层的类时，
+就必须要通过线程上下文类加载器来帮助高层的ClassLoader找到并加载该类。</p></li>
+</ul>
+
+<h3 id="例2-serviceloader案例">例2：ServiceLoader案例</h3>
+
+<p>如果设置了当前上下文类加载器为AppClassLoader.getParent();因为Driver类位于mysql.jar包中，由AppClassLoader加载，而它的父类是ExtensionClassLoader，所以扩展类加载器加载不到mysql.jar包。</p>
+
+<pre><code>//Thread.currentThread().setContextClassLoader(ContextLoaderDemo3.class.getClassLoader().getParent());
+
+ServiceLoader&lt;Driver&gt; serviceLoader = ServiceLoader.load(Driver.class);
+Iterator&lt;Driver&gt; iterator = serviceLoader.iterator();
+
+while (iterator.hasNext()) {
+    Driver driver = iterator.next();
+    System.out.println(&quot;driver: &quot; + driver.getClass() + &quot;, loader: &quot; + driver.getClass().getClassLoader());
+}
+
+System.out.println(&quot;当前线程上下文类加载器：&quot; + Thread.currentThread().getContextClassLoader());
+System.out.println(&quot;ServerLoader的类加载器：&quot; + ServiceLoader.class.getClassLoader());
+
+结果：
+driver: class com.mysql.jdbc.Driver, loader: sun.misc.Launcher$AppClassLoader@18b4aac2
+driver: class com.mysql.fabric.jdbc.FabricMySQLDriver, loader: sun.misc.Launcher$AppClassLoader@18b4aac2
+当前线程上下文类加载器：sun.misc.Launcher$AppClassLoader@18b4aac2
+ServerLoader的类加载器：null
+
+设置上下文类加载器后的结果：
+//当前线程上下文类加载器：sun.misc.Launcher$ExtClassLoader@677327b6
+//ServerLoader的类加载器：null
+</code></pre>
+
+<h3 id="例3">例3：</h3>
+
+<p>以下是在Class类中：
+- Class.forName:
+    - 一个参数，未指定类加载器，在forName方法中会指定调用者的类加载器。
+    - 多个参数：</p>
+
+<blockquote>
+<p>return forName0(className, true, ClassLoader.getClassLoader(caller), caller);</p>
+</blockquote>
+
+<pre><code>- 各个参数含义：
+    ```
+    className：指定类名
+    true：表示会对其进行初始化。
+    第三：使用调用者的类加载器（ContextLoaderDemo4的类加载器AppClassLoader）。
+    第四：使用调用者的类名（caller = ContextLoaderDemo4）。
+    ```
+</code></pre>
+
+<ul>
+<li>DriverManager.getConnection:
+
+<ul>
+<li>这段代码的作用：
+<br /></li>
+</ul></li>
+</ul>
+
+<blockquote>
+<p>result = ( aClass == driver.getClass() ) ? true : false;</p>
+</blockquote>
+
+<pre><code>- 检验aClass和driver.getClass()是否是同一个类加载器加载的，命名空间是否相同，因为上下文类加载器可以通过setContextClassLoader改变使用哪个类加载器来加载类。
+</code></pre>
+
+<p>示例代码：</p>
+
+<pre><code>public class ContextLoaderDemo4 {
+    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+        
+        Class.forName(&quot;com.mysql.jdbc.Driver.class&quot;);
+        DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/testdb&quot;, &quot;username&quot;, &quot;password&quot;);
+        
+    }
+}
+</code></pre>
+
+<h2 id="jar-hell问题">jar hell问题</h2>
+
+<p><img src="https://raw.githubusercontent.com/CoderLeftEar/Blog-Images/master/blog/jarHell.jpg" alt="" /></p>
+
+<pre><code>public class JarHellDemo {
+    public static void main(String[] args) throws IOException {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+
+        String resourceName = &quot;java/lang/Long.class&quot;;
+
+        Enumeration&lt;URL&gt; urls = classLoader.getResources(resourceName);
+
+        while (urls.hasMoreElements()) {
+            URL url = urls.nextElement();
+            System.out.println(url);
+        }
+
+    }
+}
+
+结果：
+jar:file:/C:/Program%20Files/Java/jdk1.8.0_192/jre/lib/rt.jar!/java/lang/Long.class
+jar:file:/C:/Program%20Files/Java/jdk1.8.0_192/jre/lib/rt.jar!/java/lang/Long.class
+</code></pre>
+</article>
+    </section>
+
+    <footer class="ui attached segment dream-tags">
+      
+      
+      <a class="ui label" href="/tags/jvm" title="JVM">JVM</a>
+      
+      
+    </footer>
+
+    
+
+    
+
+  </div>
+  <div class="fifteen wide mobile fifteen wide tablet four wide computer column">
+
+    
+<section class="ui top attached center aligned inverted segment">
+
+  <a id="tag-category-pop" class="ui right ribbon label" style="width: 1px;">
+    <i class="bars icon" title="Show menu"></i>
+  </a>
+
+  <div class="ui small circular image" style="margin-top: 1rem;">
+    
+    <img src="/img/cat.jpg">
+    
+  </div>
+  
+  <h3 class="ui inverted header">
+  CoderLeftEar&#39;s Blog
+
+
+    <div class="sub header"></div>
+  </h3>
+
+  
+  <div class="ui inverted horizontal list">
+  
+    
+    <a class="item" href="/post">
+      <i class="archive icon" title="Archives"></i>
+    </a>
+    
+    <a class="item" href="/tags">
+      <i class="tags icon" title="All Tags"></i>
+    </a>
+    <a class="item" href="/categories">
+      <i class="cube icon" title="All Categories"></i>
+    </a>
+
+
+  </div>
+</section>
+
+
+
+<section class="ui attached center aligned inverted segment dream-header-tags dream-tags">
+
+  
+  <a class="ui label" href="/tags/css" title="css">css</a>
+  
+  <a class="ui label" href="/tags/datastructure" title="datastructure">datastructure</a>
+  
+  <a class="ui label" href="/tags/docker" title="docker">docker</a>
+  
+  <a class="ui label" href="/tags/echarts" title="echarts">echarts</a>
+  
+  <a class="ui label" href="/tags/example" title="example">example</a>
+  
+  <a class="ui label" href="/tags/git" title="git">git</a>
+  
+  <a class="ui label" href="/tags/gulp" title="gulp">gulp</a>
+  
+  <a class="ui label" href="/tags/html" title="html">html</a>
+  
+  <a class="ui label" href="/tags/java" title="java">java</a>
+  
+  <a class="ui label" href="/tags/jdk8" title="jdk8">jdk8</a>
+  
+  <a class="ui label" href="/tags/js" title="js">js</a>
+  
+  <a class="ui label" href="/tags/juc" title="juc">juc</a>
+  
+  <a class="ui label" href="/tags/jvm" title="jvm">jvm</a>
+  
+  <a class="ui label" href="/tags/linux" title="linux">linux</a>
+  
+  <a class="ui label" href="/tags/mysql" title="mysql">mysql</a>
+  
+  <a class="ui label" href="/tags/redis" title="redis">redis</a>
+  
+  <a class="ui label" href="/tags/shiro" title="shiro">shiro</a>
+  
+  <a class="ui label" href="/tags/springannotation" title="springannotation">springannotation</a>
+  
+  <a class="ui label" href="/tags/springboot" title="springboot">springboot</a>
+  
+  <a class="ui label" href="/tags/vue" title="vue">vue</a>
+  
+  <a class="ui label" href="/tags/%E5%86%85%E5%AD%98" title="内存">内存</a>
+  
+  <a class="ui label" href="/tags/%E6%AD%A3%E5%88%99" title="正则">正则</a>
+  
+  <a class="ui label" href="/tags/%E6%BA%90%E7%A0%81" title="源码">源码</a>
+  
+  <a class="ui label" href="/tags/%E7%AC%94%E8%AE%B0" title="笔记">笔记</a>
+  
+  <a class="ui label" href="/tags/%E7%BC%96%E7%A0%81" title="编码">编码</a>
+  
+  <a class="ui label" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F" title="设计模式">设计模式</a>
+  
+</section>
+
+
+
+
+<section class="ui attached inverted segment dream-categories">
+
+  
+  <div class="ui inverted accordion">
+  
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/css" class="item">css</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/html%E5%9B%BE%E7%89%87%E5%B1%85%E4%B8%AD/" class="item">Html图片居中</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/datastructure" class="item">datastructure</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/datastructure02-arrayqueue/" class="item">DataStructure02-ArrayQueue</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/datastructure01-sparsearray/" class="item">DataStructure01-SparseArray</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/docker" class="item">docker</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/docker%E7%AC%94%E8%AE%B0/" class="item">Docker笔记</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/echarts" class="item">echarts</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/echarts%E7%AC%94%E8%AE%B0/" class="item">Echarts笔记</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/example" class="item">example</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/example/" class="item">Example</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/git" class="item">git</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git-stash%E5%88%A0%E9%99%A4%E5%90%8E%E6%89%BE%E5%9B%9E/" class="item">Git Stash删除后找回</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B015-git-rebase%E5%8E%9F%E7%90%86%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/" class="item">Git笔记15-git rebase原理深度剖析</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B014-git-cherry-pick/" class="item">Git笔记14-git cherry-pick</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B013-git-subtree/" class="item">Git笔记13-Git Subtree</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B012-git%E8%A3%B8%E5%BA%93%E4%B8%8Esubmodule/" class="item">Git笔记12-Git裸库与submodule</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B011-git-refspec%E8%BF%9C%E7%A8%8B%E6%A0%87%E7%AD%BE%E4%B8%8Egit-gc/" class="item">Git笔记11-git refspec、远程标签与git gc</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B010-git%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%88%AB%E5%90%8Dgitk%E4%B8%8Egit-gui/" class="item">Git笔记10-Git远程分支、别名、gitk与git gui</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B009-git%E5%88%86%E6%94%AF%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/" class="item">Git笔记09-Git分支最佳实践</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B008-git%E5%8D%8F%E4%BD%9C%E5%92%8Cgit%E8%BF%9C%E7%A8%8B%E5%8D%8F%E4%BD%9C%E6%A8%A1%E5%9E%8B/" class="item">Git笔记08-Git协作和Git远程协作模型</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B007-git%E8%BF%9C%E7%A8%8Bgithub%E5%92%8C%E5%85%AC%E7%A7%81%E9%92%A5/" class="item">Git笔记07-git远程、GitHub和公私钥</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B006-%E6%A0%87%E7%AD%BE%E4%B8%8Ediff/" class="item">Git笔记06-标签与diff</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B005-checkout%E8%BF%9B%E9%98%B6%E4%B8%8Estash/" class="item">Git笔记05-checkout进阶与stash</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B004-%E5%88%86%E6%94%AF%E8%BF%9B%E9%98%B6%E4%B8%8E%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%80/" class="item">Git笔记04-分支进阶与版本回退</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B003-.gitignore%E4%B8%8E%E5%88%86%E6%94%AF/" class="item">Git笔记03-.gitignore与分支</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B002-%E6%B7%BB%E5%8A%A0%E5%88%A0%E9%99%A4%E4%BF%AE%E6%94%B9%E6%97%A5%E5%BF%97/" class="item">Git笔记02-添加、删除、修改、日志</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B001-%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E6%93%8D%E4%BD%9C/" class="item">Git笔记01-基本命令操作</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/gulp" class="item">gulp</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/gulpfile/" class="item">Gulpfile</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/html" class="item">html</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/html%E5%9B%BE%E7%89%87%E5%B1%85%E4%B8%AD/" class="item">Html图片居中</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/java" class="item">java</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/hashmap%E5%AE%9E%E7%8E%B0/" class="item">HashMap实现</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/iterator%E9%81%8D%E5%8E%86listsetmap/" class="item">Iterator遍历List、Set、Map</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/linkedlist%E6%BA%90%E7%A0%81/" class="item">LinkedList源码</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/arraylist%E6%BA%90%E7%A0%81/" class="item">ArrayList源码</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/java%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/" class="item">Java内存分析</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/jdk8" class="item">jdk8</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jdk8-10-stream%E7%AC%94%E8%AE%B002/" class="item">Jdk8-10-Stream笔记02</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jdk8-09-method-reference/" class="item">Jdk8-09-Method Reference</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jdk8-collector/" class="item">Jdk8-Collector</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jdk8-08-stream%E7%AC%94%E8%AE%B001/" class="item">Jdk8-08-Stream笔记01</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jdk8-07-binaryoperator/" class="item">Jdk8-07-BinaryOperator</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jdk8-02-consumer/" class="item">Jdk8-02-Consumer</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jdk8-04-optional/" class="item">Jdk8-04-Optional</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jdk8-05-predicate/" class="item">Jdk8-05-Predicate</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jdk8-06-supplier/" class="item">Jdk8-06-Supplier</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jdk8-03-function/" class="item">Jdk8-03-Function</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jdk8-01-lambda/" class="item">Jdk8-01-Lambda</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/js" class="item">js</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/js-%E7%9F%AD%E8%B7%AF%E8%BF%90%E7%AE%97%E7%AC%A6/" class="item">Js短路运算符</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/js%E8%B7%A8%E5%9F%9F/" class="item">JS跨域</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/js%E5%B0%8F%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/" class="item">JS小问题记录</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/js%E7%AC%94%E8%AE%B001/" class="item">js笔记01</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/juc" class="item">juc</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/java-juc/" class="item">Java-JUC</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/jvm" class="item">jvm</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jvm%E6%8E%92%E9%94%99/" class="item">Jvm排错</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B007-book01/" class="item">JVM笔记07-Book01</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B006-java%E5%86%85%E5%AD%9801/" class="item">JVM笔记06-Java内存01</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B005-java%E5%AD%97%E8%8A%82%E7%A0%8102/" class="item">JVM笔记05-Java字节码02</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B004-java%E5%AD%97%E8%8A%82%E7%A0%8101/" class="item">JVM笔记04-Java字节码01</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B003-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A803/" class="item">JVM笔记03-类加载器03</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B002-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A802/" class="item">JVM笔记02 类加载器02</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B001-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A801/" class="item">JVM笔记01-类加载器01</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/linux" class="item">linux</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/linux%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2/" class="item">Linux开机自启设置</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/linux-jar%E5%8C%85%E9%83%A8%E7%BD%B2/" class="item">jar部署</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/linux%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E8%AE%BE%E7%BD%AE/" class="item">Linux开机自启设置</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/linux%E5%AE%89%E8%A3%85tomcatmysql/" class="item">Linux安装tomcat、mysql</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/linux/" class="item">Linux</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/mysql" class="item">mysql</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/mysql%E9%97%AE%E9%A2%98/" class="item">Mysql问题</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/mysql%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB/" class="item">Mysql事务隔离</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%AD%E8%A1%8C%E4%B8%BA/" class="item">Spring事务、传播行为</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/redis" class="item">redis</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/redis/" class="item">Redis</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/shiro" class="item">shiro</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/shiro%E7%AC%94%E8%AE%B0/" class="item">Shiro笔记</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/springannotation" class="item">springannotation</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/springannotation%E7%AC%94%E8%AE%B004-springmvc/" class="item">SpringAnnotation笔记04-SpringMVC</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/springannotation%E7%AC%94%E8%AE%B003-servlet30/" class="item">SpringAnnotation笔记03-Servlet30</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/springannotation%E7%AC%94%E8%AE%B002-aop/" class="item">SpringAnnotation笔记02-AOP</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/springannotation%E7%AC%94%E8%AE%B001-ioc/" class="item">SpringAnnotation笔记01-IOC</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/springboot" class="item">springboot</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/springboot%E7%AC%94%E8%AE%B001/" class="item">SpringBoot笔记01</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/springboot%E7%AC%94%E8%AE%B002/" class="item">SpringBoot笔记02</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/vue" class="item">vue</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/vue%E7%AC%94%E8%AE%B0-%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4list%E4%B8%AD%E6%95%B0%E6%8D%AE/" class="item">Vue笔记-批量删除list中数据</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/vue/" class="item">Vue笔记</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/%E5%86%85%E5%AD%98" class="item">内存</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/java%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/" class="item">Java内存分析</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/%E6%AD%A3%E5%88%99" class="item">正则</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="item">正则表达式</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/%E6%BA%90%E7%A0%81" class="item">源码</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/hashmap%E5%AE%9E%E7%8E%B0/" class="item">HashMap实现</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/linkedlist%E6%BA%90%E7%A0%81/" class="item">LinkedList源码</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/arraylist%E6%BA%90%E7%A0%81/" class="item">ArrayList源码</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/%E7%AC%94%E8%AE%B0" class="item">笔记</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/%E6%8A%A5%E9%94%99-%E7%AC%94%E8%AE%B0-%E6%9D%82/" class="item">笔记-杂</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/%E7%BC%96%E7%A0%81" class="item">编码</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/java%E5%90%84%E4%B8%AA%E7%BC%96%E7%A0%81%E6%89%80%E5%8D%A0%E5%AD%97%E8%8A%82%E6%95%B0/" class="item">Java各个编码所占字节数</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F" class="item">设计模式</a>
+    </div>
+    <div class="content">
+      <div class="ui link list">
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/001-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" class="item">001 单例模式</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/002-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" class="item">001-大话设计模式-单例模式</a>
+        </div>
+      </div>
+      
+      <div class="item" style="padding-left: 24px;">
+        <i class="gem outline grey icon"></i>
+        <div class="content">
+          <a href="https://inkbambo0.github.io/post/001-%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" class="item">001-大话设计模式-简单工厂模式</a>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+    
+  </div>
+</section>
+
+
+
+<section class="ui bottom attached center aligned inverted segment">
+
+	<img src="/img/wx.jpg" alt="个人微信账号" width="130" height="130">
+	<p style="color: #35B41C">个人微信</p>
+
+	<a target="_blank" href="https://github.com/CoderLeftEar" title="github">
+		<img src="/img/github.png" alt="github" width="30" height="30"></img>
+	</a>
+	
+	<a target="_blank" href="#" title="新浪微博">
+		<img src="/img/xl.png" alt="新浪微博" width="30" height="30"></img>
+	</a>
+	
+	<br/>
+	<br/>
+
+    
+    <p>© 2021 CoderLeftEar&#39;s Blog</p>
+    
+    <p>Powered by <a href="https://gohugo.io/" target="_blank">Hugo</a> with theme <a href="https://github.com/g1eny0ung/hugo-theme-dream" target="_blank">Dream</a>.</p>
+</section>
+
+  </div>
+</div>
+
+      </section>
+      <section class="back">
+        <nav class="ui top secondary menu" style="overflow-x: auto">
+  <div class="item">
+    <i class="inverted big link bullseye icon dream-flip-toggle" title="Flip it!"></i>
+  </div>
+  
+  
+  
+  
+  
+</nav>
+
+<div class="ui centered grid about">
+  <div class="fifteen wide mobile fifteen wide tablet fifteen wide computer column">
+
+    <section class="ui stacked segments">
+      
+      <header class="ui inverted segment">
+      
+        <h2 class="ui header">
+          About
+        </h2>
+      </header>
+
+      
+      <article class="ui inverted segment markdown-body">
+      
+        <div class="ui stackable three column grid">
+          <div class="column">
+              
+              从现在开始写博客
+              
+          </div>
+          <div class="column">
+              
+          </div>
+          <div class="column">
+              
+          </div>
+        </div>
+      </article>
+
+      
+
+      
+      
+    </section>
+
+  </div>
+</div>
+
+      </section>
+    </div>
+  </div>
+
+  
+<script src="/js/jquery.min.js"></script>
+<script src="/js/semantic.min.js"></script>
+<script src="/js/html2canvas.min.js"></script>
+<script src="/js/bg.js"></script>
+<script src="/js/site.js"></script>
+<script src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+</body>
+
+</html>

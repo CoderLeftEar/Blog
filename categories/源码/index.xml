@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>源码 on CoderLeftEar&#39;s Blog</title>
+    <link>https://inkbambo0.github.io/categories/%E6%BA%90%E7%A0%81/</link>
+    <description>Recent content in 源码 on CoderLeftEar&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 04 Aug 2019 11:30:48 +0800</lastBuildDate>
+    
+	<atom:link href="https://inkbambo0.github.io/categories/%E6%BA%90%E7%A0%81/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>HashMap实现</title>
+      <link>https://inkbambo0.github.io/post/hashmap%E5%AE%9E%E7%8E%B0/</link>
+      <pubDate>Sun, 04 Aug 2019 11:30:48 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/hashmap%E5%AE%9E%E7%8E%B0/</guid>
+      <description>HashMap实现  未添加泛型的Node类
+ public class Node { int hash; Object key; Object value; Node next; }   1、put、myHash、tostring
+ /** * put、myHash、tostring * * @author Mr.Wang * */ public class HashMap01 { Node[] table;	//桶位数组 bucket array int size; public HashMap01() { table = new Node[16]; } public void put(Object key, Object value) { Node newNode = new Node(); newNode.hash = myHash(key.hashCode(), table.length); newNode.key = key; newNode.value = value; newNode.</description>
+    </item>
+    
+    <item>
+      <title>LinkedList源码</title>
+      <link>https://inkbambo0.github.io/post/linkedlist%E6%BA%90%E7%A0%81/</link>
+      <pubDate>Tue, 09 Jul 2019 20:59:13 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/linkedlist%E6%BA%90%E7%A0%81/</guid>
+      <description>LinkedList源码实现  Node类实现
+public class Node { Node previous; Node next; Object element; public Node(Node previous, Node next, Object element) { this.previous = previous; this.next = next; this.element = element; } public Node(Object element) { this.element = element; } }  1、添加、遍历的链表
+/** * 添加、遍历的链表 * * @author Mr.Wang * */ public class LinkedList01 { private Node first; private Node last; private int size; /** * 添加数据 * * @param obj */ public void add(Object obj) { Node node = new Node(obj); if(first == null) { //第一个节点为空，那么node节点就为第一个节点，并且前后都为null node.</description>
+    </item>
+    
+    <item>
+      <title>ArrayList源码</title>
+      <link>https://inkbambo0.github.io/post/arraylist%E6%BA%90%E7%A0%81/</link>
+      <pubDate>Tue, 09 Jul 2019 20:58:54 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/arraylist%E6%BA%90%E7%A0%81/</guid>
+      <description>ArrayList源码实现  1、基本功能
+/** * ArrayList基本实现 * * @author Mr.Wang * */ public class ArrayList01 { //存放数据 private Object[] elementData; //大小 private int size; //默认大小 private static final int DEFAULT_CAPACITY = 10; //elementData默认大小 public ArrayList01() { elementData = new Object[DEFAULT_CAPACITY]; } //elementData自定义大小 public ArrayList01(int capacity) { elementData = new Object[capacity]; } //添加数据的方法 public void add(Object obj) { elementData[size ++] = obj; } @Override public String toString() { //将elementData中的数据放到sb中 StringBuilder sb = new StringBuilder(); sb.</description>
+    </item>
+    
+  </channel>
+</rss>

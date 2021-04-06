@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Abouts on CoderLeftEar&#39;s Blog</title>
+    <link>https://inkbambo0.github.io/about/</link>
+    <description>Recent content in Abouts on CoderLeftEar&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="https://inkbambo0.github.io/about/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title></title>
+      <link>https://inkbambo0.github.io/about/desc/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://inkbambo0.github.io/about/desc/</guid>
+      <description>从现在开始写博客</description>
+    </item>
+    
+  </channel>
+</rss>

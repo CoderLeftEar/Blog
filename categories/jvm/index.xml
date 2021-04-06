@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JVM on CoderLeftEar&#39;s Blog</title>
+    <link>https://inkbambo0.github.io/categories/jvm/</link>
+    <description>Recent content in JVM on CoderLeftEar&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 05 Sep 2020 09:38:13 +0800</lastBuildDate>
+    
+	<atom:link href="https://inkbambo0.github.io/categories/jvm/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Jvm排错</title>
+      <link>https://inkbambo0.github.io/post/jvm%E6%8E%92%E9%94%99/</link>
+      <pubDate>Sat, 05 Sep 2020 09:38:13 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jvm%E6%8E%92%E9%94%99/</guid>
+      <description> Jvm排错 </description>
+    </item>
+    
+    <item>
+      <title>JVM笔记07-Book01</title>
+      <link>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B007-book01/</link>
+      <pubDate>Mon, 30 Sep 2019 08:31:53 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B007-book01/</guid>
+      <description> JVM笔记07-Book01 </description>
+    </item>
+    
+    <item>
+      <title>JVM笔记06-Java内存01</title>
+      <link>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B006-java%E5%86%85%E5%AD%9801/</link>
+      <pubDate>Sun, 29 Sep 2019 19:12:52 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B006-java%E5%86%85%E5%AD%9801/</guid>
+      <description>JVM笔记06-Java内存01 栈帧（Stack Frame）：每个方法在执行是都会生成一个与这个方法相关的、独有的栈帧（数据结构），本身存贮操作数栈里的数据、存贮局部变量表、方法的返回地址。
+程序计数器（Program Counter）： 描述线程在执行字节码时，执行完第一行后，下一行的位置。
+本地方法栈：关于native的，Java中有native的方法（不是有Java实现的，而是由C、C++实现的），主要用于处理本地方法。
+堆（Heap）：所创建的绝大多数对象都是位于堆中，jvm中所管理的最大的内存，被所有内存共享（共享区域），jvm创建的时候，堆的内存会从操作系统被申请下来，存放我们所创建的对象实例。
+方法区（Method Area）：存储元信息。永久代（Permanent Generation），从jdk1.8开始，已经彻底废除永久代，使用元空间（meta space）。
+运行时常量池：方法区的一部分内容。编译期间生成class文件的时候，生成的各种字面量、符号引用，这些内容在进行加载完之后，都会进入到方法区的运行时常量池当中进行存放。
+直接内存（Direct Memory）：并不是有JVM世界管理的，而是有操作系统进行管理的</description>
+    </item>
+    
+    <item>
+      <title>JVM笔记05-Java字节码02</title>
+      <link>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B005-java%E5%AD%97%E8%8A%82%E7%A0%8102/</link>
+      <pubDate>Fri, 27 Sep 2019 09:13:21 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B005-java%E5%AD%97%E8%8A%82%E7%A0%8102/</guid>
+      <description>JVM笔记05-Java字节码02  JVM笔记05-Java字节码02  栈帧（stack frame） 符号引用、直接引用 invokevirtual  方法的静态分派： 方法的动态分派：  虚方法（类加载的连接阶段） 基于栈、寄存器的指令集对比  例：栈指令集案例吧！    栈帧（stack frame） 栈帧是一种用于帮助jvm执行方法调用和方法执行的数据结构。
+栈帧本身是一种数据结构，封装了方法的局部变量表、动态链接信息、方法返回地址以及操作数栈等信息。
+slot(变量槽)：存贮局部变量的最小单位。可复用：10个局部变量不一定有10个slot存贮。
+按下面的例子来说：5个局部变量，会有3个slot存贮。
+public void test () { int a = 1; if (a &amp;lt; 5) { int b = 2; int c = 3; } int d = 4; int e = 5; }  符号引用、直接引用  有些符号引用是在类加载阶段或是第一次使用时就会转化为直接引用，这种转换及叫做静态解析；
+ 另外一些符号引用则是在每次运行期转换为直接引用，这种转换叫做动态链接，这体现为Java的多态性。
+  从Java字节码来说，a.sleep()每次调用的都是Animal类的sleep()方法，但会有一个invokevirtual指令会在运行期间检测a真正指向的对象。
+Animal a = new Dog(); a.</description>
+    </item>
+    
+    <item>
+      <title>JVM笔记04-Java字节码01</title>
+      <link>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B004-java%E5%AD%97%E8%8A%82%E7%A0%8101/</link>
+      <pubDate>Mon, 16 Sep 2019 15:48:32 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B004-java%E5%AD%97%E8%8A%82%E7%A0%8101/</guid>
+      <description>JVM笔记04-Java字节码01  JVM笔记04-Java字节码01  Java字节码常量池  Class文件结构常量池中11种数据类型  Java字节码结构 Access_Flag 访问标志 This Clsaa Name Super Class Name Interfaces Fields Method Attributes 助记符（monitorenter、monitorexit）含义 Java字节码默认有一个this对象参数、异常处理方式   CAFEBABE0000003400180A00040014090003001507001607001701000161010001490100063C696E69743E010003282956010004436F646501000F4C696E654E756D6265725461626C650100124C6F63616C5661726961626C655461626C650100047468697301001E4C636F6D2F77616E672F6A766D2F62797465636F64652F44656D6F30313B01000467657441010003282949010004736574410100042849295601000A536F7572636546696C6501000B44656D6F30312E6A6176610C000700080C0005000601001C636F6D2F77616E672F6A766D2F62797465636F64652F44656D6F30310100106A6176612F6C616E672F4F626A65637400210003000400000001000200050006000000030001000700080001000900000038000200010000000A2AB700012A04B50002B100000002000A0000000A00020000000700040008000B0000000C00010000000A000C000D00000001000E000F000100090000002F00010001000000052AB40002AC00000002000A0000000600010000000B000B0000000C000100000005000C000D0000000100100011000100090000003E00020002000000062A1BB50002B100000002000A0000000A00020000000F00050010000B00000016000200000006000C000D00000000000600050006000100010012000000020013  Java字节码常量池  使用javap -verbose命令分析一个字节码文件时，将会分析该字节的魔数、版本号、常量池、类信息、类的构造方法、类中的方法信息、类变量与成员变量等信息。
+ 魔数：所有.class字节码文件的前4个字节都是魔数，魔数为固定值：0xCAFABABE(CA FE BA BE)。
+ 魔数之后的4个字节为版本信息，后两个字节表示major version（主版本号），这里的版本号为00 00 00 34，换算成十进制，表示次版本号为0，主版本为52，所以，该文件的版本号为：1.8.0。可以通过java -version命令来验证这一点。
+ 常量池（constant pool）：紧接着主版本号之后就是常量池入口。一个Java类定义的很多信息都是由常量池来维护和描述的，可以将常量池看作是Class文件的资源仓库，比如说Java类中定义的方法与变量信息，都是存储在常量池中。常量池中主要存储两类常量：字面量和符号引用。
+ 字面量如文本字符，Java中声明为final的常量值等。 符号引用如类和接口的全局限定名，字段的名称和描述符，方法的名称和描述符等。  常量池的总体结构：Java类所对应的常量池主要由常量池数量和常量池数组（常量表）这两部分组成。常量池数量紧跟在主版本后面，占据两个字节；常量池数组则紧跟在常量池数量之后。常量池数组与一般数组不同的是，常量池数组中的元素类型和结构都是不同的；但是，每一个元素的第一个数据都是一个u1类型，该字节是一个标志位，占据1个字节。JVM在解析常量池时，会根据这个u1类型来获取元素的具体类型。值的注意的是，常量池数组中元素个数 = 常量池数（00 18） - 1 （其中0暂时不使用），目的是满足某些常量池索引值的数据在特定情况下需要表达不引用任何一个常量池的含义；根本原因在于，索引为0也是一个常量（保留常量），只不过它不位于常量表中，这个常量就对应null值，所以，常量池的索引从1开始而非0开始。
+  ###Class文件结构常量池中11种数据类型
+ 在JVM规范中，每个变量/字段就对应有描述信息，描述信息主要的作用是描述字段的数据类型、方法的参数列表（包括数量、类型与顺序）与返回值。根据描述符规则，基本数据类型和代表无返回值的void类型都用一个大写字符表示，对象类型则使用字符L加对象的全限定名称来表示，为了压缩字节码文件的体积，对于基本数据类型，JVM都只是用一个大写字母表示，如下表示：B - byte，S - short，I - int，J - long，F - float，D - double，C - char，Z - boolean，V - void，L - 对象类型，如Ljava/lang/String; 对于数组类型来说，每一个维度使用一个前置的[来表示，int[]被记录为[I，String[][]被记录为[[Ljava/lang/String; 用描述符描述方法时，按照先参照列表，后返回值的顺序来描述。参数列表按照参数的严格顺序放在一组()之内，如方法：String getNickname(int id, String name)的描述符为：(I, Ljava/lang/String)Ljava/lang/String;  0A 0004 0014 09 0003 0015 07 0016 07 0017 01 0001 61 01 0001 49 01 0006 3C 69 6E 69 74 3E 01 0003 28 29 56 01 0004 43 6F 64 65 01 000F 4C 69 6E 65 4E 75 6D 62 65 72 54 61 62 6C 65 01 0012 4C 6F 63 61 6C 56 61 72 69 61 62 6C 65 54 61 62 6C 65 01 0004 74 68 69 73 01 001E 4C 63 6F 6D 2F 77 61 6E 67 2F 6A 76 6D 2F 62 79 74 65 63 6F 64 65 2F 44 65 6D 6F 30 31 3B 01 0004 67 65 74 41 01 0003 28 29 49 01 0004 73 65 74 41 01 0004 28 49 29 56 01 000A 53 6F 75 72 63 65 46 69 6C 65 01 000B 44 65 6D 6F 30 31 2E 6A 61 76 61 0C 0007 0008 0C 0005 0006 01 001C 63 6F 6D 2F 77 61 6E 67 2F 6A 76 6D 2F 62 79 74 65 63 6F 64 65 2F 44 65 6D 6F 30 31 01 0010 6A 61 76 61 2F 6C 61 6E 67 2F 4F 62 6A 65 63 74   #1 = Methodref #4.</description>
+    </item>
+    
+    <item>
+      <title>JVM笔记03-类加载器03</title>
+      <link>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B003-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A803/</link>
+      <pubDate>Tue, 10 Sep 2019 08:14:16 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B003-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A803/</guid>
+      <description>JVM笔记03-类加载器03  JVM笔记03-类加载器03  自定义类加载器在复杂类加载情况下运动分析 类加载器命名空间实战与彻底理解  1. 2.  类加载器实例剖析与疑难点解析  BootstrapClassLoader ExtensionClassLoader  类加载器命名空间深度解析  例1： 例2： 类加载器的双亲委托模型的好处  扩展类加载器和总结  启动类加载器的相关  Launcher源码分析和forName源码分析 线程上下文类加载器的分析与事项（setContextClassLoader();）  例1： 例2：ServiceLoader案例 例3：  jar hell问题   自定义类加载器在复杂类加载情况下运动分析 案例在上一篇
+注释掉clazz.newInstance();就不会实例化MyDog对象，即MyDog的构造方法不会被调用，因此不会实例化MyCat对象，没有对MyCat进行主动使用。但并不代表MyDog没有被加载。
+注释掉clazz.newInstance(): [Loaded com.wang.jvm.custom.MyDog from file:/E:/JavaEE/ClassLoad/out/production/classes/] hashcode: 356573597 没有注释掉clazz.newInstance(): [Loaded com.wang.jvm.custom.MyDog from file:/E:/JavaEE/ClassLoad/out/production/classes/] hashcode: 356573597 invoke dog class constructor!sun.misc.Launcher$AppClassLoader@18b4aac2 [Loaded com.wang.jvm.custom.MyCat from file:/E:/JavaEE/ClassLoad/out/production/classes/] invoke cat class constructor!sun.misc.Launcher$AppClassLoader@18b4aac2  MyClassLoader loader = new MyClassLoader(&amp;quot;loader&amp;quot;); Class&amp;lt;?</description>
+    </item>
+    
+    <item>
+      <title>JVM笔记02 类加载器02</title>
+      <link>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B002-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A802/</link>
+      <pubDate>Tue, 03 Sep 2019 20:56:20 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B002-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A802/</guid>
+      <description>类加载  类加载过程 类的加载  有两种类型的类加载器 类加载器并不需要等到某个类被“首次主动使用”是再加载它。  连接  类的连接 类的准备  类的初始化  类的初始化步骤 类初始化的时机  类加载器的加载、加载器种类及类加载器的关系 类加载器的双亲委托机制  案例：  双亲委托机制案例： ClassLoader源码 自定义类加载器 引入命名空间 命名空间 类的卸载  案例：    类加载 类加载过程 类的加载  类的加载的最终产品是位于内存中的Class对象 Class对象封装了类在方法区内的数据结构，并且向Java程序员提供了访问方法区内的数据结构的接口。  有两种类型的类加载器  Java虚拟机自带的加载器  根类加载器（启动类加载器）（BootStrap） 扩展类加载器（Extension） 系统（应用）类加载器（System / App）  用户自定义的类加载器  一定是java.lang.ClassLoader（抽象类）的子类 用户可以定制类的加载方式   类加载器并不需要等到某个类被“首次主动使用”是再加载它。  JVM规范允许类加载器在预料某个类将要被使用时就加载它，如果在预知加载过程中遇到了.class文件缺失或存在错误，类加载器必须在程序首次主动使用该类是才报告错误（LinkageError错误） 如果这个类一直没有被程序主动使用，那么来加载器就不会报告错误。  连接 类的连接  类被加载后，就进入连接阶段。连接就是将已经读入到内存中的二进制数据合并到虚拟机的运行时环境中去。
+ 类的验证的内容（主要部分）：</description>
+    </item>
+    
+    <item>
+      <title>JVM笔记01-类加载器01</title>
+      <link>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B001-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A801/</link>
+      <pubDate>Sun, 25 Aug 2019 11:36:56 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/jvm%E7%AC%94%E8%AE%B001-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A801/</guid>
+      <description>类加载器、类的加载连接与初始化  类加载器、类的加载连接与初始化  类加载 类加载器 类的加载、连接与初始化 类的使用和卸载 Java虚拟机对类的使用方式 案例： 类的加载 JVM参数 关于public static final String str = &amp;ldquo;hello&amp;rdquo;;  反编译  助记符： 数组实例 父子接口 案例：关于初始化过程的代码   所有的类一定是由类加载器加载的，但数组例外，数组是由jvm加载的
+类加载 定义：在Java代码中，类型的加载、连接与初始化过程都是在程序运行期间完成的。
+类型：可以理解为class；这里指的是定义的class、interface、枚举，不存在对象的概念。表示类本身，并不表示对象。
+类型的加载：将已经存在的字节码文件从硬盘上加载到内存中。 连接：将类与类之间的关系固定好，对于字节码的一些相关处理，验证、准备、解析都是在此阶段完成的。
+初始化：赋值
+类加载器 加载类的工具
+以下情况，Java虚拟机会结束生命周期： - 执行了System.exit(); - 程序正常结束。 - 程序在执行过程中遇到了异常或错误而异常终止。 - 由于操作系统出现错误而导致Java虚拟机进程终止。
+类的加载、连接与初始化  加载：查找并加载类的二进制数据（加载类的class文件加载进内存） 连接  验证：确保被加载的类的正确性。（使得class文件时按照jvm的规范进行的） 准备：为类的静态变量分配内存，并将其初始化为默认值。  class test { &amp;emsp;&amp;emsp;private static int a = 1; } 先加载test类，然后将变量a设置为int类型的默认值0。  解析：将符号引用转换为直接引用。  符号引用：通过符号的表示，一个类中的方法通过符号引用另一个类所需的目标。 直接引用：直接将这个方法通过指针指向所需要用的目标的对象的内存中的位置。   初始化：为类的静态变量赋予正确的初始值（a = 1) 类的实例化：  为新的对象分配内存 为实例变量赋默认值 为实例变量赋正确的初始值 java编译器为它编译的每个类都至少生成一个实例初始化方法（构造器），在java的class文件中，这个实例初始化方法被称为&amp;rdquo;&amp;lt;init&amp;gt;&amp;ldquo;（静态变量是&amp;rdquo;&amp;lt;clinit&amp;gt;&amp;ldquo;）；针对源代码中每个类的构造方法，java编译器都产生一个&amp;lt;init&amp;gt;方法。 ===================== 另一种对象创建过程：类加载检查 - 分配内存 - 初始化零值 - 设置对象头 - 执行init方法  垃圾回收和对象终结  类的使用和卸载  使用：用类创建对象、调用方法。 卸载：class字节码文件加载到内存中，形成自己的数据结构，驻留在内存中，还可以被销毁。  Java虚拟机对类的使用方式 所有的Java虚拟机实现必须在每个类或接口 被Java程序首次主动使用时才初始化它们。</description>
+    </item>
+    
+  </channel>
+</rss>

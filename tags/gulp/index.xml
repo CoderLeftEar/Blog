@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gulp on CoderLeftEar&#39;s Blog</title>
+    <link>https://inkbambo0.github.io/tags/gulp/</link>
+    <description>Recent content in Gulp on CoderLeftEar&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 10 Jun 2020 11:12:41 +0800</lastBuildDate>
+    
+	<atom:link href="https://inkbambo0.github.io/tags/gulp/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Gulpfile</title>
+      <link>https://inkbambo0.github.io/post/gulpfile/</link>
+      <pubDate>Wed, 10 Jun 2020 11:12:41 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/gulpfile/</guid>
+      <description>Gulp gulpfile.js const gulp = require(&#39;gulp&#39;); const $ = require(&#39;gulp-load-plugins&#39;)(); const htmlmin = require(&#39;gulp-htmlmin&#39;); const cleanCss = require(&#39;gulp-clean-css&#39;); const uglify = require(&#39;gulp-uglify&#39;); const babel = require(&#39;gulp-babel&#39;); const imagemin = require(&#39;gulp-imagemin&#39;); const clean = require(&#39;gulp-clean&#39;); function htmlBuild () { return gulp.src(&#39;./src/*.html&#39;) .pipe(htmlmin({ collapseWhitespace: true, removeComments: true, minifyJS: true, minifyCSS: true, })) .pipe(gulp.dest(&#39;./dist/&#39;)) } function cssBuild () { return gulp.src(&#39;./src/css/*.css&#39;) .pipe(gulp.dest(&#39;./dist/css/&#39;)) .pipe(gulp.src([&#39;./src/css/style.css&#39;, &#39;./src/css/bootstrap-theme.css&#39;, &#39;./src/css/bootstrap.css&#39;,])) .pipe(cleanCss({compatibility: &#39;ie7&#39;})) .pipe(gulp.dest(&#39;./dist/css/&#39;)) } function jsBuild () { return gulp.</description>
+    </item>
+    
+  </channel>
+</rss>

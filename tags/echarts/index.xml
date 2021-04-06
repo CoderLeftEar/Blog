@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Echarts on CoderLeftEar&#39;s Blog</title>
+    <link>https://inkbambo0.github.io/tags/echarts/</link>
+    <description>Recent content in Echarts on CoderLeftEar&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 16 Jun 2020 20:28:21 +0800</lastBuildDate>
+    
+	<atom:link href="https://inkbambo0.github.io/tags/echarts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Echarts笔记</title>
+      <link>https://inkbambo0.github.io/post/echarts%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Tue, 16 Jun 2020 20:28:21 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/echarts%E7%AC%94%E8%AE%B0/</guid>
+      <description>Echarts笔记 官方配置地址
+http://echarts.baidu.com/option.html#tooltip.trigger
+eg1: &amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html&amp;gt; &amp;lt;head&amp;gt; &amp;lt;meta charset=&amp;quot;utf-8&amp;quot;&amp;gt; &amp;lt;!-- 引入 ECharts 文件 --&amp;gt; &amp;lt;script src=&amp;quot;echarts.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;div id=&amp;quot;pie1&amp;quot; style=&amp;quot;width: 600px;height:400px;&amp;quot;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;script type=&amp;quot;text/javascript&amp;quot;&amp;gt; var myChart1 = echarts.init(document.getElementById(&#39;pie1&#39;)); option1 = { title:{ text:&#39;按类型统计&#39;, top:&#39;bottom&#39;, left:&#39;center&#39;, textStyle:{ fontSize: 14, fontWeight: &#39;&#39;, color: &#39;#333&#39; }, },//标题 tooltip: { trigger: &#39;item&#39;, formatter: &amp;quot;{a} &amp;lt;br/&amp;gt;{b}: {c} ({d}%)&amp;quot;， /*formatter:function(val){ //让series 中的文字进行换行 console.log(val);//查看val属性，可根据里边属性自定义内容 var content = var[&#39;name&#39;]; return content;//返回可以含有html中标签 },*/ //自定义鼠标悬浮交互信息提示，鼠标放在饼状图上时触发事件 },//提示框，鼠标悬浮交互时的信息提示 legend: { show: false, orient: &#39;vertical&#39;, x: &#39;left&#39;, data: [&#39;50%-学生&#39;, &#39;25%-老师&#39;, &#39;25%-家长&#39;] },//图例属性，以饼状图为例，用来说明饼状图每个扇区，data与下边series中data相匹配 graphic:{ type:&#39;text&#39;, left:&#39;center&#39;, top:&#39;center&#39;, style:{ text:&#39;用户统计\n&#39;+&#39;100&#39;, //使用“+”可以使每行文字居中 textAlign:&#39;center&#39;, font:&#39;italic bolder 16px cursive&#39;, fill:&#39;#000&#39;, width:30, height:30 } },//此例饼状图为圆环中心文字显示属性，这是一个原生图形元素组件，功能很多 series: [ { name:&#39;用户统计&#39;,//tooltip提示框中显示内容 type: &#39;pie&#39;,//图形类型，如饼状图，柱状图等 radius: [&#39;35%&#39;, &#39;65%&#39;],//饼图的半径，数组的第一项是内半径，第二项是外半径。支持百分比，本例设置成环形图。具体可以看文档或改变其值试一试 //roseType:&#39;area&#39;,是否显示成南丁格尔图，默认false itemStyle: { normal:{ label:{ show:true, textStyle:{color:&#39;#3c4858&#39;,fontSize:&amp;quot;18&amp;quot;}, formatter:function(val){ //让series 中的文字进行换行 return val.</description>
+    </item>
+    
+  </channel>
+</rss>

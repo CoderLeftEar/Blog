@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>git on CoderLeftEar&#39;s Blog</title>
+    <link>https://inkbambo0.github.io/categories/git/</link>
+    <description>Recent content in git on CoderLeftEar&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 15 Oct 2020 16:52:25 +0800</lastBuildDate>
+    
+	<atom:link href="https://inkbambo0.github.io/categories/git/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Git Stash删除后找回</title>
+      <link>https://inkbambo0.github.io/post/git-stash%E5%88%A0%E9%99%A4%E5%90%8E%E6%89%BE%E5%9B%9E/</link>
+      <pubDate>Thu, 15 Oct 2020 16:52:25 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git-stash%E5%88%A0%E9%99%A4%E5%90%8E%E6%89%BE%E5%9B%9E/</guid>
+      <description> Git Stash删除后找回 查询所有记录 git log --graph --oneline --decorate $(git fsck --no-reflog | awk &#39;/dangling commit/ {print $3}&#39;)  添加到工作区 git stash apply 9fa8ujaf  </description>
+    </item>
+    
+    <item>
+      <title>Git笔记15-git rebase原理深度剖析</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B015-git-rebase%E5%8E%9F%E7%90%86%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/</link>
+      <pubDate>Sun, 18 Aug 2019 22:54:00 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B015-git-rebase%E5%8E%9F%E7%90%86%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/</guid>
+      <description>Git笔记15-git rebase原理深度剖析 rebase： 变基、衍合</description>
+    </item>
+    
+    <item>
+      <title>Git笔记14-git cherry-pick</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B014-git-cherry-pick/</link>
+      <pubDate>Sat, 17 Aug 2019 18:37:56 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B014-git-cherry-pick/</guid>
+      <description>Git笔记14-git cherry-pick git cherry-pick git cherry-pick：错误的在dev分支比master分支比多两个提交
+master: commit 04f05f3a7076f38ccacb5cd544727d108599ff39 (HEAD -&amp;gt; master) Author: zhangsan &amp;lt;zhangsan@git.com&amp;gt; Date: Sun Aug 18 22:41:08 2019 +0800 initial commit ============================================== dev: commit a84738c41b782e33e00fd6491e0e7e523bd18c97 (HEAD -&amp;gt; dev) Author: zhangsan &amp;lt;zhangsan@git.com&amp;gt; Date: Sun Aug 18 22:42:35 2019 +0800 add hello3 commit c5ea82c4dde3277efa9b4640131681f0ce7f1f04 Author: zhangsan &amp;lt;zhangsan@git.com&amp;gt; Date: Sun Aug 18 22:42:03 2019 +0800 add hello2 commit 04f05f3a7076f38ccacb5cd544727d108599ff39 (master) Author: zhangsan &amp;lt;zhangsan@git.com&amp;gt; Date: Sun Aug 18 22:41:08 2019 +0800 initial commit  在master上使用git cherry-pick c5ea82可将在dev分支上提交到的所有信息在当前master上再次执行，但不能跳过执行，不能直接执行git cherry-pick a84738，会报冲突错误，需手动排除冲突</description>
+    </item>
+    
+    <item>
+      <title>Git笔记13-Git Subtree</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B013-git-subtree/</link>
+      <pubDate>Sat, 17 Aug 2019 09:08:49 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B013-git-subtree/</guid>
+      <description>Git笔记13-Git Subtree git subtree:
+添加远程项目设置别名subtree-origin：
+&amp;gt; git reomte add subtree-origin git@github.com:Mr-WangG/git_subtree_child.git
+从subtree-origin的master中克隆项目，
+-squash：将所需要依赖的所有分支的所有提交合并为一个提交，这个提交再与当前subtree-origin分支合并又发生一次提交(&amp;ndash;prefix=subtree / &amp;ndash;prefix subtree / -P subtree)
+&amp;gt; git subtree add &amp;ndash;prefix=subtree subtree-origin master (-squash)
+从subtree-origin拉取到subtree中：
+&amp;gt; git subtree pull &amp;ndash;prefix=subtree subtree-origin master
+在git_subtree_parent中，使用***可将依赖的项目进行修改并push到git_subtree_parent和git_subtree_child中，直接进行修改：
+&amp;gt; git subtree push &amp;ndash;prefix=subtree subtree-origin master
+出现一下错误：可以采用以下方法，能解决部分
+error: failed to push some refs to &#39;git@github.com:Mr-WangG/git_subtree_child.git&#39; hint: hint: ***  git pull origin master git pull --rebase origin master git push --set-upstream origin master  原因是远程与本地不一致导致的 使用git pull &amp;ndash;rebase origin master: 意思是将远程更新到合并到本地中，&amp;ndash;rebase作用是取消本地中刚刚的commit，并临时保存到.</description>
+    </item>
+    
+    <item>
+      <title>Git笔记12-Git裸库与submodule</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B012-git%E8%A3%B8%E5%BA%93%E4%B8%8Esubmodule/</link>
+      <pubDate>Thu, 15 Aug 2019 01:48:11 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B012-git%E8%A3%B8%E5%BA%93%E4%B8%8Esubmodule/</guid>
+      <description>Git笔记12-Git裸库与submodule git裸库 没有工作区的工作仓库
+mkdir git-bare &amp;amp;&amp;amp; cd git_bare git init -bare
+submodule 将依赖的项目添加到本项目中：
+&amp;gt; git submodule add git@github.com:Mr-WangG/git_child.git mymodule
+进入mymodule目录中使用git pull更新来过来的单个项目
+将所有依赖的项目更新：git submodule foreach git pull
+clone - 克隆父项目不会将依赖的项目clone，mymodule目录中是空的，需要手动clone git clone git@github.com:Mr-WangG/git_parent.git git_par git submodule init
+git submodule update &amp;ndash;recursive
+
+ 克隆父项目时，会将依赖的项目一起克隆下来 git clone git@github.com:Mr-WangG/git_parent.git git_par &amp;ndash;recursive  delete 将mymodule从暂存区删除：
+git rm &amp;ndash;cached mymodule
+将mymodule从工作区删除：
+rm -rf mymodule
+git add . git commit -m &amp;ldquo;remove submodule&amp;rdquo;
+git push</description>
+    </item>
+    
+    <item>
+      <title>Git笔记11-git refspec、远程标签与git gc</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B011-git-refspec%E8%BF%9C%E7%A8%8B%E6%A0%87%E7%AD%BE%E4%B8%8Egit-gc/</link>
+      <pubDate>Wed, 14 Aug 2019 21:35:48 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B011-git-refspec%E8%BF%9C%E7%A8%8B%E6%A0%87%E7%AD%BE%E4%B8%8Egit-gc/</guid>
+      <description>Git笔记11-git refspec、远程标签与git gc git refspec: 将本地的分支推送到远程的那个分支上。
+git push 完整写法：src本地分支名称，dest远程分支名称
+git push origin src:dest
+git pull 完整写法：src远程分支名称，dest本地分支名称
+git push origin src:dest
+一、git refspec 1、HEAD HEAD: 指向当前分支所在的引用标志符 查看HEAD：git symbolic-ref HEAD
+修改HEAD：git symbolic-ref HEAD refs/heads/develop
+2、ORIG_HEAD ORIG_HEAD: 远程最新的commit_id
+3、FETCH_HEAD FETCH_HEAD: 拉取下来后，最新的commit_id
+二、远程标签 查看标签：git show v1.0
+推送标签：git push origin v1.0 (批量)：git push origin v1.0 v2.0 未推送全部推送：git push origin &amp;ndash;tags 完整写法：git push origin refs/tags/v1.0:refs/tags/v1.0
+拉取所有：git pull 拉取一个：git fetch origin tag v7.0
+删除标签远程(git pull本地却不能体现)：
+git push origin :refs/tags/v1.</description>
+    </item>
+    
+    <item>
+      <title>Git笔记10-Git远程分支、别名、gitk与git gui</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B010-git%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%88%AB%E5%90%8Dgitk%E4%B8%8Egit-gui/</link>
+      <pubDate>Wed, 14 Aug 2019 00:38:46 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B010-git%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%88%AB%E5%90%8Dgitk%E4%B8%8Egit-gui/</guid>
+      <description>Git笔记10-Git远程分支、别名、gitk与git gui 别名设置：
+- 内部命令
+&amp;gt; git config &amp;ndash;global alias.br branch - 外部命令(需要加!)
+&amp;gt; git config &amp;ndash;global alias.ui &amp;lsquo;!gitk&amp;rsquo;
+1、非master分支(develop test)推送： 在非master向远程推送：
+Mr.Wang@Mr-Wang MINGW64 /e/Desk/desk/gitTest (develop) $ git push fatal: The current branch develop has no upstream branch. To push the current branch and set the remote as upstream, use git push --set-upstream origin develop  执行git push --set-upstream origin develop(或 git push -u origin develop)
+$ git push --set-upstream origin develop Total 0 (delta 0), reused 0 (delta 0) remote: remote: Create a pull request for &#39;develop&#39; on GitHub by visiting: remote: https://github.</description>
+    </item>
+    
+    <item>
+      <title>Git笔记09-Git分支最佳实践</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B009-git%E5%88%86%E6%94%AF%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</link>
+      <pubDate>Tue, 13 Aug 2019 22:01:17 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B009-git%E5%88%86%E6%94%AF%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</guid>
+      <description>Git笔记09-Git分支最佳实践 git add的三个作用：
+- 刚创建的未追踪的文件加入到追踪列表当中
+- 将已经追踪并修改的文件纳入到暂存区（缓存区）
+- 文件出现冲突，解决冲突后，add告知冲突已被解决
+vim编辑下：
+- dd删除一行 - 2,4d: 删除2到3行
+一、修改冲突问题： 第一个用户修改commit，push后，第二个用户再次修改commit，push：
+$ git push To github.com:Mr-WangG/gitTest.git ! [rejected] master -&amp;gt; master (fetch first) error: failed to push some refs to &#39;git@github.com:Mr-WangG/gitTest.git&#39; hint: Updates were rejected because the remote contains work that you do hint: not have locally. This is usually caused by another repository pushing hint: to the same ref. You may want to first integrate the remote changes hint: (e.</description>
+    </item>
+    
+    <item>
+      <title>Git笔记08-Git协作和Git远程协作模型</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B008-git%E5%8D%8F%E4%BD%9C%E5%92%8Cgit%E8%BF%9C%E7%A8%8B%E5%8D%8F%E4%BD%9C%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Tue, 13 Aug 2019 09:49:31 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B008-git%E5%8D%8F%E4%BD%9C%E5%92%8Cgit%E8%BF%9C%E7%A8%8B%E5%8D%8F%E4%BD%9C%E6%A8%A1%E5%9E%8B/</guid>
+      <description>Git笔记08-Git协作和Git远程协作模型 第一部分 查看所有分支：
+$ git branch -a * master remotes/origin/master  查看所有远程分支：
+$ git branch -r origin/master  查看所有分支最后一次提交：
+$ git branch -av * master 01c84c4 commit remotes/origin/master 01c84c4 commit  再进行一次提交后，执行git branch -av，master比origin/master多一次提交：
+$ git branch -av * master 9794ba4 [ahead 1] commit remotes/origin/master 01c84c4 commit  执行git push，执行了两件事，将master推送到远程，origin/master的当前提交指向master的提交。
+第二部分 执行git pull将本地从远程Updating 9794ba4..906f1df（快进）：
+$ git pull remote: Enumerating objects: 5, done. remote: Counting objects: 100% (5/5), done. remote: Compressing objects: 100% (2/2), done.</description>
+    </item>
+    
+    <item>
+      <title>Git笔记07-git远程、GitHub和公私钥</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B007-git%E8%BF%9C%E7%A8%8Bgithub%E5%92%8C%E5%85%AC%E7%A7%81%E9%92%A5/</link>
+      <pubDate>Mon, 12 Aug 2019 22:56:37 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B007-git%E8%BF%9C%E7%A8%8Bgithub%E5%92%8C%E5%85%AC%E7%A7%81%E9%92%A5/</guid>
+      <description>Git笔记07-git远程、GitHub和公私钥 添加到远程，别名为origin的https://github.com/Mr-WangG/gitTest.git：
+git remote add origin https://github.com/Mr-WangG/gitTest.git
+将master推送到origin并建立联系：
+git push -u origin master
+所有远程仓库的别名：
+git remote show
+显示具体的远程仓库信息：
+git remote show origin
+$ git remote show origin * remote origin Fetch URL: https://github.com/Mr-WangG/gitTest.git Push URL: https://github.com/Mr-WangG/gitTest.git HEAD branch: master Remote branch: master tracked Local branch configured for &#39;git pull&#39;: master merges with remote master Local ref configured for &#39;git push&#39;: master pushes to master (up to date)  公钥、私钥：</description>
+    </item>
+    
+    <item>
+      <title>Git笔记06-标签与diff</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B006-%E6%A0%87%E7%AD%BE%E4%B8%8Ediff/</link>
+      <pubDate>Sun, 11 Aug 2019 18:09:07 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B006-%E6%A0%87%E7%AD%BE%E4%B8%8Ediff/</guid>
+      <description>Git笔记06-标签与diff 标签：不区别分支
+git tag v1.0
+git tag -a v2.0 -m &amp;ldquo;2.0 released&amp;rdquo;
+查看：
+git tag
+git show v1.0 精确查找：
+git tag -l &amp;ldquo;v2.0&amp;rdquo;
+模糊查找：
+git tag -l &amp;ldquo;*2&amp;rdquo;
+删除：
+git tag -d v1.0
+文件上一次修改人的信息：
+git blame
+Linux中的diff：
+diff a b
+diff -u a b
+git中的diff：
+ 暂存区与工作区的区别(原始文件：暂存区 目标文件：工作区)：
+git diff
+$ git diff warning: LF will be replaced by CRLF in test.txt. The file will have its original line endings in your working directory diff --git a/test.</description>
+    </item>
+    
+    <item>
+      <title>Git笔记05-checkout进阶与stash</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B005-checkout%E8%BF%9B%E9%98%B6%E4%B8%8Estash/</link>
+      <pubDate>Sat, 10 Aug 2019 16:02:24 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B005-checkout%E8%BF%9B%E9%98%B6%E4%B8%8Estash/</guid>
+      <description>Git笔记05-checkout进阶与stash checkout 创建并切换到3fs345（临时名称、分支）提交的分支：
+&amp;gt; git checkout 3fs345
+创建mycommit分支并指向3fs345：
+&amp;gt; git branch mycommit 3fs345
+分支重命名：
+&amp;gt; git branch -m master master2
+stash 临时存储： &amp;gt; git stash
+添加说明：
+&amp;gt; git stash save &amp;ldquo;commit&amp;rdquo;
+查看：stash@{0}表示最新
+&amp;gt; git stash list
+恢复并删除当前stash：
+&amp;gt; git stash pop
+恢复不删除当前stash：
+&amp;gt; git stash apply
+手动删除：
+&amp;gt; git stash drop stash@{0}
+指定恢复之前stash的内容：
+&amp;gt; git stash apply stash@{0}</description>
+    </item>
+    
+    <item>
+      <title>Git笔记04-分支进阶与版本回退</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B004-%E5%88%86%E6%94%AF%E8%BF%9B%E9%98%B6%E4%B8%8E%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%80/</link>
+      <pubDate>Fri, 09 Aug 2019 10:46:32 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B004-%E5%88%86%E6%94%AF%E8%BF%9B%E9%98%B6%E4%B8%8E%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%80/</guid>
+      <description>Git笔记04-分支进阶与版本回退 图形化显示：
+git log &amp;ndash;graph
+简写：
+git log &amp;ndash;graph &amp;ndash;abbrev-commit
+add、commit一步完成：
+git commit -am &amp;ldquo;commit&amp;rdquo;
+merge快进和不使用快进 dev:
+* commit d1c84073b5aea7baa64f95f05f9cf291850d3888 (HEAD -&amp;gt; dev) | Author: Mr-WangG &amp;lt;mr.wang214880676@gmail.com&amp;gt; | Date: Sat Aug 10 20:40:06 2019 +0800 | | third | * commit 0d51d62d68daf5e5c2bc80e74097cc84f450aef6 (master) | Author: Mr-WangG &amp;lt;mr.wang214880676@gmail.com&amp;gt; | Date: Sat Aug 10 20:39:00 2019 +0800 | | seconed | * commit 2cb4d2524b959234f1cd79e4015b9b8339937bdf Author: Mr-WangG &amp;lt;mr.wang214880676@gmail.com&amp;gt; Date: Sat Aug 10 20:38:24 2019 +0800 first  master:</description>
+    </item>
+    
+    <item>
+      <title>Git笔记03-.gitignore与分支</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B003-.gitignore%E4%B8%8E%E5%88%86%E6%94%AF/</link>
+      <pubDate>Thu, 08 Aug 2019 17:06:01 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B003-.gitignore%E4%B8%8E%E5%88%86%E6%94%AF/</guid>
+      <description>Git笔记03-.gitignore与分支 一、.gitignore  空目录git自动忽略
+ 通配符：
+&amp;gt; *.xml
+不忽略设置：
+&amp;gt; !a.b
+忽略当前目录下的TODO
+&amp;gt; /test.txt
+忽略多层目录下的TODO
+&amp;gt; /*/test.txt
+&amp;gt; /**/test.txt
+注释：
+&amp;gt; /**/test.txt
+忽略build目录下的所有文件：
+&amp;gt; mydir/
+创建目录并进入：
+&amp;gt; mkdir mydir &amp;amp;&amp;amp; cd mydir
+为创建.gitignore就提交，创建.gitignore后需要使用此命令清除缓存
+ git rm -r &amp;ndash;cached .
+ 二、分支 查看分支：
+&amp;gt; git branch
+创建：
+&amp;gt; git branch new _branch
+切换：
+&amp;gt; git checkout master
+&amp;gt; git checkout -
+在分支中添加或修改数据后需要add、commit
+删除分支：
+&amp;gt; 在新分支没有添加：git branch -d new_branch
+&amp;gt; 添加文件后，再执行：git branch -D new_branch</description>
+    </item>
+    
+    <item>
+      <title>Git笔记02-添加、删除、修改、日志</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B002-%E6%B7%BB%E5%8A%A0%E5%88%A0%E9%99%A4%E4%BF%AE%E6%94%B9%E6%97%A5%E5%BF%97/</link>
+      <pubDate>Thu, 08 Aug 2019 11:22:05 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B002-%E6%B7%BB%E5%8A%A0%E5%88%A0%E9%99%A4%E4%BF%AE%E6%94%B9%E6%97%A5%E5%BF%97/</guid>
+      <description>Git笔记02-添加、删除、修改、日志 〇、git add的三个作用：  刚创建的未追踪的文件加入到追踪列表当中
+ 将已经追踪并修改的文件纳入到暂存区（缓存区）
+ 文件出现冲突，解决冲突后，add告知冲突已被解决
+  一、删除命令 1、git rm file  删除了一个文件(工作区) 将被删除的文件纳入到暂存区中  执行提交就完成删除操作了，但是不能恢复
+删除后恢复文件：
+ git reset HEAD file &amp;ndash;&amp;gt; git checkout &amp;ndash; file,完成文件恢复
+ git reset HEAD file &amp;ndash;&amp;gt; git add file,可看做将删除的文件提交到暂存区（commit后彻底删除），也可重复执行上一步^^^^^。
+  1、rm file  删除了一个文件(工作区)
+$ git status On branch master Changes not staged for commit: (use &amp;quot;git add/rm &amp;lt;file&amp;gt;...&amp;quot; to update what will be committed) (use &amp;quot;git checkout -- &amp;lt;file&amp;gt;.</description>
+    </item>
+    
+    <item>
+      <title>Git笔记01-基本命令操作</title>
+      <link>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B001-%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E6%93%8D%E4%BD%9C/</link>
+      <pubDate>Tue, 06 Aug 2019 00:11:45 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/git%E7%AC%94%E8%AE%B001-%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E6%93%8D%E4%BD%9C/</guid>
+      <description>Git笔记01-基本命令操作 一、基本命令 1、git init:初始化本地仓库 2、git status:当前处于什么状态 $ git status On branch master No commits yet Untracked files: (use &amp;quot;git add &amp;lt;file&amp;gt;...&amp;quot; to include in what will be committed) test.txt nothing added to commit but untracked files present (use &amp;quot;git add&amp;quot; to track)  3、git add .:将文件纳入暂存区当中 git add .：添加新增文件和修改的文件
+git add -u（git add -update）：只添加修改的文件
+git add -A：添加所有文件，包括删除的文件
+$ git status On branch master No commits yet Changes to be committed: (use &amp;quot;git rm --cached &amp;lt;file&amp;gt;.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>example on CoderLeftEar&#39;s Blog</title>
+    <link>https://inkbambo0.github.io/tags/example/</link>
+    <description>Recent content in example on CoderLeftEar&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 05 Aug 2019 13:49:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://inkbambo0.github.io/tags/example/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Example</title>
+      <link>https://inkbambo0.github.io/post/example/</link>
+      <pubDate>Mon, 05 Aug 2019 13:49:00 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/example/</guid>
+      <description>title: &amp;quot;Example&amp;quot; date: 2019-08-05T13:49:00+08:00 author: CoderLeftEar tags: [&amp;quot;example&amp;quot;] categories: [&amp;quot;example&amp;quot;] cover: ../default1.jpg draft: true  11111111111111111111111111111111 </description>
+    </item>
+    
+  </channel>
+</rss>

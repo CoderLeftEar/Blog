@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SpringAnnotation on CoderLeftEar&#39;s Blog</title>
+    <link>https://inkbambo0.github.io/tags/springannotation/</link>
+    <description>Recent content in SpringAnnotation on CoderLeftEar&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 13 Oct 2019 21:45:20 +0800</lastBuildDate>
+    
+	<atom:link href="https://inkbambo0.github.io/tags/springannotation/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>SpringAnnotation笔记04-SpringMVC</title>
+      <link>https://inkbambo0.github.io/post/springannotation%E7%AC%94%E8%AE%B004-springmvc/</link>
+      <pubDate>Sun, 13 Oct 2019 21:45:20 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/springannotation%E7%AC%94%E8%AE%B004-springmvc/</guid>
+      <description> SpringAnnotation笔记04-SpringMVC </description>
+    </item>
+    
+    <item>
+      <title>SpringAnnotation笔记03-Servlet30</title>
+      <link>https://inkbambo0.github.io/post/springannotation%E7%AC%94%E8%AE%B003-servlet30/</link>
+      <pubDate>Sun, 13 Oct 2019 21:45:04 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/springannotation%E7%AC%94%E8%AE%B003-servlet30/</guid>
+      <description>SpringAnnotation笔记03-Servlet30 @WebService(&amp;ldquo;/hello&amp;rdquo;) 拦截指定路径名称
+Shared libraries（共享库）/ runtimes pluggability（运行时插件） 1、 前提条件：需要闯将META-INF.services文件夹，并在其中创建名为javax.servlet.ServletContainerInitializer的文件，其内容为需要加载类的全类名com.wang.servelt.MyServletContainerInitializer。然后便会在项目启动时，会加载META-INF.services下的文件，找到对应的类，并加载它。
+@HandlesTypes(value = {HelloService.class})：容器在启动的时候会将@HandlesTypes指定的这个类型下面指定的子类（实现类、子类）传递过来。
+c @HandlesTypes中指定的类型的所有子类 ctx 代表当前Web应用的ServletContxt，一个Web应用一个
+/** * 容器在启动的时候会将@HandlesTypes指定的这个类型 * 下面指定的子类（实现类、子类）传递过来。 */ @HandlesTypes(value = {HelloService.class}) public class MyServletContainerInitializer implements ServletContainerInitializer { /** * 启动时会运行此方法 * * @Date 2019/10/14 9:01 * @param c @HandlesTypes中指定的类型的所有子类 * @param ctx 代表当前Web应用的ServletContxt，一个Web应用一个ServletContext * @return void */ @Override public void onStartup(Set&amp;lt;Class&amp;lt;?&amp;gt;&amp;gt; c, ServletContext ctx) throws ServletException { for (Class&amp;lt;?&amp;gt; cla : c) { System.out.println(cla); } } }  2、注册组件  使用ServletContext注册Web组件（Servlet、Filter、Listener）</description>
+    </item>
+    
+    <item>
+      <title>SpringAnnotation笔记02-AOP</title>
+      <link>https://inkbambo0.github.io/post/springannotation%E7%AC%94%E8%AE%B002-aop/</link>
+      <pubDate>Thu, 10 Oct 2019 14:55:12 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/springannotation%E7%AC%94%E8%AE%B002-aop/</guid>
+      <description>SpringAnnotation笔记02-AOP 环绕通知相关  导入aop所需jar包
+ 定义一个业务逻辑类，定义除法运算方法
+ 定义一个切面类：
+ 前置通知(@Before)：logStart：在目标方法(div)运行之前运行
+ 后置通知(@After)：在目标方法(div)运行结束之后运行（无论方法正常结束还是异常结束）
+ 返回通知(@AfterReturning)：在目标方法(div)正常返回之后运行
+ 异常通知(@AfterThrowing)：在目标方法(div)出现异常以后运行
+ 环绕通知(@Around)：动态代理，手动推进目标方法运行
+  将业务逻辑类和切面类都添加到配置类中
+ 给切面类标注@Aspect注解
+ 在配置类上标注【开启基于注解的aop模式】@EnableAspectJAutoProxy（使用@Aspect注释标记的组件，类似于Spring中xml配置文件中的）
+  切面类：通过JoinPoint joinPoint，Exception exception，Object result等参数获取方法名称、异常、返回值等。
+//告诉容器这个类是一个切面类 @Aspect public class AspectSurrounding { //抽取公共切入点 @Pointcut(&amp;quot;execution(public int com.wang.springannotation.aop.Calculator.*(..))&amp;quot;) public void pointCut() {} //在目标方法之前切入 @Before(&amp;quot;execution(public int com.wang.springannotation.aop.Calculator.*(..))&amp;quot;) // @Before(&amp;quot;pointCut()&amp;quot;) public void brforeLog(JoinPoint joinPoint) { Object[] args = joinPoint.getArgs(); System.out.println(&amp;quot;前置通知...&amp;quot; + joinPoint.getSignature().getName() + &amp;quot;...@Before参数表：&amp;quot; + &amp;quot;{&amp;quot;+args+&amp;quot;}&amp;quot;); } //在目标方法运行结束之后切入（无论正常结束还是异常结束） @After(&amp;quot;com.</description>
+    </item>
+    
+    <item>
+      <title>SpringAnnotation笔记01-IOC</title>
+      <link>https://inkbambo0.github.io/post/springannotation%E7%AC%94%E8%AE%B001-ioc/</link>
+      <pubDate>Sun, 29 Sep 2019 23:54:18 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/springannotation%E7%AC%94%E8%AE%B001-ioc/</guid>
+      <description>SpringAnnotation笔记01-IOC 注解类 配置文件方式： //配置文件 &amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt; &amp;lt;beans xmlns=&amp;quot;http://www.springframework.org/schema/beans&amp;quot; xmlns:xsi=&amp;quot;http://www.w3.org/2001/XMLSchema-instance&amp;quot; xsi:schemaLocation=&amp;quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&amp;quot;&amp;gt; &amp;lt;bean id=&amp;quot;person&amp;quot; class=&amp;quot;com.wang.bean.Person&amp;quot;&amp;gt; &amp;lt;property name=&amp;quot;name&amp;quot; value=&amp;quot;zhangsan&amp;quot;/&amp;gt; &amp;lt;property name=&amp;quot;age&amp;quot; value=&amp;quot;20&amp;quot;/&amp;gt; &amp;lt;/bean&amp;gt; &amp;lt;/beans&amp;gt; ----------------------------------------------------- ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(&amp;quot;bean.xml&amp;quot;); //配置文件的位置 Person person = (Person) applicationContext.getBean(&amp;quot;person&amp;quot;); System.out.println(person);  配置类方式： @Configuration：告诉spring这是一个配置类。
+@Bean(value = &amp;quot;person&amp;quot;)：给容器中注册一个Bean；类型为返回值类型，id默认使用方法名，还可通过value设置id。
+//告诉spring这是一个配置类 @Configuration public class PersonConfig { //给容器中注册一个Bean；class类型为返回值类型，默认id为方法名 @Bean public Person person () { return new Person(&amp;quot;lisi&amp;quot;, 25); } } AnnotationConfigApplicationContext applicationContext2 = new AnnotationConfigApplicationContext(PersonConfig.class); Person person2 = (Person) applicationContext2.</description>
+    </item>
+    
+  </channel>
+</rss>

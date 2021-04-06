@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>笔记 on CoderLeftEar&#39;s Blog</title>
+    <link>https://inkbambo0.github.io/tags/%E7%AC%94%E8%AE%B0/</link>
+    <description>Recent content in 笔记 on CoderLeftEar&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 15 Sep 2019 10:54:19 +0800</lastBuildDate>
+    
+	<atom:link href="https://inkbambo0.github.io/tags/%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>笔记-杂</title>
+      <link>https://inkbambo0.github.io/post/%E6%8A%A5%E9%94%99-%E7%AC%94%E8%AE%B0-%E6%9D%82/</link>
+      <pubDate>Sun, 15 Sep 2019 10:54:19 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/%E6%8A%A5%E9%94%99-%E7%AC%94%E8%AE%B0-%E6%9D%82/</guid>
+      <description>笔记 mysql导入数据库出错 mysql导入备份数据时出错 ERROR 1204(HY000) unkonw MySQL server host。。。
+问题描述： 用mysqldump命令将数据库备份到外部文件，但是用mysql命令行导入备份数据时，出现ERROR 2005(HY000) unkonw MySQL server host…错误
+解决方法： 因为在平时工作中经常使用mysqldump命令导出备份数据，然后用mysql客户端命令行工具中的source命令导入数据，从来没有出过错，唯一的区别是字符集不同，这次要导入的数据库的字符集是utf8，所以就联想到是不是需要为mysql客户端命令行工具指定字符集，在查看了帮助后，用如下命令打开mysql客户端工具mysql -uroot -p –default-character-set=utf8，然后再导入备份数据，一切ok。
+单体开发：在一个项目上推挤所有功能
+微服务：将项目进行拆分，微小的单体模块，之间通过类似rpc远程过程调用，http rest方式调用</description>
+    </item>
+    
+  </channel>
+</rss>

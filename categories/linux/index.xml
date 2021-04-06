@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux on CoderLeftEar&#39;s Blog</title>
+    <link>https://inkbambo0.github.io/categories/linux/</link>
+    <description>Recent content in Linux on CoderLeftEar&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 23 Jan 2021 19:45:48 +0800</lastBuildDate>
+    
+	<atom:link href="https://inkbambo0.github.io/categories/linux/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Linux开机自启设置</title>
+      <link>https://inkbambo0.github.io/post/linux%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2/</link>
+      <pubDate>Sat, 23 Jan 2021 19:45:48 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/linux%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>jar部署</title>
+      <link>https://inkbambo0.github.io/post/linux-jar%E5%8C%85%E9%83%A8%E7%BD%B2/</link>
+      <pubDate>Mon, 28 Dec 2020 11:14:48 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/linux-jar%E5%8C%85%E9%83%A8%E7%BD%B2/</guid>
+      <description>jar部署 Linux中修改jar包中的配置文件 打包以及修改jar包
+cd genesys_data_etl mvn clean package -Poffline -Dmaven.test.skip=true 日志如下： [INFO] --- maven-jar-plugin:2.6:jar (default-jar) @ genesys_data_etl --- [INFO] Building jar: /Users/xx/IdeaProjects/genesys_data_etl/target/genesys_data_etl-0.0.1-0SNAPSHOT.jar 生成jar包 此时可以通过命令 java -jar genesys_data_etl-0.0.1-SNAPSHOT.jar 运行jar包。  但是要修改jar包中的配置文件怎么办呢？
+方式一 通过vim命令直接修改保存jar。超方便。 1.通过vim命令直接编辑jar vim xxx.jar 该命令首先会列出全部文件，可以通过输入/abc来搜索，定位到对应的abc文件后回车进入配置文件内进行编辑，:wq保存。
+方式二 通过jar命令替换jar包中的文件(也可新增) 1.列出jar包中的文件清单 jar tf genesys_data_etl-0.0.1-SNAPSHOT.jar
+2.提取出内部jar包的指定文件 jar xf genesys_data_etl-0.0.1-SNAPSHOT.jar BOOT-INF/classes/realtime/t_ivr_data_bj.json
+3.然后可以修改文件 vim BOOT-INF/classes/realtime/t_ivr_data_bj.json
+4.更新配置文件到内部jar包.(存在覆盖，不存在就新增) jar uf genesys_data_etl-0.0.1-SNAPSHOT.jar BOOT-INF/classes/realtime/t_ivr_data_bj.json
+4.1更新内部jar包到jar文件 jar uf genesys_data_etl-0.0.1-SNAPSHOT.jar 内部jar包.jar
+5.可以查看验证是否已经更改 vim genesys_data_etl-0.0.1-SNAPSHOT.jar
+方式三 解压jar包，修改后重新打包jar 1.解压 unzip genesys_data_etl-0.0.1-SNAPSHOT.jar 2.移除jar包,最好备份 rm genesys_data_etl-0.</description>
+    </item>
+    
+    <item>
+      <title>Linux开机自启设置</title>
+      <link>https://inkbambo0.github.io/post/linux%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E8%AE%BE%E7%BD%AE/</link>
+      <pubDate>Mon, 21 Sep 2020 19:45:48 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/linux%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E8%AE%BE%E7%BD%AE/</guid>
+      <description> Linux开机自启设置 一、添加开机自启服务 在CentOS 7中添加开机自启服务非常方便，只需要两条命令(以Jenkins为例)：
+systemctl enable jenkins.service #设置jenkins服务为自启动服务 sysstemctl start jenkins.service #启动jenkins服务  二、添加开机自启脚本 在centos7中增加脚本有两种常用的方法，以脚本autostart.sh为例：
+#!/bin/bash #description:开机自启脚本 /usr/local/tomcat/bin/startup.sh #启动tomcat  方法一 1、赋予脚本可执行权限（/opt/script/autostart.sh是你的脚本路径）
+chmod +x /opt/script/autostart.sh  2、打开/etc/rc.d/rc.local或/etc/rc.local文件，在末尾增加如下内容
+su - user -c &#39;/opt/script/autostart.sh&#39;  3、在centos7中，/etc/rc.d/rc.local的权限被降低了，所以需要执行如下命令赋予其可执行权限
+chmod +x /etc/rc.d/rc.local  方法二 1、将脚本移动到/etc/rc.d/init.d目录下
+mv /opt/script/autostart.sh /etc/rc.d/init.d  2、增加脚本的可执行权限
+chmod +x /etc/rc.d/init.d/autostart.sh  3、添加脚本到开机自动启动项目中
+cd /etc/rc.d/init.d chkconfig --add autostart.sh chkconfig autostart.sh on  </description>
+    </item>
+    
+    <item>
+      <title>Linux安装tomcat、mysql</title>
+      <link>https://inkbambo0.github.io/post/linux%E5%AE%89%E8%A3%85tomcatmysql/</link>
+      <pubDate>Sat, 15 Aug 2020 17:14:48 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/linux%E5%AE%89%E8%A3%85tomcatmysql/</guid>
+      <description>Linux安装tomcat、mysql linux上安装mysql5.7 1、下载tar包，这里使用wget从官网下载 wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz
+2、将mysql安装到/usr/local/mysql下  解压   tar -xvf mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz
+  移动   mv mysql-5.7.22-linux-glibc2.12-x86_64 /usr/local/
+  重命名  mv /usr/local/mysql-5.7.22-linux-glibc2.12-x86_64 /usr/local/mysql
+3、新建data目录  mkdir /usr/local/mysql/data
+ 4、新建mysql用户、mysql用户组 # mysql用户组 groupadd mysql # mysql用户 useradd mysql -g mysql  5、将/usr/local/mysql的所有者及所属组改为mysql  chown -R mysql.mysql /usr/local/mysql
+ 6、配置  /usr/local/mysql/bin/mysql_install_db &amp;ndash;user=mysql &amp;ndash;basedir=/usr/local/mysql/ &amp;ndash;datadir=/usr/local/mysql/data
+  如果出现以下错误：
+2018-07-14 06:40:32 [WARNING] mysql_install_db is deprecated. Please consider switching to mysqld --initialize 2018-07-14 06:40:32 [ERROR] Child process: /usr/local/mysql/bin/mysqldterminated prematurely with errno= 32 2018-07-14 06:40:32 [ERROR] Failed to execute /usr/local/mysql/bin/mysqld --bootstrap --datadir=/usr/local/mysql/data --lc-messages-dir=/usr/local/mysql/share --lc-messages=en_US --basedir=/usr/local/mysql -- server log begin -- -- server log end --  则使用以下命令：</description>
+    </item>
+    
+    <item>
+      <title>Linux</title>
+      <link>https://inkbambo0.github.io/post/linux/</link>
+      <pubDate>Tue, 22 Oct 2019 17:14:48 +0800</pubDate>
+      
+      <guid>https://inkbambo0.github.io/post/linux/</guid>
+      <description>Linux 一、文件系统的管理 tips:输入命令的时候要常用tab键来补全
+ls 查看目录信息 （ ls / ）
+ls -l 等价于 ll  路径的表示方法有“相对”和“绝对” 比如如果当前所处目录为 /home/renwoxing，要查看/home目录下的信息，可以有两种方法： ls ../ ls /home
+pwd 查看当前所处目录的绝对路径
+cd 切换目录 (cd /) ,如果不带参数则切换到用户主目录 ~
+mkdir 创建文件夹 mkdir -p a/b/c 如果要创建的文件夹的父目录不存在，则自动创建
+rmdir 删除空文件夹 (只能删除空文件夹) rm -r /a/b (删除非空文件夹) 删除文件 rm filename (rm -r 删除文件夹 rm -rf 强制删除文件或文件夹)
+创建文件 touch a.avi 创建一个空文件 vi blabla.txt 用文本编辑器编辑一个文件并且保存 echo &amp;ldquo;angelababy,zhen de hen xihuan ni&amp;rdquo; &amp;gt; qingshu.txt 把左边的输出放到右边的文件里去
+移动文件 修改文件名 mv a/wenjian1.</description>
+    </item>
+    
+  </channel>
+</rss>
